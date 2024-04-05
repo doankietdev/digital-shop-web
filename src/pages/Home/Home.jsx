@@ -1,7 +1,15 @@
-import React from 'react'
+import { SideBar } from './SideBar'
+import { Slider } from './Slider'
 
 function Home() {
-  return <div>Home</div>
+  return (
+    <>
+      <section>
+        <SideBar />
+        <Slider />
+      </section>
+    </>
+  )
 }
 
 export default Home
