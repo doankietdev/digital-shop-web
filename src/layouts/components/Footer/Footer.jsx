@@ -1,8 +1,8 @@
 function Footer() {
   return (
-    <div className='py-[50px]'>
+    <footer className='py-[50px]'>
       <div className='container'>Footer</div>
-    </div>
+    </footer>
   )
 }
 

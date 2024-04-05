@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+import { routesConfig } from '~/config'
 import logo from '~/assets/logo.png'
 import {
   FaPhoneAltIcon,
@@ -8,11 +10,11 @@ import {
 
 function Header() {
   return (
-    <div className='py-[35px]'>
+    <header className='py-[35px]'>
       <div className='container flex justify-between text-[13px]'>
-        <div>
+        <Link to={routesConfig.home}>
           <img src={logo} alt='logo' className='w-[234px] object-contain' />
-        </div>
+        </Link>
         <div className='flex gap-10'>
           <div className='flex flex-col justify-center items-center'>
             <span className='flex items-center gap-3'>
@@ -38,7 +40,7 @@ function Header() {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   )
 }
 
