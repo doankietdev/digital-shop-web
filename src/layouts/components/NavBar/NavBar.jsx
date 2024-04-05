@@ -1,7 +1,7 @@
 function NavBar() {
   return (
-    <div className='w-main h-[48px] py-2'>
-      <div>NavBar</div>
+    <div className='py-2'>
+      <div className='container'>NavBar</div>
     </div>
   )
 }

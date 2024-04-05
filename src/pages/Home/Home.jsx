@@ -4,7 +4,7 @@ import { Slider } from './Slider'
 function Home() {
   return (
     <>
-      <section>
+      <section className='flex gap-5'>
         <SideBar />
         <Slider />
       </section>

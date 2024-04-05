@@ -1,7 +1,7 @@
 function Footer() {
   return (
-    <div className='w-main py-[50px]'>
-      <div>Footer</div>
+    <div className='py-[50px]'>
+      <div className='container'>Footer</div>
     </div>
   )
 }

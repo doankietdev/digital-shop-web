@@ -6,9 +6,6 @@ module.exports = {
       main: ['Poppins', 'sans-serif']
     },
     extend: {
-      width: {
-        main: '1220px'
-      },
       backgroundColor: {
         main: '#ee3131'
       },
