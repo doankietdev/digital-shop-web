@@ -15,7 +15,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
-    return response.data
+    return response.data.metadata
   },
   function (error) {
     return error.data
