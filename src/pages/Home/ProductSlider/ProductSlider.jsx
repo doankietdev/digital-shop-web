@@ -25,7 +25,7 @@ const settings = {
   speed: 500,
   slidesToShow: 3,
   slidesToScroll: 1,
-  // autoplay: true,
+  autoplay: true,
   autoplaySpeed: 2000
 }
 
@@ -67,17 +67,15 @@ function ProductSlider() {
 
   return (
     <div className='col-span-9'>
-      <div className='mb-5 pb-[15px] border-b-2 border-main'>
+      <div className='uppercase font-medium text-lg text-gray-400 mb-5 pb-[15px] border-b-2 border-main'>
         {Object.keys(tabs).map((key, index) => {
           const tab = tabs[key]
           return (
             <span
               key={tab.id}
-              className={`uppercase text-xl font-medium text-gray-400 cursor-pointer ${
-                index === 0 ? 'pr-5' : 'px-5'
-              } ${index === tabs.length - 1 ? '' : 'border-r'} ${
-                tab.id === activedTab ? '!text-[#000]' : ''
-              }`}
+              className={`cursor-pointer ${index === 0 ? 'pr-5' : 'px-5'} ${
+                index === tabs.length - 1 ? '' : 'border-r'
+              } ${tab.id === activedTab ? '!text-[#000]' : ''}`}
               onClick={handleClickTab}
               data-id={tab.id}
             >
