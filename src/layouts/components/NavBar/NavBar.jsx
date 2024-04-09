@@ -4,7 +4,7 @@ import { NAV_BAR } from '~/utils/constants'
 function NavBar() {
   return (
     <nav>
-      <div className='container border-t border-b py-2'>
+      <div className='container border-t border-b py-2 font-medium'>
         {NAV_BAR.map((item) => (
           <NavLink
             key={item.ID}
