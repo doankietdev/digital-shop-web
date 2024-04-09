@@ -1,0 +1,106 @@
+import { useCallback, useEffect, useState } from 'react'
+import Slider from 'react-slick'
+import { Loading, Product } from '~/components'
+import { getProducts } from '~/services/productsServices'
+import './ProductSlider.css'
+
+const tabs = {
+  bestSeller: {
+    id: 1,
+    name: 'best seller'
+  },
+  newArrivals: {
+    id: 2,
+    name: 'new arrivals'
+  },
+  tablet: {
+    id: 3,
+    name: 'tablet'
+  }
+}
+
+const settings = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  // autoplay: true,
+  autoplaySpeed: 2000
+}
+
+function ProductSlider() {
+  const [activedTab, setActivedTab] = useState(1)
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true)
+      if (activedTab === tabs.bestSeller.id) {
+        const bestSellingResult = await getProducts({
+          _sort: '-sold',
+          _limit: 10
+        })
+        setProducts(bestSellingResult.products)
+      } else if (activedTab === tabs.newArrivals.id) {
+        const newArrivalsResult = await getProducts({
+          _sort: '-createdAt',
+          _limit: 10
+        })
+        setProducts(newArrivalsResult.products)
+      } else if (activedTab === tabs.tablet.id) {
+        const tabletResult = await getProducts({
+          category: '6614dfc184a5a023303a96c8'
+        })
+        setProducts(tabletResult.products)
+      }
+      setLoading(false)
+    }
+
+    fetchProducts()
+  }, [activedTab])
+
+  const handleClickTab = useCallback((e) => {
+    setActivedTab(parseInt(e.target.dataset.id))
+  }, [])
+
+  return (
+    <div className='col-span-9'>
+      <div className='mb-5 pb-[15px] border-b-2 border-main'>
+        {Object.keys(tabs).map((key, index) => {
+          const tab = tabs[key]
+          return (
+            <span
+              key={tab.id}
+              className={`uppercase text-xl font-medium text-gray-400 cursor-pointer ${
+                index === 0 ? 'pr-5' : 'px-5'
+              } ${index === tabs.length - 1 ? '' : 'border-r'} ${
+                tab.id === activedTab ? '!text-[#000]' : ''
+              }`}
+              onClick={handleClickTab}
+              data-id={tab.id}
+            >
+              {tab.name}
+            </span>
+          )
+        })}
+      </div>
+      <div className='mx-[-10px]'>
+        {loading ? (
+          <div className='flex justify-center pt-[44px]'>
+            <Loading />
+          </div>
+        ) : (
+          <Slider {...settings}>
+            {products.map((product) => (
+              <Product key={product._id} product={product} />
+            ))}
+          </Slider>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default ProductSlider

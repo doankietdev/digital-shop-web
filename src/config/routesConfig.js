@@ -5,7 +5,8 @@ const routesConfig = {
   blogs: () => '/blogs',
   service: () => '/service',
   faqs: () => '/faqs',
-  productsOfCategory: (categorySlug) => `/categories/${categorySlug}`
+  productsOfCategory: (slug) => `/categories/${slug}`,
+  productDetails: (slug) => `/products/${slug}`
 }
 
 export default routesConfig

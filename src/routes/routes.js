@@ -1,5 +1,5 @@
 import { routesConfig } from '~/config'
-import { Home, Login } from '~/pages'
+import { Home, Login, NotFound } from '~/pages'
 
 const publicRoutes = [
   { path: routesConfig.home, component: Home },

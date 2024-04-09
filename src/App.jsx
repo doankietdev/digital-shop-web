@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { publicRoutes } from './routes'
 import { DefaultLayout } from './layouts'
+import { NotFound } from './pages'
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
             return (
               <Route
                 key={index}
-                path='/'
+                path={route.path()}
                 element={
                   <Layout>
                     <Page />

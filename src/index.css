@@ -6,3 +6,31 @@
   max-width: 1220px;
   margin: 0 auto;
 }
+
+button.slick-arrow {
+  width: 80px;
+  height: 80px;
+  z-index: 10;
+}
+button.slick-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+button.slick-arrow:hover::before {
+  color: theme('backgroundColor.main');
+}
+button.slick-arrow::before {
+  color: #8a8a8a;
+  font-size: 32px;
+}
+button.slick-arrow.slick-prev {
+  left: 10px;
+}
+button.slick-arrow.slick-prev::before {
+  content: '\276E';
+}
+button.slick-arrow.slick-next {
+  right: 10px;
+}
+button.slick-arrow.slick-next::before {
+  content: '\276F';
+}
