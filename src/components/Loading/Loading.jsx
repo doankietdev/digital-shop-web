@@ -1,16 +1,16 @@
-import './Loading.css'
+import styles from './Loading.module.css'
 
 function Loading() {
   return (
-    <div className='dot-spinner'>
-      <div className='dot-spinner__dot'></div>
-      <div className='dot-spinner__dot'></div>
-      <div className='dot-spinner__dot'></div>
-      <div className='dot-spinner__dot'></div>
-      <div className='dot-spinner__dot'></div>
-      <div className='dot-spinner__dot'></div>
-      <div className='dot-spinner__dot'></div>
-      <div className='dot-spinner__dot'></div>
+    <div className={styles.dotSpinner}>
+      <div className={styles.dotSpinner__dot}></div>
+      <div className={styles.dotSpinner__dot}></div>
+      <div className={styles.dotSpinner__dot}></div>
+      <div className={styles.dotSpinner__dot}></div>
+      <div className={styles.dotSpinner__dot}></div>
+      <div className={styles.dotSpinner__dot}></div>
+      <div className={styles.dotSpinner__dot}></div>
+      <div className={styles.dotSpinner__dot}></div>
     </div>
   )
 }

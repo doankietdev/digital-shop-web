@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom'
 import { FaHeart } from 'react-icons/fa'
 import { MdOutlineNewLabel } from 'react-icons/md'
 import { FaArrowTrendUp } from 'react-icons/fa6'
+import clsx from 'clsx'
+
 import { formatCash } from '~/utils/formatter'
 import noImage from '~/assets/no-image.png'
 import { routesConfig } from '~/config'
 import { Rating } from '~/components'
 import Options from './Options'
-import './Product.css'
+import styles from './Product.module.css'
 
 const labels = {
   favorites: {
@@ -64,7 +66,12 @@ function Product({ product }) {
   const LabelIcon = label?.icon
 
   return (
-    <div className='product-slider-card mx-[10px] p-[15px] border h-[384px] relative'>
+    <div
+      className={clsx(
+        styles.card,
+        'mx-[10px] p-[15px] border h-[384px] relative'
+      )}
+    >
       <div className='relative'>
         <Link to={routesConfig.productDetails(product.slug)}>
           <img
@@ -75,7 +82,10 @@ function Product({ product }) {
         </Link>
         <Options
           slug={product.slug}
-          className='product-slider-card-options absolute bottom-0 left-[50%] translate-x-[-50%]'
+          className={clsx(
+            styles.card__options,
+            'absolute bottom-0 left-[50%] translate-x-[-50%]'
+          )}
         />
       </div>
       <div className='mt-5'>
@@ -98,7 +108,7 @@ function Product({ product }) {
       </div>
       {label ? (
         <div
-          className='product-label'
+          className={styles.card__label}
           style={{
             color: label.backgroundColor
           }}

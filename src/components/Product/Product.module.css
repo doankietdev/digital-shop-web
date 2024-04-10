@@ -1,4 +1,13 @@
-.product-label {
+.card .card__options {
+  display: none;
+  -webkit-animation: fadeIn 0.4s;
+  animation: fadeIn 0.4s;
+}
+.card:hover .card__options {
+  display: flex;
+}
+
+.card__label {
   position: absolute;
   top: 16px;
   left: -4px;
@@ -12,7 +21,7 @@
   font-weight: 500;
 }
 
-.product-label::before {
+.card__label::before {
   content: '';
   display: inline-block;
   border-top: 4px solid currentColor;
@@ -23,16 +32,7 @@
   filter: brightness(60%);
 }
 
-.product-slider-card .product-slider-card-options {
-  display: none;
-  -webkit-animation: fade-in 0.4s;
-  animation: fade-in 0.4s;
-}
-.product-slider-card:hover .product-slider-card-options {
-  display: flex;
-}
-
-@-webkit-keyframes fade-in {
+@-webkit-keyframes fadeIn {
   0% {
     opacity: 0;
   }
@@ -40,7 +40,7 @@
     opacity: 1;
   }
 }
-@keyframes fade-in {
+@keyframes fadeIn {
   0% {
     opacity: 0;
   }

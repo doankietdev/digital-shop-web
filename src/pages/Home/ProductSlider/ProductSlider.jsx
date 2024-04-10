@@ -3,7 +3,6 @@ import Slider from 'react-slick'
 import { Loading, Product } from '~/components'
 import { getProducts } from '~/services/productsServices'
 import noImage from '~/assets/logo.png'
-import './ProductSlider.css'
 
 const tabs = {
   bestSeller: {

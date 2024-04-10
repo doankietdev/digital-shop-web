@@ -7,6 +7,10 @@
   margin: 0 auto;
 }
 
+.slick-slide {
+  animation: fadeIn 1s;
+}
+
 button.slick-arrow {
   width: 80px;
   height: 80px;
@@ -33,4 +37,13 @@ button.slick-arrow.slick-next {
 }
 button.slick-arrow.slick-next::before {
   content: '\276F';
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
 }
