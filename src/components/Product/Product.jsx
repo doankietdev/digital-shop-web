@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FaHeart } from 'react-icons/fa'
+import { FaHeart, FaStackOverflow } from 'react-icons/fa'
 import { MdOutlineNewLabel } from 'react-icons/md'
 import { FaArrowTrendUp } from 'react-icons/fa6'
+
 import clsx from 'clsx'
 
 import { formatCash } from '~/utils/formatter'
@@ -33,11 +34,20 @@ const labels = {
     color: '#fff',
     backgroundColor: '#097ef6',
     iconSize: '16px'
+  },
+  bestSeller: {
+    icon: FaStackOverflow,
+    name: 'Best Seller',
+    color: '#fff',
+    backgroundColor: '#ee4d2d',
+    iconSize: '16px'
   }
 }
 
 function Product({
   product,
+  ratingStarSize = '13px',
+  soldSize = '13px',
   className,
   horizontal,
   showLabel,
@@ -61,6 +71,7 @@ function Product({
       const TRENDING_SOLD = 20
       const FAVORITE_RATING = 4
 
+      const isBestSeller = product.sold >= TRENDING_SOLD
       const isTrending =
         product.sold >= TRENDING_SOLD &&
         product.averageRatings >= FAVORITE_RATING
@@ -71,6 +82,8 @@ function Product({
         setLabel(labels.trending)
       } else if (isFavorite) {
         setLabel(labels.favorites)
+      } else if (isBestSeller) {
+        setLabel(labels.bestSeller)
       } else if (isNew) {
         setLabel(labels.new)
       }
@@ -150,7 +163,15 @@ function Product({
             {product.title}
           </h3>
         </Link>
-        <Rating size='15px' averageRatings={product.averageRatings} />
+        <div className='flex items-center gap-4'>
+          <Rating
+            size={ratingStarSize}
+            averageRatings={product.averageRatings}
+          />
+          <span className={clsx(`text-[${soldSize}]`, 'relative top-[1.3px]')}>
+            Sold {product.sold}
+          </span>
+        </div>
         <div className='mt-[10px] flex items-center'>
           {product.oldPrice ? (
             <span className='mr-3 text-sm text-gray-500 line-through'>

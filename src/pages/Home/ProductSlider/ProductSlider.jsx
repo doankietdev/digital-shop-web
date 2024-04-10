@@ -96,10 +96,10 @@ function ProductSlider() {
           <Slider {...settings}>
             {products.map((product) => (
               <Product
-                autoLabel
                 key={product._id}
                 product={product}
                 showLabel
+                autoLabel
               />
             ))}
           </Slider>
