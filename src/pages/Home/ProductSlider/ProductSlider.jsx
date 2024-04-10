@@ -70,7 +70,7 @@ function ProductSlider() {
 
   return (
     <div className='col-span-9 h-full flex flex-col'>
-      <div className='uppercase font-medium text-lg text-gray-400 mb-5 pb-[15px] border-b-2 border-main'>
+      <div className='uppercase font-semibold text-xl text-gray-400 mb-5 pb-[15px] border-b-2 border-main'>
         {Object.keys(tabs).map((key, index) => {
           const tab = tabs[key]
           return (
@@ -95,7 +95,12 @@ function ProductSlider() {
         ) : (
           <Slider {...settings}>
             {products.map((product) => (
-              <Product key={product._id} product={product} />
+              <Product
+                autoLabel
+                key={product._id}
+                product={product}
+                showLabel
+              />
             ))}
           </Slider>
         )}
