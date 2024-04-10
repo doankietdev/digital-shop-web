@@ -2,6 +2,10 @@
   animation: fade-in 1s;
 }
 
+.banner {
+  color: red;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
