@@ -12,6 +12,12 @@ import { routesConfig } from '~/config'
 import { Rating } from '~/components'
 import Options from './Options'
 import styles from './Product.module.css'
+import {
+  checkBestSellerProduct,
+  checkFavoriteProduct,
+  checkNewProduct,
+  checkTrendingProduct
+} from '~/utils/helpers'
 
 const labels = {
   favorites: {
@@ -19,28 +25,32 @@ const labels = {
     name: 'Favorite',
     color: '#fff',
     backgroundColor: '#ee3131',
-    iconSize: '16px'
+    iconSize: '14px',
+    textSize: '11px'
   },
   new: {
     icon: MdOutlineNewLabel,
     name: 'New',
     color: '#fff',
-    backgroundColor: '#00d5d5',
-    iconSize: '16px'
+    backgroundColor: '#04d1d1',
+    iconSize: '18px',
+    textSize: '11px'
   },
   trending: {
     icon: FaArrowTrendUp,
     name: 'Trending',
     color: '#fff',
     backgroundColor: '#097ef6',
-    iconSize: '16px'
+    iconSize: '16px',
+    textSize: '11px'
   },
   bestSeller: {
     icon: FaStackOverflow,
     name: 'Best Seller',
     color: '#fff',
     backgroundColor: '#ee4d2d',
-    iconSize: '16px'
+    iconSize: '16px',
+    textSize: '11px'
   }
 }
 
@@ -55,6 +65,7 @@ function Product({
   labelName,
   labelIcon,
   labelIconSize = '16px',
+  labelTextSize = '11px',
   labelColor = '#fff',
   labelBackgroundColor = '#ee3131'
 }) {
@@ -62,39 +73,30 @@ function Product({
 
   useEffect(() => {
     if (autoLabel) {
-      const createdDate = new Date(product.createdAt)
-      const nowDate = new Date()
-      const diffTime = Math.abs(nowDate - createdDate)
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-
-      const NEW_DISTANCE_DAY = 10
-      const TRENDING_SOLD = 20
-      const FAVORITE_RATING = 4
-
-      const isBestSeller = product.sold >= TRENDING_SOLD
-      const isTrending =
-        product.sold >= TRENDING_SOLD &&
-        product.averageRatings >= FAVORITE_RATING
-      const isFavorite = product.averageRatings >= FAVORITE_RATING
-      const isNew = diffDays <= NEW_DISTANCE_DAY
-
-      if (isTrending) {
+      if (checkTrendingProduct(product)) {
         setLabel(labels.trending)
-      } else if (isFavorite) {
+      } else if (checkFavoriteProduct(product)) {
         setLabel(labels.favorites)
-      } else if (isBestSeller) {
+      } else if (checkBestSellerProduct(product)) {
         setLabel(labels.bestSeller)
-      } else if (isNew) {
+      } else if (checkNewProduct(product)) {
         setLabel(labels.new)
       }
     }
-  }, [autoLabel, product.averageRatings, product.createdAt, product.sold])
+  }, [
+    autoLabel,
+    product,
+    product.averageRatings,
+    product.createdAt,
+    product.sold
+  ])
 
   let LabelIcon = labelIcon
   let renderedLabelIconSize = labelIconSize
   let renderedLabelName = labelName
   let renderedLabelColor = labelColor
   let renderedLabelBackgroundColor = labelBackgroundColor
+  let renderedLabelTextSize = labelTextSize
 
   if (autoLabel) {
     LabelIcon = label?.icon
@@ -102,6 +104,7 @@ function Product({
     renderedLabelColor = label?.color
     renderedLabelBackgroundColor = label?.backgroundColor
     renderedLabelIconSize = label?.iconSize
+    renderedLabelTextSize = label?.textSize
   }
 
   return (
@@ -202,7 +205,7 @@ function Product({
             style={{
               color: renderedLabelColor
             }}
-            className='text-xs px-[6px]'
+            className={clsx(`text-[${renderedLabelTextSize}] px-[6px]`)}
           >
             {renderedLabelName}
           </span>

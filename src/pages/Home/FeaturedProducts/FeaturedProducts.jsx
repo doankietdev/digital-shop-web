@@ -28,7 +28,13 @@ function FeaturedProducts() {
       </h2>
       <div className='grid grid-cols-3 gap-5 mx-[-10px] mt-5'>
         {products.map((product) => (
-          <Product key={product._id} product={product} horizontal />
+          <Product
+            key={product._id}
+            product={product}
+            showLabel
+            autoLabel
+            horizontal
+          />
         ))}
       </div>
     </div>
