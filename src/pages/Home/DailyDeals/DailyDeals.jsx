@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaStar, FaEye } from 'react-icons/fa'
 import { MdOutlineErrorOutline } from 'react-icons/md'
@@ -8,14 +8,18 @@ import { formatCash } from '~/utils/formatter'
 import noImage from '~/assets/no-image.png'
 import { routesConfig } from '~/config'
 
+const MAX_REQUEST = 3
+
 function DailyDeals() {
   const [loading, setLoading] = useState(true)
-  const [products, setProducts] = useState([])
-  const [productIndex, setProductIndex] = useState(0)
+  const [product, setProduct] = useState(null)
+  const [expiredDeal, setExpiredDeal] = useState(true)
+  const countRequest = useRef(0)
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProduct = async () => {
       const productsResult = await getProducts()
+      countRequest.current = countRequest.current + 1
       const products = productsResult.products.filter(
         (product) => product.discounts && !!product.discounts.length
       )
@@ -27,21 +31,22 @@ function DailyDeals() {
           const nextDiscountAmount = next.old - next.price
           return nextDiscountAmount - currentDiscountAmount
         })
-        setProducts(products)
+        setProduct(products[0])
+        setExpiredDeal(false)
+      } else {
+        setProduct((prev) => prev)
       }
       setLoading(false)
     }
-    fetchProducts()
-  }, [])
+
+    if (!product || (countRequest.current < MAX_REQUEST && expiredDeal)) {
+      fetchProduct()
+    }
+  }, [expiredDeal, product])
 
   const onCountdownTimeOut = useCallback(() => {
-    setProductIndex((prevIndex) => {
-      if (prevIndex === products.length - 1) {
-        return prevIndex
-      }
-      return prevIndex + 1
-    })
-  }, [products.length])
+    setExpiredDeal(true)
+  }, [])
 
   return (
     <div className='relative p-[20px] col-span-3 border h-full flex flex-col'>
@@ -55,49 +60,45 @@ function DailyDeals() {
         ''
       ) : (
         <div className='mt-4 flex flex-col flex-1 items-center'>
-          {products[productIndex] ? (
+          {product ? (
             <>
               <Link
                 className='flex-1'
-                to={routesConfig.productDetails(products[productIndex].slug)}
+                to={routesConfig.productDetails(product.slug)}
               >
                 <img
-                  src={products[productIndex]?.thumb || noImage}
-                  alt={products[productIndex]?.title}
+                  src={product?.thumb || noImage}
+                  alt={product?.title}
                   className='h-full object-contain'
                 />
               </Link>
-              <Link
-                to={routesConfig.productDetails(products[productIndex].slug)}
-              >
-                <h3 className='mt-4 hover:text-main'>
-                  {products[productIndex].title}
-                </h3>
+              <Link to={routesConfig.productDetails(product.slug)}>
+                <h3 className='mt-4 hover:text-main'>{product.title}</h3>
               </Link>
               <Rating
                 className='mt-2'
-                averageRatings={products[productIndex].averageRatings}
+                averageRatings={product.averageRatings}
                 size='17px'
               />
               <div className='mt-2 flex items-center'>
-                {products[productIndex].oldPrice ? (
+                {product.oldPrice ? (
                   <span className='mr-3 text-sm text-gray-500 line-through'>
-                    {formatCash(products[productIndex].oldPrice)}
+                    {formatCash(product.oldPrice)}
                   </span>
                 ) : (
                   ''
                 )}
-                <span>{formatCash(products[productIndex].price)}</span>
+                <span>{formatCash(product.price)}</span>
               </div>
               <Countdown
-                key={products[productIndex]._id}
+                key={product._id}
                 onTimeOut={onCountdownTimeOut}
-                endTime={products[productIndex].discounts[0]?.expireAt}
+                endTime={product.discounts[0]?.expireAt}
                 className='mt-[15px]'
               />
               <Link
                 className='mt-4 w-full'
-                to={routesConfig.productDetails(products[productIndex].slug)}
+                to={routesConfig.productDetails(product.slug)}
               >
                 <Button className='w-full' icon={<FaEye size='17px' />} primary>
                   View

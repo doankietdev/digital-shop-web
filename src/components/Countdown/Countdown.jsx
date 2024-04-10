@@ -12,36 +12,30 @@ function Countdown({ endTime, className, onTimeOut }) {
   const [hours, setHours] = useState(0)
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(0)
-  const [timerId, setTimerId] = useState(null)
-  const [distance, setDistance] = useState(endTime - Date.now())
+  const timerId = useRef(null)
 
   useEffect(() => {
-    if (distance > 0) {
-      setDays(Math.floor(distance / MILLISECONDS_1_DAY))
-      setHours(
-        Math.floor((distance % MILLISECONDS_1_DAY) / MILLISECONDS_1_HOUR)
-      )
-      setMinutes(
-        Math.floor((distance % MILLISECONDS_1_HOUR) / MILLISECONDS_1_MINUTE)
-      )
-      setSeconds(
-        Math.floor((distance % MILLISECONDS_1_MINUTE) / MILLISECONDS_1_SECOND)
-      )
-    } else {
-      clearInterval(timerId)
-      onTimeOut()
-    }
-  }, [distance, onTimeOut, timerId])
-
-  useEffect(() => {
-    setTimerId(
-      setInterval(() => {
-        setDistance(endTime - Date.now())
-      }, 1000)
-    )
+    timerId.current = setInterval(() => {
+      const distance = endTime - Date.now()
+      if (distance > 0) {
+        setDays(Math.floor(distance / MILLISECONDS_1_DAY))
+        setHours(
+          Math.floor((distance % MILLISECONDS_1_DAY) / MILLISECONDS_1_HOUR)
+        )
+        setMinutes(
+          Math.floor((distance % MILLISECONDS_1_HOUR) / MILLISECONDS_1_MINUTE)
+        )
+        setSeconds(
+          Math.floor((distance % MILLISECONDS_1_MINUTE) / MILLISECONDS_1_SECOND)
+        )
+      } else {
+        clearInterval(timerId.current)
+        onTimeOut()
+      }
+    }, 1000)
 
     return () => {
-      clearInterval(timerId)
+      clearInterval(timerId.current)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endTime])
