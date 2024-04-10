@@ -17,7 +17,7 @@ function SideBar() {
 
   return (
     <div className='col-span-3 border h-fit max-h-full overflow-auto'>
-      <div className='px-[20px] py-[15px] flex gap-2 items-center bg-main text-white font-semibold'>
+      <div className='px-[20px] py-[12px] flex gap-2 items-center bg-main text-white font-semibold'>
         <FaListUl size='20px' />
         <span>All Categories</span>
       </div>
