@@ -14,7 +14,7 @@ function Home() {
       </section>
 
       <section className='mt-5'>
-        <div className='container grid grid-cols-12 gap-5'>
+        <div className='container h-[608px] grid grid-cols-12 gap-5'>
           <DailyDeals />
           <ProductSlider />
         </div>

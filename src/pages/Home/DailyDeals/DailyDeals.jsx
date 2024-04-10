@@ -44,7 +44,7 @@ function DailyDeals() {
   }, [products.length])
 
   return (
-    <div className='relative p-[20px] col-span-3 border h-full max-h-full flex flex-col'>
+    <div className='relative p-[20px] col-span-3 border h-full flex flex-col'>
       <h2 className='flex items-center text-xl font-semibold'>
         <FaStar className='text-main' />
         <span className='text-[#505050] uppercase absolute left-[50%] translate-x-[-50%]'>

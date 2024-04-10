@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
-import clsx from 'clsx'
 import { Loading, Product } from '~/components'
 import { getProducts } from '~/services/productsServices'
 import noImage from '~/assets/logo.png'
@@ -70,7 +69,7 @@ function ProductSlider() {
   }, [])
 
   return (
-    <div className='col-span-9'>
+    <div className='col-span-9 h-full flex flex-col'>
       <div className='uppercase font-medium text-lg text-gray-400 mb-5 pb-[15px] border-b-2 border-main'>
         {Object.keys(tabs).map((key, index) => {
           const tab = tabs[key]
@@ -88,9 +87,9 @@ function ProductSlider() {
           )
         })}
       </div>
-      <div className='mx-[-10px]'>
+      <div className='mx-[-10px] flex-1'>
         {loading ? (
-          <div className='flex justify-center pt-[44px]'>
+          <div className='h-full flex justify-center items-center'>
             <Loading />
           </div>
         ) : (
