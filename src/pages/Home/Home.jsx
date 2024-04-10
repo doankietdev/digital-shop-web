@@ -1,7 +1,7 @@
 import { ProductSlider } from './ProductSlider'
 import SideBar from './SideBar'
 import Slider from './Slider'
-import DailyDeal from './DailyDeal'
+import DailyDeals from './DailyDeals'
 
 function Home() {
   return (
@@ -15,7 +15,7 @@ function Home() {
 
       <section className='mt-5'>
         <div className='container grid grid-cols-12 gap-5'>
-          <DailyDeal />
+          <DailyDeals />
           <ProductSlider />
         </div>
       </section>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { FaStar, FaRegStar } from 'react-icons/fa'
+import clsx from 'clsx'
 
-function Rating({ averageRatings, size }) {
+function Rating({ className, averageRatings, size }) {
   const [stars, setStars] = useState([])
 
   useEffect(() => {
@@ -18,7 +19,7 @@ function Rating({ averageRatings, size }) {
   }, [averageRatings])
 
   return (
-    <div className='flex  gap-[2px]'>
+    <div className={clsx(className, 'flex gap-[2px]')}>
       {stars.map((Star, index) => (
         <Star size={size} className='text-[#ffb400]' key={index} />
       ))}
