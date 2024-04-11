@@ -1,7 +1,11 @@
 {
   "name": "digital-world-shop-web",
-  "version": "0.1.0",
   "private": true,
+  "version": "1.0.0",
+  "author": "Doan Anh Kiet",
+  "engines": {
+    "node": "16.20.2"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
     "@testing-library/jest-dom": "^5.17.0",
