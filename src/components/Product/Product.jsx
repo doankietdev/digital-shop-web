@@ -63,8 +63,6 @@ function Product({
   autoLabel,
   labelName,
   labelIcon,
-  labelIconSize = '16px',
-  labelTextSize = '11px',
   labelColor = '#fff',
   labelBackgroundColor = '#ee3131'
 }) {
@@ -91,19 +89,15 @@ function Product({
   ])
 
   let LabelIcon = labelIcon
-  let renderedLabelIconSize = labelIconSize
   let renderedLabelName = labelName
   let renderedLabelColor = labelColor
   let renderedLabelBackgroundColor = labelBackgroundColor
-  let renderedLabelTextSize = labelTextSize
 
   if (autoLabel) {
     LabelIcon = label?.icon
     renderedLabelName = label?.name
     renderedLabelColor = label?.color
     renderedLabelBackgroundColor = label?.backgroundColor
-    renderedLabelIconSize = label?.iconSize
-    renderedLabelTextSize = label?.textSize
   }
 
   return (
@@ -192,10 +186,7 @@ function Product({
           }}
         >
           {LabelIcon ? (
-            <LabelIcon
-              size={renderedLabelIconSize}
-              color={renderedLabelColor}
-            />
+            <LabelIcon size='13px' color={renderedLabelColor} />
           ) : (
             ''
           )}
@@ -203,7 +194,7 @@ function Product({
             style={{
               color: renderedLabelColor
             }}
-            className={clsx(`text-[${renderedLabelTextSize}] px-[6px]`)}
+            className='text-[10px] px-[6px]'
           >
             {renderedLabelName}
           </span>

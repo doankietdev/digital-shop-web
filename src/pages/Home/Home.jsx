@@ -16,26 +16,26 @@ function Home() {
         </div>
       </section>
 
-      <section className='mt-5'>
+      <section className='mt-8'>
         <div className='container h-[608px] grid grid-cols-12 gap-5'>
           <DailyDeals />
           <ProductSlider />
         </div>
       </section>
 
-      <section className='mt-5'>
+      <section className='mt-8'>
         <div className='container'>
           <FeaturedProducts />
         </div>
       </section>
 
-      <section className='mt-5'>
+      <section className='mt-8'>
         <div className='container'>
           <Banner />
         </div>
       </section>
 
-      <section className='mt-5'>
+      <section className='mt-8'>
         <div className='container'>
           <NewArrivals />
         </div>

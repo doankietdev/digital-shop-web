@@ -5,7 +5,7 @@ function DefaultLayout({ children }) {
     <div className='w-full'>
       <Header />
       <NavBar />
-      <main className='mt-5'>{children}</main>
+      <main className='mt-8'>{children}</main>
       <Footer />
     </div>
   )
