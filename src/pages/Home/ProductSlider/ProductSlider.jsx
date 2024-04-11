@@ -4,7 +4,6 @@ import Slider from 'react-slick'
 import { Loading, Product } from '~/components'
 import { getProducts } from '~/services/productsServices'
 import noImage from '~/assets/logo.png'
-import styles from './ProductSlider.module.css'
 import { routesConfig } from '~/config'
 
 const tabs = {
@@ -107,7 +106,7 @@ function ProductSlider() {
       </div>
       <div className='flex justify-between mt-5'>
         <Link to={routesConfig.productDetails('asus-rog-g752vm-1712644060821')}>
-          <div className={styles.banner}>
+          <div className='banner'>
             <img
               src={
                 'https://digital-world-2.myshopify.com/cdn/shop/files/banner2-home2_2000x_crop_center.png?v=1613166657' ||
@@ -119,7 +118,7 @@ function ProductSlider() {
           </div>
         </Link>
         <Link to={routesConfig.productDetails('hp-probook-450-1712644059490')}>
-          <div className={styles.banner}>
+          <div className='banner'>
             <img
               src={
                 'https://digital-world-2.myshopify.com/cdn/shop/files/banner1-home2_2000x_crop_center.png?v=1613166657' ||
