@@ -81,7 +81,7 @@ function Auth() {
                 'absolute top-0 translate-x-full w-1/2 h-full transition-all duration-[600ms] ease-in-out flex flex-col justify-center items-center px-[30px] text-white'
               )}
             >
-              <h1 className='text-[32px] font-semibol'>Welcome Back!</h1>
+              <h1 className='text-[32px] font-semibol'>Hello Friend!</h1>
               <p className='text-center text-[14px] mt-5 mb-[30px] font-light'>
                 Enter your email and password to use all of site features
               </p>
