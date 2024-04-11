@@ -3,6 +3,7 @@ import SideBar from './SideBar'
 import Slider from './Slider'
 import DailyDeals from './DailyDeals'
 import FeaturedProducts from './FeaturedProducts'
+import Banner from './Banner'
 
 function Home() {
   return (
@@ -24,6 +25,12 @@ function Home() {
       <section className='mt-5'>
         <div className='container'>
           <FeaturedProducts />
+        </div>
+      </section>
+
+      <section className='mt-5'>
+        <div className='container'>
+          <Banner />
         </div>
       </section>
     </>
