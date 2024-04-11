@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom'
-import { routesConfig } from '~/config'
 
 function Banner() {
   return (
-    <div className='grid grid-cols-4 gap-5 h-[656px]'>
-      <div className='col-span-2 h-full'>
+    <div className='grid grid-cols-4 gap-5'>
+      <div className='col-span-2 h-[656px]'>
         <Link
-          className='banner'
+          className='banner h-full'
           to='http://localhost:3000/products/asus-rog-g752vm-1712644060821'
         >
           <img
@@ -16,9 +15,9 @@ function Banner() {
           />
         </Link>
       </div>
-      <div className='col-span-1 h-full flex flex-col gap-5'>
+      <div className='col-span-1 h-[656px] grid grid-rows-2 gap-5'>
         <Link
-          className='banner'
+          className='banner h-full'
           to='http://localhost:3000/products/hp-probook-450-1712644059490'
         >
           <img
@@ -28,7 +27,7 @@ function Banner() {
           />
         </Link>
         <Link
-          className='banner'
+          className='banner h-full'
           to='http://localhost:3000/products/hp-probook-450-1712644059490'
         >
           <img
@@ -38,9 +37,9 @@ function Banner() {
           />
         </Link>
       </div>
-      <div className='col-span-1'>
+      <div className='col-span-1 h-[656px]'>
         <Link
-          className='banner'
+          className='banner h-full'
           to='http://localhost:3000/products/hp-probook-450-1712644059490'
         >
           <img
