@@ -1,4 +1,4 @@
-# Welcome to Digital Shop Web repository
+# Welcome to Digital World Shop Web repository
 
 ## Available Scripts
 
