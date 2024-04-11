@@ -70,8 +70,6 @@ function Product({
 }) {
   const [label, setLabel] = useState(null)
 
-  console.log(product)
-
   useEffect(() => {
     if (autoLabel) {
       if (checkTrendingProduct(product)) {

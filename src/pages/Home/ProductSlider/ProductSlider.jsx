@@ -60,7 +60,6 @@ function ProductSlider() {
       }
       setLoading(false)
     }
-
     fetchProducts()
   }, [activedTab])
 
