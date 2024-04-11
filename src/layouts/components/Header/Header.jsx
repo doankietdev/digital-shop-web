@@ -34,10 +34,13 @@ function Header() {
             <FaCartShoppingIcon size='20px' className='text-main' />
             <span className='text-[14px]'>0 item</span>
           </div>
-          <div className='flex items-center gap-2'>
+          <Link
+            to={routesConfig.auth()}
+            className='flex items-center gap-2 p-2'
+          >
             <FaUserIcon size='20px' className='text-main' />
-            <span className='text-[14px]'>Login</span>
-          </div>
+            <span className='text-[14px]'>Sign In</span>
+          </Link>
         </div>
       </div>
     </header>

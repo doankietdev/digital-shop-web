@@ -1,6 +1,6 @@
 const routesConfig = {
   home: () => '/',
-  login: () => '/auth/login',
+  auth: () => '/auth',
   products: () => '/products',
   blogs: () => '/blogs',
   service: () => '/service',

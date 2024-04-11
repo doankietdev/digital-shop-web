@@ -1,9 +1,9 @@
 import { routesConfig } from '~/config'
-import { Home, Login } from '~/pages'
+import { Home, Auth } from '~/pages'
 
 const publicRoutes = [
   { path: routesConfig.home, component: Home },
-  { path: routesConfig.login, component: Login }
+  { path: routesConfig.auth, component: Auth, layout: null }
 ]
 
 const privateRoutes = []

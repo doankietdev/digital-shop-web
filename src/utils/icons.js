@@ -4,7 +4,8 @@ import {
   FaFacebookF as FaFacebookFIcon,
   FaTwitter as FaTwitterIcon,
   FaGooglePlusG as FaGooglePlusGIcon,
-  FaLinkedinIn as FaLinkedinInIcon
+  FaLinkedinIn as FaLinkedinInIcon,
+  FaGithub as FaGithubIcon
 } from 'react-icons/fa'
 import { IoMdMail as IoMdMailIcon } from 'react-icons/io'
 import { FaCartShopping as FaCartShoppingIcon } from 'react-icons/fa6'
@@ -17,5 +18,6 @@ export {
   FaFacebookFIcon,
   FaTwitterIcon,
   FaGooglePlusGIcon,
-  FaLinkedinInIcon
+  FaLinkedinInIcon,
+  FaGithubIcon
 }

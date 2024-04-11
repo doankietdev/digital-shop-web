@@ -1,25 +1,62 @@
 import clsx from 'clsx'
 
-function Button({ children, className, primary, icon, type = 'button' }) {
+function Button({
+  children,
+  color,
+  bgColor,
+  borderColor,
+  className,
+  primary,
+  outlined,
+  rounded,
+  icon,
+  type = 'button',
+  onClick
+}) {
+  const renderedColor = color || null
+  const renderedBgColor = bgColor || null
+  const renderedBorderColor = borderColor || null
+
   const classes = clsx(
     {
-      'bg-main': primary,
-      'hover:bg-black': primary
+      'text-white': !color
     },
     {
-      'bg-black': !primary,
-      'hover:bg-[#393939]': !primary
+      'bg-main': primary && !outlined && !bgColor,
+      'hover:bg-black': primary && !outlined && !bgColor
     },
+    {
+      'border-main': primary && outlined && !borderColor,
+      'text-main': primary && outlined && !color
+    },
+    {
+      'bg-black': !primary && !outlined && !bgColor,
+      'hover:bg-[#393939]': !primary && !outlined && !bgColor
+    },
+    {
+      border: outlined,
+      'border-black': outlined && !borderColor,
+      'hover:border-[2px]': outlined,
+      'text-black': outlined && !color,
+      'transition-all duration-200': !outlined
+    },
+    {
+      'rounded-lg': rounded
+    },
+    renderedColor,
+    renderedBgColor,
+    renderedBorderColor,
     className,
-    'transition-all duration-200  px-[15px]',
-    'text-white text-[16px] font-medium',
+    'px-[15px]',
+    'text-[16px] font-medium',
     'min-w-[140px] h-[40px]',
     'py-[11px]',
-    'flex justify-center items-center gap-2'
+    'flex justify-center items-center gap-2',
+    'outline-none'
   )
 
   return (
-    <button type={type} className={classes}>
+    <button onClick={onClick} type={type} className={classes}>
       {icon}
       {children}
     </button>
