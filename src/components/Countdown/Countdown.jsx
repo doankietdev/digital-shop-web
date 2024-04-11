@@ -1,11 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import TimePartial from './TimePartial'
-
-const MILLISECONDS_1_DAY = 1000 * 60 * 60 * 24
-const MILLISECONDS_1_HOUR = 1000 * 60 * 60
-const MILLISECONDS_1_MINUTE = 1000 * 60
-const MILLISECONDS_1_SECOND = 1000
+import { TIME } from '~/utils/constants'
 
 function Countdown({ endTime, className, onTimeOut }) {
   const [days, setDays] = useState(0)
@@ -18,15 +14,21 @@ function Countdown({ endTime, className, onTimeOut }) {
     timerId.current = setInterval(() => {
       const distance = endTime - Date.now()
       if (distance > 0) {
-        setDays(Math.floor(distance / MILLISECONDS_1_DAY))
+        setDays(Math.floor(distance / TIME.MILLISECONDS_1_DAY))
         setHours(
-          Math.floor((distance % MILLISECONDS_1_DAY) / MILLISECONDS_1_HOUR)
+          Math.floor(
+            (distance % TIME.MILLISECONDS_1_DAY) / TIME.MILLISECONDS_1_HOUR
+          )
         )
         setMinutes(
-          Math.floor((distance % MILLISECONDS_1_HOUR) / MILLISECONDS_1_MINUTE)
+          Math.floor(
+            (distance % TIME.MILLISECONDS_1_HOUR) / TIME.MILLISECONDS_1_MINUTE
+          )
         )
         setSeconds(
-          Math.floor((distance % MILLISECONDS_1_MINUTE) / MILLISECONDS_1_SECOND)
+          Math.floor(
+            (distance % TIME.MILLISECONDS_1_MINUTE) / TIME.MILLISECONDS_1_SECOND
+          )
         )
       } else {
         clearInterval(timerId.current)

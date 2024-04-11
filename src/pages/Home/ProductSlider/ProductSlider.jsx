@@ -5,6 +5,7 @@ import { Loading, Product } from '~/components'
 import { getProducts } from '~/services/productsServices'
 import noImage from '~/assets/logo.png'
 import { routesConfig } from '~/config'
+import { CATEGORIES } from '~/utils/constants'
 
 const tabs = {
   bestSeller: {
@@ -53,7 +54,7 @@ function ProductSlider() {
         setProducts(newArrivalsResult.products)
       } else if (activedTab === tabs.tablet.id) {
         const tabletResult = await getProducts({
-          category: '6614dfc184a5a023303a96c8'
+          category: CATEGORIES.TABLET.ID
         })
         setProducts(tabletResult.products)
       }

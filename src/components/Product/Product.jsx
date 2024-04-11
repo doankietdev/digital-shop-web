@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { FaHeart, FaStackOverflow } from 'react-icons/fa'
 import { MdOutlineNewLabel } from 'react-icons/md'
 import { FaArrowTrendUp } from 'react-icons/fa6'
-
 import clsx from 'clsx'
 
 import { formatCash } from '~/utils/formatter'
@@ -71,6 +70,8 @@ function Product({
 }) {
   const [label, setLabel] = useState(null)
 
+  console.log(product)
+
   useEffect(() => {
     if (autoLabel) {
       if (checkTrendingProduct(product)) {
@@ -111,12 +112,11 @@ function Product({
     <div
       className={clsx(
         {
-          'flex grid grid-cols-4 relative': horizontal,
-          'h-[384px]': !horizontal
+          'grid grid-cols-4 relative': horizontal
         },
         styles.card,
         className,
-        'mx-[10px] p-[15px] border relative'
+        'h-full mx-[10px] p-[15px] border relative'
       )}
     >
       <div
