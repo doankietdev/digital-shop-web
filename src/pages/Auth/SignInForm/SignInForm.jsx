@@ -1,4 +1,7 @@
-import { Button, Input } from '~/components'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { Button, PasswordField, TextField } from '~/components'
 import {
   FaGooglePlusGIcon,
   FaFacebookFIcon,
@@ -6,9 +9,31 @@ import {
   FaGithubIcon
 } from '~/utils/icons'
 
-function SignIn() {
+function SignInForm({ onSubmit }) {
+  const schema = yup.object({
+    email: yup.string().required('Please enter your email'),
+    password: yup.string().required('Please enter your password')
+  })
+
+  const form = useForm({
+    defaultValues: {
+      email: '',
+      password: ''
+    },
+    resolver: yupResolver(schema)
+  })
+
+  const handleSubmit = (data) => {
+    if (onSubmit && typeof onSubmit === 'function') {
+      onSubmit(data)
+    }
+  }
+
   return (
-    <form className='px-10 h-full flex justify-center items-center flex-col'>
+    <form
+      onSubmit={form.handleSubmit(handleSubmit)}
+      className='px-10 h-full flex justify-center items-center flex-col'
+    >
       <h1 className='text-[32px] font-semibold capitalize'>Sign In</h1>
       <div className='flex gap-3 my-5'>
         <a
@@ -37,16 +62,30 @@ function SignIn() {
         </a>
       </div>
       <span className='text-[12px] font-light'>or use your email password</span>
-      <div className='flex flex-col gap-5 w-full text-[13px] mt-[10px]'>
-        <Input type='email' placeholder='Email' outlined rounded />
-        <Input type='password' placeholder='Password' outlined rounded />
+      <div className='flex flex-col gap-3 w-full text-[13px] mt-[10px]'>
+        <TextField
+          form={form}
+          name='email'
+          placeholder='Email'
+          outlined
+          rounded
+        />
+        <PasswordField
+          form={form}
+          name='password'
+          placeholder='Password'
+          outlined
+          rounded
+        />
       </div>
       <a href='#' className='mt-[24px] text-[13px] font-light mb-[25px]'>
         Forget Your Password?
       </a>
-      <Button rounded>Sign In</Button>
+      <Button type='submit' rounded>
+        Sign In
+      </Button>
     </form>
   )
 }
 
-export default SignIn
+export default SignInForm

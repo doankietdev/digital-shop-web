@@ -1,8 +1,8 @@
 import { useRef } from 'react'
 import clsx from 'clsx'
 import { Button } from '~/components'
-import SignUp from './SignUp'
-import SignIn from './SignIn'
+import SignUpForm from './SignUpForm'
+import SignInForm from './SignInForm'
 import styles from './Auth.module.css'
 import authBackground from '~/assets/auth-background.jpg'
 
@@ -15,6 +15,14 @@ function Auth() {
 
   const handleSwitchSignIn = () => {
     container.current.classList.remove(styles.active)
+  }
+
+  const handleSignUp = (formData) => {
+    console.log(formData)
+  }
+
+  const handleSignIn = (formData) => {
+    console.log(formData)
   }
 
   return (
@@ -37,7 +45,7 @@ function Auth() {
             'absolute top-0 left-0 h-full opacity-0 z-[1] transition-all duration-[600ms] ease-in-out w-1/2'
           )}
         >
-          <SignUp />
+          <SignUpForm onSubmit={handleSignUp} />
         </div>
         <div
           className={clsx(
@@ -45,7 +53,7 @@ function Auth() {
             'absolute top-0 left-0 h-full z-[2]  transition-all duration-[600ms] ease-in-out w-1/2 rounded-t-[150px]'
           )}
         >
-          <SignIn />
+          <SignInForm onSubmit={handleSignIn} />
         </div>
         <div
           className={clsx(
