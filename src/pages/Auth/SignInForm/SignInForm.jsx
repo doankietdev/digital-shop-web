@@ -4,12 +4,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Button, PasswordField, TextField } from '~/components'
-import {
-  FaGooglePlusGIcon,
-  FaFacebookFIcon,
-  FaLinkedinInIcon,
-  FaGithubIcon
-} from '~/utils/icons'
+import { FaGooglePlusGIcon, FaFacebookFIcon } from '~/utils/icons'
 
 function SignInForm({ onSubmit }, ref) {
   const schema = yup.object({
@@ -46,28 +41,16 @@ function SignInForm({ onSubmit }, ref) {
       <h1 className='text-[32px] font-semibold capitalize'>Sign In</h1>
       <div className='flex gap-3 my-5'>
         <a
-          href='#'
+          href='javascript:void(0)'
           className='w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
         >
           <FaGooglePlusGIcon />
         </a>
         <a
-          href='#'
+          href='javascript:void(0)'
           className='w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
         >
           <FaFacebookFIcon />
-        </a>
-        <a
-          href='#'
-          className='w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
-        >
-          <FaGithubIcon />
-        </a>
-        <a
-          href='#'
-          className='w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
-        >
-          <FaLinkedinInIcon />
         </a>
       </div>
       <span className='text-[12px] font-light'>or use your email password</span>

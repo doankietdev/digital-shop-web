@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import clsx from 'clsx'
 import { Button } from '~/components'
 import SignUpForm from './SignUpForm'
@@ -35,7 +35,7 @@ function Auth() {
       <div
         className={clsx(
           styles.container,
-          'relative bg-transparent backdrop-blur-lg w-[768px] max-w-full min-h-[680px] rounded-[30px] text-white'
+          'relative bg-transparent backdrop-blur-lg w-[800px] max-w-full min-h-[680px] rounded-[30px] text-white'
         )}
         ref={container}
       >
