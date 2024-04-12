@@ -11,9 +11,9 @@ function PasswordField({
   rounded
 }) {
   const { formState } = form
-  const { touchedFields, errors } = formState
+  const { errors } = formState
 
-  const hasError = !!(touchedFields[name] && errors[name])
+  const hasError = !!errors[name]
   let errorMessage = ''
   if (hasError) {
     errorMessage = errors[name].message

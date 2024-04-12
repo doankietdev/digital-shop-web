@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+import { forwardRef, useImperativeHandle } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -9,17 +11,39 @@ import {
   FaGithubIcon
 } from '~/utils/icons'
 
-function SignUpForm({ onSubmit }) {
+function SignUpForm({ onSubmit }, ref) {
   const schema = yup.object({
     firstName: yup.string().required('Please enter your first name'),
-    lastName: yup.string().required('Please enter your last name'),
-    mobile: yup.string().required('Please enter your phone number'),
-    email: yup.string().required('Please enter your email'),
-    password: yup.string().required('Please enter your password'),
-    confirmPassword: yup.string().required('Please re-enter your password')
+    lastName: yup
+      .string()
+      .min(2, 'Last name must have at least 2 characters')
+      .required('Please enter your last name'),
+    mobile: yup
+      .string()
+      .length(10, 'Phone number must have 10 characters')
+      .required('Please enter your phone number'),
+    email: yup
+      .string()
+      .email('Please enter a valid email')
+      .required('Please enter your email'),
+    password: yup
+      .string()
+      .min(6, 'Password must have at least 6 characters')
+      .matches(/[a-zA-Z]/, 'Password must contain at least 1 letter')
+      .matches(/\d/, 'Password must contain at least 1 digit')
+      .matches(
+        /[@$!%*?&_.]/,
+        'Password must contain at least 1 special character from the following list: `@`, `$`, `!`, `%`, `*`, `?`, `&`, `_`, `. `'
+      )
+      .required('Please enter your password'),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], 'Password does not match')
+      .required('Please re-enter your password')
   })
 
   const form = useForm({
+    mode: 'onBlur',
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -30,6 +54,12 @@ function SignUpForm({ onSubmit }) {
     },
     resolver: yupResolver(schema)
   })
+
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      form.reset()
+    }
+  }))
 
   const handleSubmit = (data) => {
     if (onSubmit && typeof onSubmit === 'function') {
@@ -123,4 +153,4 @@ function SignUpForm({ onSubmit }) {
   )
 }
 
-export default SignUpForm
+export default forwardRef(SignUpForm)

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import { Button } from '~/components'
 import SignUpForm from './SignUpForm'
@@ -8,22 +8,22 @@ import authBackground from '~/assets/auth-background.jpg'
 
 function Auth() {
   const container = useRef(null)
+  const signUpFormRef = useRef(null)
+  const signInFormRef = useRef(null)
 
   const handleSwitchSignUp = () => {
     container.current.classList.add(styles.active)
+    signInFormRef.current.reset()
   }
 
   const handleSwitchSignIn = () => {
     container.current.classList.remove(styles.active)
+    signUpFormRef.current.reset()
   }
 
-  const handleSignUp = (formData) => {
-    console.log(formData)
-  }
+  const handleSignUp = (data) => {}
 
-  const handleSignIn = (formData) => {
-    console.log(formData)
-  }
+  const handleSignIn = (data) => {}
 
   return (
     <div
@@ -35,7 +35,7 @@ function Auth() {
       <div
         className={clsx(
           styles.container,
-          'relative bg-transparent backdrop-blur-lg w-[768px] max-w-full min-h-[640px] rounded-[30px] overflow-hidden text-white'
+          'relative bg-transparent backdrop-blur-lg w-[768px] max-w-full min-h-[680px] rounded-[30px] text-white'
         )}
         ref={container}
       >
@@ -45,7 +45,7 @@ function Auth() {
             'absolute top-0 left-0 h-full opacity-0 z-[1] transition-all duration-[600ms] ease-in-out w-1/2'
           )}
         >
-          <SignUpForm onSubmit={handleSignUp} />
+          <SignUpForm ref={signUpFormRef} onSubmit={handleSignUp} />
         </div>
         <div
           className={clsx(
@@ -53,7 +53,7 @@ function Auth() {
             'absolute top-0 left-0 h-full z-[2]  transition-all duration-[600ms] ease-in-out w-1/2 rounded-t-[150px]'
           )}
         >
-          <SignInForm onSubmit={handleSignIn} />
+          <SignInForm ref={signInFormRef} onSubmit={handleSignIn} />
         </div>
         <div
           className={clsx(

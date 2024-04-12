@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+import { forwardRef, useImperativeHandle } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -9,19 +11,26 @@ import {
   FaGithubIcon
 } from '~/utils/icons'
 
-function SignInForm({ onSubmit }) {
+function SignInForm({ onSubmit }, ref) {
   const schema = yup.object({
     email: yup.string().required('Please enter your email'),
     password: yup.string().required('Please enter your password')
   })
 
   const form = useForm({
+    mode: 'onBlur',
     defaultValues: {
       email: '',
       password: ''
     },
     resolver: yupResolver(schema)
   })
+
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      form.reset()
+    }
+  }))
 
   const handleSubmit = (data) => {
     if (onSubmit && typeof onSubmit === 'function') {
@@ -88,4 +97,4 @@ function SignInForm({ onSubmit }) {
   )
 }
 
-export default SignInForm
+export default forwardRef(SignInForm)

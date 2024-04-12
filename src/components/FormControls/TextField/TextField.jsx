@@ -11,9 +11,9 @@ function TextField({
   rounded
 }) {
   const { formState } = form
-  const { touchedFields, errors } = formState
+  const { errors } = formState
 
-  const hasError = !!(touchedFields[name] && errors[name])
+  const hasError = !!errors[name]
   let errorMessage = ''
   if (hasError) {
     errorMessage = errors[name].message
@@ -24,20 +24,22 @@ function TextField({
       <Controller
         name={name}
         control={form.control}
-        render={({ field }) => (
-          <input
-            {...field}
-            type='text'
-            placeholder={placeholder}
-            className={inputClasses({
-              primary,
-              outlined,
-              rounded,
-              hasError,
-              className
-            })}
-          />
-        )}
+        render={({ field }) => {
+          return (
+            <input
+              {...field}
+              type='text'
+              placeholder={placeholder}
+              className={inputClasses({
+                primary,
+                outlined,
+                rounded,
+                hasError,
+                className
+              })}
+            />
+          )
+        }}
       />
       {hasError && (
         <span className={errorMessageClasses()}>{errorMessage}</span>
