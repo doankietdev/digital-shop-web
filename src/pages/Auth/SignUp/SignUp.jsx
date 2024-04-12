@@ -1,4 +1,4 @@
-import { Button } from '~/components'
+import { Button, Input } from '~/components'
 import {
   FaGooglePlusGIcon,
   FaFacebookFIcon,
@@ -40,35 +40,15 @@ function SignUp() {
         or use your email for sign up
       </span>
       <div className='flex flex-col gap-5 w-full text-[13px] mt-[10px] mb-[25px]'>
-        <input
-          type='text'
-          placeholder='First Name'
-          className='w-full px-[15px] py-[10px] bg-transparent border-[1px] rounded-lg outline-none hover:border-[2px] focus:border-[2px]'
-        />
-        <input
-          type='text'
-          placeholder='Last Name'
-          className='w-full px-[15px] py-[10px] bg-transparent border-[1px] rounded-lg outline-none hover:border-[2px] focus:border-[2px]'
-        />
-        <input
-          type='text'
-          placeholder='Phone Number'
-          className='w-full px-[15px] py-[10px] bg-transparent border-[1px] rounded-lg outline-none hover:border-[2px] focus:border-[2px]'
-        />
-        <input
-          type='email'
-          placeholder='Email'
-          className='w-full px-[15px] py-[10px] bg-transparent border-[1px] rounded-lg outline-none hover:border-[2px] focus:border-[2px]'
-        />
-        <input
-          type='password'
-          placeholder='Password'
-          className='w-full px-[15px] py-[10px] bg-transparent border-[1px] rounded-lg outline-none hover:border-[2px] focus:border-[2px]'
-        />
-        <input
+        <Input type='text' placeholder='First Name' outlined rounded />
+        <Input type='text' placeholder='Phone Number' outlined rounded />
+        <Input type='email' placeholder='Email' outlined rounded />
+        <Input type='password' placeholder='Password' outlined rounded />
+        <Input
           type='password'
           placeholder='Confirm Password'
-          className='w-full px-[15px] py-[10px] bg-transparent border-[1px] rounded-lg outline-none hover:border-[2px] focus:border-[2px]'
+          outlined
+          rounded
         />
       </div>
       <Button rounded>Sign Up</Button>

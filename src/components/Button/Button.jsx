@@ -2,7 +2,7 @@ import clsx from 'clsx'
 
 function Button({
   children,
-  color,
+  textColor,
   bgColor,
   borderColor,
   className,
@@ -13,13 +13,13 @@ function Button({
   type = 'button',
   onClick
 }) {
-  const renderedColor = color || null
-  const renderedBgColor = bgColor || null
-  const renderedBorderColor = borderColor || null
+  const renderedColor = `text=[${textColor}]` || null
+  const renderedBgColor = `bg-[${bgColor}]` || null
+  const renderedBorderColor = `border-[${borderColor}]` || null
 
   const classes = clsx(
     {
-      'text-white': !color
+      'text-white': !textColor && !outlined
     },
     {
       'bg-main': primary && !outlined && !bgColor,
@@ -27,17 +27,16 @@ function Button({
     },
     {
       'border-main': primary && outlined && !borderColor,
-      'text-main': primary && outlined && !color
+      'text-main': primary && outlined && !textColor
     },
     {
-      'bg-black': !primary && !outlined && !bgColor,
-      'hover:bg-[#393939]': !primary && !outlined && !bgColor
+      'bg-black hover:bg-[#161616]': !primary && !outlined && !bgColor
     },
     {
       border: outlined,
       'border-black': outlined && !borderColor,
       'hover:border-[2px]': outlined,
-      'text-black': outlined && !color,
+      'text-black': outlined && !textColor,
       'transition-all duration-200': !outlined
     },
     {

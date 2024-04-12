@@ -66,8 +66,8 @@ function Auth() {
               </p>
               <Button
                 onClick={handleSwitchSignIn}
-                color='text-white'
-                borderColor='border-white'
+                textColor='white'
+                borderColor='white'
                 outlined
                 primary
                 rounded
@@ -87,8 +87,8 @@ function Auth() {
               </p>
               <Button
                 onClick={handleSwitchSignUp}
-                color='text-white'
-                borderColor='border-white'
+                textColor='white'
+                borderColor='white'
                 outlined
                 primary
                 rounded

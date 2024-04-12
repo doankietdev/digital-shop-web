@@ -7,14 +7,14 @@ module.exports = {
     },
     extend: {
       backgroundColor: {
-        main: '#ee3131'
+        main: '#ee3131',
+        'dark-main': '#941212'
       },
       colors: {
-        main: '#ee3131'
+        main: '#ee3131',
+        'dark-main': '#941212'
       }
     }
   },
-  plugins: [
-    require('@tailwindcss/line-clamp')
-  ]
+  plugins: [require('@tailwindcss/line-clamp')]
 }
