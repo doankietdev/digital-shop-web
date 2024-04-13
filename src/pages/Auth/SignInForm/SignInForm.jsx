@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import clsx from 'clsx'
-import { Button, PasswordField, TextField } from '~/components'
+import { Button, Loading, PasswordField, TextField } from '~/components'
 import { FaGooglePlusGIcon, FaFacebookFIcon } from '~/utils/icons'
 
 function SignInForm({ onSubmit }, ref) {
@@ -96,9 +96,20 @@ function SignInForm({ onSubmit }, ref) {
       <a href='#' className='mt-[24px] text-[13px] font-light mb-[25px]'>
         Forget Your Password?
       </a>
-      <Button type='submit' rounded>
-        Sign In
-      </Button>
+      <div className='w-full relative'>
+        <Button
+          className='absolute top-0 left-1/2 translate-x-[-50%]'
+          type='submit'
+          rounded
+        >
+          Sign In
+        </Button>
+        {isSubmitting && (
+          <div className='absolute top-0 left-1/2 translate-x-[90px]'>
+            <Loading white />
+          </div>
+        )}
+      </div>
     </form>
   )
 }

@@ -1,18 +1,22 @@
 import { useRef } from 'react'
+import { createSearchParams, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import clsx from 'clsx'
 import { Button } from '~/components'
 import SignUpForm from './SignUpForm'
 import SignInForm from './SignInForm'
-import { signUp } from './AuthSlice'
+import { signIn, signUp } from './AuthSlice'
 import { dispatch } from '~/redux/store'
 import authBackground from '~/assets/auth-background.jpg'
 import styles from './Auth.module.css'
+import { routesConfig } from '~/config'
 
 function Auth() {
   const container = useRef(null)
   const signUpFormRef = useRef(null)
   const signInFormRef = useRef(null)
+
+  const navigate = useNavigate()
 
   const handleSwitchSignUp = () => {
     container.current.classList.add(styles.active)
@@ -26,8 +30,8 @@ function Auth() {
 
   const handleSignUp = async (data) => {
     try {
-      await dispatch(signUp(data))
-      toast.success('Sign up successfully!!! 🎉')
+      await dispatch(signUp(data)).unwrap()
+      toast.success('Sign up successfully! 🎉')
       signUpFormRef.current.reset()
       handleSwitchSignIn()
     } catch (error) {
@@ -35,7 +39,15 @@ function Auth() {
     }
   }
 
-  const handleSignIn = async (data) => {}
+  const handleSignIn = async (data) => {
+    try {
+      await dispatch(signIn(data)).unwrap()
+      sessionStorage.setItem('signIn', true)
+      navigate(routesConfig.home())
+    } catch (error) {
+      toast.error('Invalid email or password')
+    }
+  }
 
   return (
     <div

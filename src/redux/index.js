@@ -1,1 +1,1 @@
-export { default as store } from './store'
+export { default as store, dispatch, persistor } from './store'

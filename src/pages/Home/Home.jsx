@@ -1,3 +1,4 @@
+import { ToastContainer, toast } from 'react-toastify'
 import { ProductSlider } from './ProductSlider'
 import SideBar from './SideBar'
 import Slider from './Slider'
@@ -5,8 +6,17 @@ import DailyDeals from './DailyDeals'
 import FeaturedProducts from './FeaturedProducts'
 import Banner from './Banner'
 import NewArrivals from './NewArrivals'
+import { useEffect } from 'react'
 
 function Home() {
+  useEffect(() => {
+    const signIn = sessionStorage.getItem('signIn')
+    if (signIn) {
+      sessionStorage.removeItem('signIn')
+      toast.success('Sign in successfully! 🎉')
+    }
+  }, [])
+
   return (
     <>
       <section>
@@ -40,6 +50,8 @@ function Home() {
           <NewArrivals />
         </div>
       </section>
+
+      <ToastContainer autoClose={2000} />
     </>
   )
 }

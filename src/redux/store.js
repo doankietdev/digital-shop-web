@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { persistStore } from 'redux-persist'
 import authReducer from '~/pages/Auth/AuthSlice'
 
 const store = configureStore({
@@ -7,6 +8,9 @@ const store = configureStore({
   }
 })
 
-export const { dispatch } = store
+const persistor = persistStore(store)
+const { dispatch } = store
+
+export { persistor, dispatch }
 
 export default store

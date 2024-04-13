@@ -1,8 +1,12 @@
 import request from '~/utils/request'
-import { signUpApi } from '~/apis/authApis'
+import { signInApi, signUpApi } from '~/apis/authApis'
 
 const signUp = async (data) => {
   return await request.post(signUpApi, data)
 }
 
-export default { signUp }
+const signIn = async (data) => {
+  return await request.post(signInApi, data)
+}
+
+export default { signUp, signIn }
