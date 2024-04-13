@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import clsx from 'clsx'
@@ -10,13 +10,21 @@ import { dispatch } from '~/redux/store'
 import authBackground from '~/assets/auth-background.jpg'
 import styles from './Auth.module.css'
 import { routesConfig } from '~/config'
+import { useSelector } from 'react-redux'
+import { userSelector } from '~/redux/selectors'
 
 function Auth() {
   const container = useRef(null)
   const signUpFormRef = useRef(null)
   const signInFormRef = useRef(null)
-
   const navigate = useNavigate()
+  const user = useSelector(userSelector)
+
+  useEffect(() => {
+    if (user?.current?._id) {
+      navigate(routesConfig.home())
+    }
+  }, [navigate, user])
 
   const handleSwitchSignUp = () => {
     container.current.classList.add(styles.active)
