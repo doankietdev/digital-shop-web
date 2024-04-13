@@ -15,10 +15,10 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
-    return response.data.metadata
+    return response.data?.metadata
   },
   function (error) {
-    return error.data
+    throw new Error(error.response.data?.message)
   }
 )
 

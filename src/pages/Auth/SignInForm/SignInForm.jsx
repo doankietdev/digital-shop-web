@@ -27,9 +27,9 @@ function SignInForm({ onSubmit }, ref) {
     }
   }))
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     if (onSubmit && typeof onSubmit === 'function') {
-      onSubmit(data)
+      await onSubmit(data)
     }
   }
 

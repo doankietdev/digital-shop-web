@@ -1,10 +1,13 @@
 import { useRef } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 import clsx from 'clsx'
 import { Button } from '~/components'
 import SignUpForm from './SignUpForm'
 import SignInForm from './SignInForm'
-import styles from './Auth.module.css'
+import { signUp } from './AuthSlice'
+import { dispatch } from '~/redux/store'
 import authBackground from '~/assets/auth-background.jpg'
+import styles from './Auth.module.css'
 
 function Auth() {
   const container = useRef(null)
@@ -21,9 +24,18 @@ function Auth() {
     signUpFormRef.current.reset()
   }
 
-  const handleSignUp = (data) => {}
+  const handleSignUp = async (data) => {
+    try {
+      await dispatch(signUp(data))
+      toast.success('Sign up successfully!!! 🎉')
+      signUpFormRef.current.reset()
+      handleSwitchSignIn()
+    } catch (error) {
+      toast.error('Sign up failed')
+    }
+  }
 
-  const handleSignIn = (data) => {}
+  const handleSignIn = async (data) => {}
 
   return (
     <div
@@ -107,6 +119,7 @@ function Auth() {
           </div>
         </div>
       </div>
+      <ToastContainer autoClose={3000} />
     </div>
   )
 }
