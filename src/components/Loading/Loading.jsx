@@ -1,12 +1,11 @@
 import clsx from 'clsx'
 import styles from './Loading.module.css'
 
-function Loading({ color }) {
+function Loading({ white }) {
   const dotClasses = {
-    ['before:bg-[' + color + ']']: !!color,
-    'before:bg-black': !color
+    'before:bg-white': white,
+    'before:bg-black': !white
   }
-  console.log(dotClasses)
   return (
     <div className={styles.dotSpinner}>
       <div className={clsx(dotClasses, styles.dotSpinner__dot)}></div>

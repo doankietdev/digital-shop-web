@@ -164,7 +164,7 @@ function SignUpForm({ onSubmit }, ref) {
         </Button>
         {isSubmitting && (
           <div className='absolute top-0 left-1/2 translate-x-[90px]'>
-            <Loading color='#fff' />
+            <Loading white />
           </div>
         )}
       </div>
