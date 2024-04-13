@@ -1,12 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, useImperativeHandle } from 'react'
+import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import clsx from 'clsx'
 import { Button, PasswordField, TextField } from '~/components'
 import { FaGooglePlusGIcon, FaFacebookFIcon } from '~/utils/icons'
 
 function SignInForm({ onSubmit }, ref) {
+  const [disable, setDisable] = useState(false)
+
   const schema = yup.object({
     email: yup.string().required('Please enter your email'),
     password: yup.string().required('Please enter your password')
@@ -14,6 +17,7 @@ function SignInForm({ onSubmit }, ref) {
 
   const form = useForm({
     mode: 'onBlur',
+    disabled: disable,
     defaultValues: {
       email: '',
       password: ''
@@ -21,17 +25,26 @@ function SignInForm({ onSubmit }, ref) {
     resolver: yupResolver(schema)
   })
 
+  const {
+    formState: { isSubmitting }
+  } = form
+
   useImperativeHandle(ref, () => ({
     reset: () => {
       form.reset()
     }
   }))
 
-  const handleSubmit = async (data) => {
-    if (onSubmit && typeof onSubmit === 'function') {
-      await onSubmit(data)
-    }
-  }
+  const handleSubmit = useCallback(
+    async (data) => {
+      if (onSubmit && typeof onSubmit === 'function') {
+        setDisable(true)
+        await onSubmit(data)
+        setDisable(false)
+      }
+    },
+    [onSubmit]
+  )
 
   return (
     <form
@@ -42,13 +55,23 @@ function SignInForm({ onSubmit }, ref) {
       <div className='flex gap-3 my-5'>
         <a
           href='javascript:void(0)'
-          className='w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
+          className={clsx(
+            {
+              disabled: isSubmitting
+            },
+            'w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
+          )}
         >
           <FaGooglePlusGIcon />
         </a>
         <a
           href='javascript:void(0)'
-          className='w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
+          className={clsx(
+            {
+              disabled: isSubmitting
+            },
+            'w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
+          )}
         >
           <FaFacebookFIcon />
         </a>

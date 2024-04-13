@@ -1,12 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, useImperativeHandle } from 'react'
+import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Button, PasswordField, TextField } from '~/components'
+import { Button, PasswordField, TextField, Loading } from '~/components'
 import { FaGooglePlusGIcon, FaFacebookFIcon } from '~/utils/icons'
+import clsx from 'clsx'
 
 function SignUpForm({ onSubmit }, ref) {
+  const [disable, setDisable] = useState(false)
+
   const schema = yup.object({
     firstName: yup.string().required('Please enter your first name'),
     lastName: yup
@@ -39,6 +42,7 @@ function SignUpForm({ onSubmit }, ref) {
 
   const form = useForm({
     mode: 'onBlur',
+    disabled: disable,
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -50,17 +54,26 @@ function SignUpForm({ onSubmit }, ref) {
     resolver: yupResolver(schema)
   })
 
+  const {
+    formState: { isSubmitting }
+  } = form
+
   useImperativeHandle(ref, () => ({
     reset: () => {
       form.reset()
     }
   }))
 
-  const handleSubmit = (data) => {
-    if (onSubmit && typeof onSubmit === 'function') {
-      onSubmit(data)
-    }
-  }
+  const handleSubmit = useCallback(
+    async (data) => {
+      if (onSubmit && typeof onSubmit === 'function') {
+        setDisable(true)
+        await onSubmit(data)
+        setDisable(false)
+      }
+    },
+    [onSubmit]
+  )
 
   return (
     <form
@@ -71,13 +84,23 @@ function SignUpForm({ onSubmit }, ref) {
       <div className='flex gap-3 my-5'>
         <a
           href='#'
-          className='w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
+          className={clsx(
+            {
+              disabled: isSubmitting
+            },
+            'w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
+          )}
         >
           <FaGooglePlusGIcon />
         </a>
         <a
           href='#'
-          className='w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
+          className={clsx(
+            {
+              disabled: isSubmitting
+            },
+            'w-[40px] h-[40px] border flex justify-center items-center rounded-lg hover:border-[2px]'
+          )}
         >
           <FaFacebookFIcon />
         </a>
@@ -131,9 +154,20 @@ function SignUpForm({ onSubmit }, ref) {
           />
         </div>
       </div>
-      <Button type='submit' rounded>
-        Sign Up
-      </Button>
+      <div className='w-full relative'>
+        <Button
+          className='absolute top-0 left-1/2 translate-x-[-50%]'
+          type='submit'
+          rounded
+        >
+          Sign Up
+        </Button>
+        {isSubmitting && (
+          <div className='absolute top-0 left-1/2 translate-x-[90px]'>
+            <Loading color='#fff' />
+          </div>
+        )}
+      </div>
     </form>
   )
 }

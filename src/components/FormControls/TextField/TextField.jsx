@@ -1,5 +1,6 @@
 import { Controller } from 'react-hook-form'
 import { inputClasses, errorMessageClasses } from '../classes'
+import clsx from 'clsx'
 
 function TextField({
   form,
@@ -30,13 +31,15 @@ function TextField({
               {...field}
               type='text'
               placeholder={placeholder}
-              className={inputClasses({
-                primary,
-                outlined,
-                rounded,
-                hasError,
-                className
-              })}
+              className={clsx(
+                inputClasses({
+                  primary,
+                  outlined,
+                  rounded,
+                  hasError,
+                  className
+                })
+              )}
             />
           )
         }}

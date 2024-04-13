@@ -80,6 +80,13 @@ button.slick-arrow.slick-next::before {
   display: block;
 }
 
+.disabled,
+input[disabled] {
+  border-width: 1px;
+  pointer-events: none;
+  filter: brightness(70%);
+}
+
 @keyframes scaleTopLeft {
   0% {
     transform: scale(0);

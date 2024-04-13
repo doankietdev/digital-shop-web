@@ -28,8 +28,6 @@ const inputClasses = ({ primary, outlined, rounded, hasError, className }) => {
   )
 }
 
-const errorMessageClasses = () => {
-  return 'text-[12px] text-red-500'
-}
+const errorMessageClasses = () => 'text-[12px] text-red-500'
 
 export { inputClasses, errorMessageClasses }

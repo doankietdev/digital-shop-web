@@ -1,4 +1,5 @@
 import { Controller } from 'react-hook-form'
+import clsx from 'clsx'
 import { inputClasses, errorMessageClasses } from '../classes'
 
 function PasswordField({
@@ -29,13 +30,15 @@ function PasswordField({
             {...field}
             type='password'
             placeholder={placeholder}
-            className={inputClasses({
-              primary,
-              outlined,
-              rounded,
-              hasError,
-              className
-            })}
+            className={clsx(
+              inputClasses({
+                primary,
+                outlined,
+                rounded,
+                hasError,
+                className
+              })
+            )}
           />
         )}
       />
