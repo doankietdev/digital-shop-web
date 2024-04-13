@@ -7,8 +7,13 @@ import {
   FaCartShoppingIcon,
   FaUserIcon
 } from '~/utils/icons'
+import noAvatarImage from '~/assets/no-avatar-image.png'
+import { useSelector } from 'react-redux'
+import { userSelector } from '~/redux/selectors'
 
 function Header() {
+  const { current: user } = useSelector(userSelector)
+
   return (
     <header className='py-[35px]'>
       <div className='container flex justify-between text-[13px]'>
@@ -34,13 +39,20 @@ function Header() {
             <FaCartShoppingIcon size='20px' className='text-main' />
             <span className='text-[14px]'>0 item</span>
           </div>
-          <Link
-            to={routesConfig.auth()}
-            className='flex items-center gap-2 p-2'
-          >
-            <FaUserIcon size='20px' className='text-main' />
-            <span className='text-[14px]'>Sign In</span>
-          </Link>
+          {user._id ? (
+            <div className='flex items-center gap-2'>
+              <img className='w-[32px] h-[32px] rounded-full object-contain' src={user.image || noAvatarImage} alt="Avatar" />
+              <span>{user.firstName}</span>
+            </div>
+          ) : (
+            <Link
+              to={routesConfig.auth()}
+              className='flex items-center gap-2 p-2'
+            >
+              <FaUserIcon size='20px' className='text-main' />
+              <span className='text-[14px]'>Sign In</span>
+            </Link>
+          )}
         </div>
       </div>
     </header>

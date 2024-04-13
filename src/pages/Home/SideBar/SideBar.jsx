@@ -3,17 +3,26 @@ import { Link } from 'react-router-dom'
 import { FaListUl } from 'react-icons/fa6'
 import { routesConfig } from '~/config'
 import { getCategories } from '~/services/categoriesServices'
+import { useDispatch } from 'react-redux'
+import { actions } from '~/AppSlice'
 
 function SideBar() {
   const [categories, setCategories] = useState([])
+  const dispatch = useDispatch()
+
   useEffect(() => {
     const fetchCategories = async () => {
-      const result = await getCategories()
-      setCategories(result.categories)
+      try {
+        dispatch(actions.setLoading(true))
+        const result = await getCategories()
+        setCategories(result.categories)
+      } catch (error) { /* empty */ } finally {
+        dispatch(actions.setLoading(false))
+      }
     }
 
     fetchCategories()
-  }, [])
+  }, [dispatch])
 
   return (
     <div className='col-span-3 border h-fit max-h-full overflow-auto'>

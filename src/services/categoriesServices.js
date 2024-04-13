@@ -1,17 +1,12 @@
-import request from '~/utils/request'
 import { getCategoriesApi } from '~/apis/categoriesApis'
+import request from '~/utils/request'
 
 const getCategories = async () => {
-  try {
-    const response = await request.get(getCategoriesApi, {
-      params: {
-        _fields: '-createdAt,-updatedAt'
-      }
-    })
-    return response
-  } catch (error) {
-    console.log(error)
-  }
+  return await request.get(getCategoriesApi, {
+    params: {
+      _fields: '-createdAt,-updatedAt'
+    }
+  })
 }
 
 export { getCategories }

@@ -1,25 +1,32 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { actions } from '~/AppSlice'
 import { Product } from '~/components'
 import { getProducts } from '~/services/productsServices'
 
 function FeaturedProducts() {
   const [products, setProducts] = useState([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const products =
-        (
-          await getProducts({
-            _limit: 9,
-            'averageRatings[gte]': 4
-          })
-        )?.products || []
-      setProducts(products)
+      try {
+        dispatch(actions.setLoading(true))
+        const products =
+          (
+            await getProducts({
+              _limit: 9,
+              'averageRatings[gte]': 4
+            })
+          )?.products || []
+        setProducts(products)
+      } catch (error) { /* empty */ } finally {
+        dispatch(actions.setLoading(false))
+      }
     }
 
     fetchProducts()
-  }, [])
+  }, [dispatch])
 
   return (
     <div>
