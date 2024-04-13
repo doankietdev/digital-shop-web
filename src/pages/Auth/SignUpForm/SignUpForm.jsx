@@ -18,7 +18,7 @@ function SignUpForm({ onSubmit }, ref) {
       .required('Please enter your last name'),
     mobile: yup
       .string()
-      .length(10, 'Phone number must have 10 characters')
+      .matches(/^\d{10}$/, 'Phone number must be 10 digits')
       .required('Please enter your phone number'),
     email: yup
       .string()
