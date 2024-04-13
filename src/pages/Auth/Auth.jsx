@@ -56,7 +56,7 @@ function Auth() {
       sessionStorage.setItem('signIn', true)
       navigate(routesConfig.home())
     } catch (error) {
-      toast.error('Invalid email or password')
+      toast.error('Incorrect email or password')
     }
   }
 
