@@ -10,6 +10,11 @@ import {
 import noAvatarImage from '~/assets/no-avatar-image.png'
 import { useSelector } from 'react-redux'
 import { userSelector } from '~/redux/selectors'
+import {
+  AvatarDropdown,
+  DropdownDivider,
+  DropdownItem
+} from '~/components'
 
 function Header() {
   const { current: user } = useSelector(userSelector)
@@ -40,10 +45,12 @@ function Header() {
             <span className='text-[14px]'>0 item</span>
           </div>
           {user._id ? (
-            <div className='flex items-center gap-2'>
-              <img className='w-[32px] h-[32px] rounded-full object-contain' src={user.image || noAvatarImage} alt="Avatar" />
-              <span>{user.firstName}</span>
-            </div>
+            <AvatarDropdown avatarSrc={user.image.url || noAvatarImage} fullName={`${user.firstName} ${user.lastName}`} email={user.email} >
+              <DropdownItem link={routesConfig.auth()}>My Account</DropdownItem>
+              <DropdownItem link={routesConfig.auth()}>My Orders</DropdownItem>
+              <DropdownDivider />
+              <DropdownItem>Sign Out</DropdownItem>
+            </AvatarDropdown>
           ) : (
             <Link
               to={routesConfig.auth()}
