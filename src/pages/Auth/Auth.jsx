@@ -67,12 +67,14 @@ function Auth() {
           style={{
             backgroundImage: `url(${loaded})`
           }}
-          className='flex justify-center items-center h-screen bg-cover bg-no-repeat'
+          className={clsx(
+            'flex justify-center items-center h-screen bg-cover bg-no-repeat'
+          )}
         >
           <div
             className={clsx(
               styles.container,
-              'relative bg-transparent backdrop-blur-lg w-[800px] max-w-full min-h-[680px] rounded-[30px] text-white'
+              'fade-in relative bg-transparent backdrop-blur-lg w-[800px] max-w-full min-h-[680px] rounded-[30px] text-white'
             )}
             ref={container}
           >

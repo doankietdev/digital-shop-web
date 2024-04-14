@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+/* eslint-disable react-refresh/only-export-components */
+import { useEffect, useState, memo } from 'react'
 import { Link } from 'react-router-dom'
 import { FaListUl } from 'react-icons/fa6'
 import { routesConfig } from '~/config'
@@ -45,4 +46,4 @@ function SideBar() {
   )
 }
 
-export default SideBar
+export default memo(SideBar)

@@ -1,12 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { FaStar, FaEye } from 'react-icons/fa'
+/* eslint-disable react-refresh/only-export-components */
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { FaEye, FaStar } from 'react-icons/fa'
 import { MdOutlineErrorOutline } from 'react-icons/md'
-import { Countdown, Rating, Button } from '~/components'
+import { Link } from 'react-router-dom'
+import noImage from '~/assets/no-image.png'
+import { Button, Countdown, Rating } from '~/components'
+import { routesConfig } from '~/config'
 import { getProducts } from '~/services/productsServices'
 import { formatCash } from '~/utils/formatter'
-import noImage from '~/assets/no-image.png'
-import { routesConfig } from '~/config'
 
 const MAX_REQUEST = 3
 
@@ -117,4 +118,4 @@ function DailyDeals() {
   )
 }
 
-export default DailyDeals
+export default memo(DailyDeals)

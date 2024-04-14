@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+/* eslint-disable react-refresh/only-export-components */
+import { memo, useCallback, useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import { Loading, Product } from '~/components'
 import { getProducts } from '~/services/productsServices'
@@ -126,4 +127,4 @@ function NewArrivals() {
   )
 }
 
-export default NewArrivals
+export default memo(NewArrivals)

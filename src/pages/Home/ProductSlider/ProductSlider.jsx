@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
+/* eslint-disable react-refresh/only-export-components */
+import { memo, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
-import { Loading, Product } from '~/components'
-import { getProducts } from '~/services/productsServices'
 import noImage from '~/assets/logo.png'
+import { Loading, Product } from '~/components'
 import { routesConfig } from '~/config'
+import { getProducts } from '~/services/productsServices'
 import { CATEGORIES } from '~/utils/constants'
 
 const tabs = {
@@ -134,4 +135,4 @@ function ProductSlider() {
   )
 }
 
-export default ProductSlider
+export default memo(ProductSlider)

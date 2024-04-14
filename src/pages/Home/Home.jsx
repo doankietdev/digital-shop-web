@@ -18,8 +18,8 @@ function Home() {
   useEffect(() => {
     const signIn = sessionStorage.getItem('signIn')
     if (signIn) {
-      sessionStorage.removeItem('signIn')
       toast.success('Sign in successfully! 🎉')
+      sessionStorage.removeItem('signIn')
     }
   }, [])
 

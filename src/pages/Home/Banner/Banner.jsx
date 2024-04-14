@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 function Banner() {
@@ -53,4 +55,4 @@ function Banner() {
   )
 }
 
-export default Banner
+export default memo(Banner)

@@ -11,6 +11,10 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: #fff;
 }
 
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
 .container {
   max-width: 1220px;
   margin: 0 auto;

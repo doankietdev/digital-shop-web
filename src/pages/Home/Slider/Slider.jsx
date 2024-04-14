@@ -1,3 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
+import { memo } from 'react'
+
 function Slider() {
   return (
     <div className='col-span-9'>
@@ -10,4 +13,4 @@ function Slider() {
   )
 }
 
-export default Slider
+export default memo(Slider)

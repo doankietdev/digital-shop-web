@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+/* eslint-disable react-refresh/only-export-components */
+import { memo, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { actions } from '~/AppSlice'
 import { Product } from '~/components'
@@ -20,7 +21,9 @@ function FeaturedProducts() {
             })
           )?.products || []
         setProducts(products)
-      } catch (error) { /* empty */ } finally {
+      } catch (error) {
+        /* empty */
+      } finally {
         dispatch(actions.setLoading(false))
       }
     }
@@ -42,4 +45,4 @@ function FeaturedProducts() {
   )
 }
 
-export default FeaturedProducts
+export default memo(FeaturedProducts)
