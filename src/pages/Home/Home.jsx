@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { Loading } from '~/components'
 import { appSelector } from '~/redux/selectors'
 import Banner from './Banner'
@@ -70,8 +70,6 @@ function Home() {
           </div>
         </div>
       )}
-
-      <ToastContainer autoClose={2000} />
     </>
   )
 }

@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { RequestHeaderKeys, StorageKeys } from './constants'
+import { store } from '~/redux'
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_ROOT
@@ -6,6 +8,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (config) {
+    config.headers[RequestHeaderKeys.userId] =
+      store.getState().user?.current?._id || ''
+    config.headers.Authorization = 'Bearer ' + localStorage.getItem(StorageKeys.ACCESS_TOKEN)
+    config.withCredentials = true
     return config
   },
   function (error) {

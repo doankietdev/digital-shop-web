@@ -6,7 +6,6 @@ import { ToastContainer, toast } from 'react-toastify'
 import authBackground from '~/assets/auth-background.jpg'
 import { Button } from '~/components'
 import { routesConfig } from '~/config'
-import { useProgressiveImage } from '~/hooks'
 import { userSelector } from '~/redux/selectors'
 import { dispatch } from '~/redux/store'
 import styles from './Auth.module.css'
@@ -20,8 +19,6 @@ function Auth() {
   const signInFormRef = useRef(null)
   const navigate = useNavigate()
   const user = useSelector(userSelector)
-
-  const loaded = useProgressiveImage(authBackground)
 
   useEffect(() => {
     if (user?.current?._id) {
@@ -62,10 +59,10 @@ function Auth() {
 
   return (
     <>
-      {!!loaded && (
+      {(
         <div
           style={{
-            backgroundImage: `url(${loaded})`
+            backgroundImage: `url(${authBackground})`
           }}
           className={clsx(
             'flex justify-center items-center h-screen bg-cover bg-no-repeat'
@@ -146,9 +143,9 @@ function Auth() {
               </div>
             </div>
           </div>
-          <ToastContainer autoClose={2000} />
         </div>
       )}
+      <ToastContainer autoClose={2000} />
     </>
   )
 }

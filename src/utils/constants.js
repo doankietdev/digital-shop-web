@@ -56,4 +56,19 @@ const CATEGORIES = {
   }
 }
 
-export { NAV_BAR, TIME, PRODUCT_CONDITIONS_TO_CHECK, CATEGORIES }
+const StorageKeys = {
+  ACCESS_TOKEN: 'access_token'
+}
+
+const RequestHeaderKeys = {
+  userId: 'x-user-id'
+}
+
+export {
+  NAV_BAR,
+  TIME,
+  PRODUCT_CONDITIONS_TO_CHECK,
+  CATEGORIES,
+  StorageKeys,
+  RequestHeaderKeys
+}
