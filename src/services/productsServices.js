@@ -1,8 +1,8 @@
-import request from '~/utils/request'
+import axios from '~/config/axiosClient'
 import { getProductsApi } from '~/apis/productsApis'
 
 const getProducts = async (params = {}) => {
-  return await request.get(getProductsApi, {
+  return await axios.get(getProductsApi, {
     params
   })
 }

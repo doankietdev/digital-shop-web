@@ -1,16 +1,16 @@
-import request from '~/utils/request'
+import axios from '~/config/axiosClient'
 import { signInApi, signOutApi, signUpApi } from '~/apis/authApis'
 
 const signUp = async (data) => {
-  return await request.post(signUpApi, data)
+  return await axios.post(signUpApi, data)
 }
 
 const signIn = async (data) => {
-  return await request.post(signInApi, data)
+  return await axios.post(signInApi, data)
 }
 
 const signOut = async () => {
-  return await request.post(signOutApi)
+  return await axios.post(signOutApi)
 }
 
 export default { signUp, signIn, signOut }

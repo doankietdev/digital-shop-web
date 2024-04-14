@@ -1,8 +1,8 @@
+import axios from '~/config/axiosClient'
 import { getCategoriesApi } from '~/apis/categoriesApis'
-import request from '~/utils/request'
 
 const getCategories = async () => {
-  return await request.get(getCategoriesApi, {
+  return await axios.get(getCategoriesApi, {
     params: {
       _fields: '-createdAt,-updatedAt'
     }

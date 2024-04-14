@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { RequestHeaderKeys, StorageKeys } from './constants'
+import { RequestHeaderKeys, StorageKeys } from '~/utils/constants'
 import { store } from '~/redux'
 
 const instance = axios.create({
