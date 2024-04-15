@@ -1,6 +1,7 @@
-import { Controller } from 'react-hook-form'
 import clsx from 'clsx'
-import { inputClasses, errorMessageClasses } from '../classes'
+import { useEffect, useState } from 'react'
+import { Controller } from 'react-hook-form'
+import { errorMessageClasses, inputClasses } from '../classes'
 
 function PasswordField({
   form,
@@ -11,14 +12,17 @@ function PasswordField({
   outlined,
   rounded
 }) {
-  const { formState } = form
-  const { errors } = formState
+  const [hasError, setHasError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const hasError = !!errors[name]
-  let errorMessage = ''
-  if (hasError) {
-    errorMessage = errors[name].message
-  }
+  useEffect(() => {
+    const { errors } = form.formState
+    const error = errors[name]
+    setHasError(!!error)
+    if (!!error) {
+      setErrorMessage(error.message)
+    }
+  }, [name, form.formState])
 
   return (
     <div className='flex flex-col gap-1'>

@@ -4,15 +4,19 @@ import storage from 'redux-persist/lib/storage'
 import authService from '~/services/authService'
 import { StorageKeys } from '~/utils/constants'
 
-const signUp = createAsyncThunk('auth', async (payload) => {
-  const { firstName, lastName, mobile, email, password } = payload
-  return await authService.signUp({
-    firstName,
-    lastName,
-    mobile,
-    email,
-    password
-  })
+const signUp = createAsyncThunk('auth', async (payload, { rejectWithValue }) => {
+  try {
+    const { firstName, lastName, mobile, email, password } = payload
+    return await authService.signUp({
+      firstName,
+      lastName,
+      mobile,
+      email,
+      password
+    })
+  } catch (error) {
+    return rejectWithValue(error)
+  }
 })
 
 const signIn = createAsyncThunk('auth/signIn', async (payload) => {

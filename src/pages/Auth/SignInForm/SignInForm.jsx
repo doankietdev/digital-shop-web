@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
+import { forwardRef, useCallback, useImperativeHandle, useState, memo } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -114,4 +114,4 @@ function SignInForm({ onSubmit }, ref) {
   )
 }
 
-export default forwardRef(SignInForm)
+export default memo(forwardRef(SignInForm))

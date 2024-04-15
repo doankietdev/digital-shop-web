@@ -1,13 +1,27 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { Button, PasswordField, TextField, Loading } from '~/components'
-import { FaGooglePlusGIcon, FaFacebookFIcon } from '~/utils/icons'
 import clsx from 'clsx'
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState
+} from 'react'
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { Button, Loading, PasswordField, TextField } from '~/components'
+import { FaFacebookFIcon, FaGooglePlusGIcon } from '~/utils/icons'
 
-function SignUpForm({ onSubmit }, ref) {
+const fieldNameLabels = {
+  firstName: 'first name',
+  lastName: 'last name',
+  mobile: 'phone number',
+  email: 'email',
+  password: 'password'
+}
+
+function SignUpForm({ onSubmit, errors }, ref) {
   const [disable, setDisable] = useState(false)
 
   const schema = yup.object({
@@ -57,6 +71,15 @@ function SignUpForm({ onSubmit }, ref) {
   const {
     formState: { isSubmitting }
   } = form
+
+  useEffect(() => {
+    errors.forEach((error) => {
+      form.setError(error.field, {
+        type: 'custom',
+        message:  `This ${fieldNameLabels[error.field]} ${error.message}`
+      })
+    })
+  }, [errors, form])
 
   useImperativeHandle(ref, () => ({
     reset: () => {
@@ -112,7 +135,7 @@ function SignUpForm({ onSubmit }, ref) {
         <TextField
           form={form}
           name='firstName'
-          placeholder='First Name'
+          placeholder={fieldNameLabels.firstName}
           outlined
           rounded
         />

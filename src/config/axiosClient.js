@@ -10,8 +10,10 @@ instance.interceptors.request.use(
   function (config) {
     config.headers[RequestHeaderKeys.userId] =
       store.getState().user?.current?._id || ''
-    config.headers.Authorization = 'Bearer ' + localStorage.getItem(StorageKeys.ACCESS_TOKEN)
+    config.headers.Authorization =
+      'Bearer ' + localStorage.getItem(StorageKeys.ACCESS_TOKEN)
     config.withCredentials = true
+
     return config
   },
   function (error) {
@@ -24,7 +26,10 @@ instance.interceptors.response.use(
     return response.data?.metadata
   },
   function (error) {
-    throw new Error(error.response.data?.message)
+    if (error.response && error.response.data) {
+      return Promise.reject(error.response.data)
+    }
+    return Promise.reject(error.message)
   }
 )
 

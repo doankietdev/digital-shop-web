@@ -11,4 +11,12 @@ const formatCash = (number) => {
   )
 }
 
-export { formatCash }
+const parseResponseMessage = (responseMessage) => {
+  try {
+    return JSON.parse(responseMessage)
+  } catch (error) {
+    return responseMessage
+  }
+}
+
+export { formatCash, parseResponseMessage }

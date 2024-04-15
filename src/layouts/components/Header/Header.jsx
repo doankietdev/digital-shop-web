@@ -27,7 +27,7 @@ function Header() {
       await dispatch(signOut()).unwrap()
       toast.success('Sign out successfully! 🎉')
     } catch (error) {
-      toast.error('Something went wrong')
+      // toast.error(error.message)
     }
   }
 
@@ -58,7 +58,7 @@ function Header() {
               <span className='text-[14px]'>0 item</span>
             </div>
             {user._id ? (
-              <AvatarDropdown avatarSrc={user.image.url || noAvatarImage} fullName={`${user.firstName} ${user.lastName}`} email={user.email} >
+              <AvatarDropdown avatarSrc={user.image?.url || noAvatarImage} fullName={`${user.firstName} ${user.lastName}`} email={user.email} >
                 <DropdownItem link={routesConfig.auth()}>My Account</DropdownItem>
                 <DropdownItem link={routesConfig.auth()}>My Orders</DropdownItem>
                 <DropdownDivider />

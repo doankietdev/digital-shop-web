@@ -20,11 +20,11 @@ const inputClasses = ({ primary, outlined, rounded, hasError, className }) => {
     },
     {
       // default input error
-      'border border-red-500 hover:border-[2px] focus:border-[2px] text-red-500 placeholder:text-red-500':
+      'border border-red-500 hover:border-[2px] focus:border-[2px]':
         hasError
     },
     className,
-    'w-full px-[15px] py-[10px] outline-none'
+    'w-full px-[15px] py-[10px] outline-none placeholder:capitalize'
   )
 }
 

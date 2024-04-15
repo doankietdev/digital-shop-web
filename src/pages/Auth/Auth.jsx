@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
@@ -20,6 +20,8 @@ function Auth() {
   const navigate = useNavigate()
   const user = useSelector(userSelector)
 
+  const [signUpErrors, setSignUpErrors] = useState([])
+
   useEffect(() => {
     if (user?.current?._id) {
       navigate(routesConfig.home())
@@ -36,26 +38,26 @@ function Auth() {
     signUpFormRef.current.reset()
   }
 
-  const handleSignUp = async (data) => {
+  const handleSignUp = useCallback(async (data) => {
     try {
       await dispatch(signUp(data)).unwrap()
       toast.success('Sign up successfully! 🎉')
       signUpFormRef.current.reset()
       handleSwitchSignIn()
     } catch (error) {
-      toast.error('Sign up failed')
+      setSignUpErrors(error)
     }
-  }
+  }, [])
 
-  const handleSignIn = async (data) => {
+  const handleSignIn = useCallback(async (data) => {
     try {
       await dispatch(signIn(data)).unwrap()
       sessionStorage.setItem('signIn', true)
       navigate(routesConfig.home())
     } catch (error) {
-      toast.error('Incorrect email or password')
+      toast.error(error.message)
     }
-  }
+  }, [navigate])
 
   return (
     <>
@@ -81,7 +83,7 @@ function Auth() {
                 'absolute top-0 left-0 h-full opacity-0 z-[1] transition-all duration-[600ms] ease-in-out w-1/2'
               )}
             >
-              <SignUpForm ref={signUpFormRef} onSubmit={handleSignUp} />
+              <SignUpForm ref={signUpFormRef} errors={signUpErrors} onSubmit={handleSignUp} />
             </div>
             <div
               className={clsx(
