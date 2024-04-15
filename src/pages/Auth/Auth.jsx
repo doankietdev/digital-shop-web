@@ -45,7 +45,7 @@ function Auth() {
       signUpFormRef.current.reset()
       handleSwitchSignIn()
     } catch (error) {
-      setSignUpErrors(error)
+      setSignUpErrors(error.messages)
     }
   }, [])
 
@@ -55,7 +55,7 @@ function Auth() {
       sessionStorage.setItem('signIn', true)
       navigate(routesConfig.home())
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.messages[0])
     }
   }, [navigate])
 

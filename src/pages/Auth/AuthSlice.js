@@ -19,8 +19,12 @@ const signUp = createAsyncThunk('auth', async (payload, { rejectWithValue }) => 
   }
 })
 
-const signIn = createAsyncThunk('auth/signIn', async (payload) => {
-  return await authService.signIn(payload)
+const signIn = createAsyncThunk('auth/signIn', async (payload, { rejectWithValue }) => {
+  try {
+    return await authService.signIn(payload)
+  } catch (error) {
+    return rejectWithValue(error)
+  }
 })
 
 const signOut = createAsyncThunk('auth/signOut', async () => {
