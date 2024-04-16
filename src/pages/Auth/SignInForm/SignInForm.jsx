@@ -55,6 +55,7 @@ function SignInForm({ onSubmit }, ref) {
       <div className='flex gap-3 my-5'>
         <a
           href='#'
+          title='Google'
           className={clsx(
             {
               disabled: isSubmitting
@@ -66,6 +67,7 @@ function SignInForm({ onSubmit }, ref) {
         </a>
         <a
           href='#'
+          title='Facebook'
           className={clsx(
             {
               disabled: isSubmitting

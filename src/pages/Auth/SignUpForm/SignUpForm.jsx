@@ -107,6 +107,7 @@ function SignUpForm({ onSubmit, errors }, ref) {
       <div className='flex gap-3 my-5'>
         <a
           href='#'
+          title='Google'
           className={clsx(
             {
               disabled: isSubmitting
@@ -118,6 +119,7 @@ function SignUpForm({ onSubmit, errors }, ref) {
         </a>
         <a
           href='#'
+          title='Facebook'
           className={clsx(
             {
               disabled: isSubmitting

@@ -1,9 +1,8 @@
 import clsx from 'clsx'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
-import authBackground from '~/assets/auth-background.jpg'
 import { Button } from '~/components'
 import { routesConfig } from '~/config'
 import { userSelector } from '~/redux/selectors'
@@ -12,6 +11,8 @@ import styles from './Auth.module.css'
 import { signIn, signUp } from './AuthSlice'
 import SignInForm from './SignInForm'
 import SignUpForm from './SignUpForm'
+import authBackground from '~/assets/auth-background.jpg'
+import logoImage from '~/assets/logo.png'
 
 function Auth() {
   const container = useRef(null)
@@ -49,19 +50,22 @@ function Auth() {
     }
   }, [])
 
-  const handleSignIn = useCallback(async (data) => {
-    try {
-      await dispatch(signIn(data)).unwrap()
-      sessionStorage.setItem('signIn', true)
-      navigate(routesConfig.home())
-    } catch (error) {
-      toast.error(error.messages[0])
-    }
-  }, [navigate])
+  const handleSignIn = useCallback(
+    async (data) => {
+      try {
+        await dispatch(signIn(data)).unwrap()
+        sessionStorage.setItem('signIn', true)
+        navigate(routesConfig.home())
+      } catch (error) {
+        toast.error(error.messages[0])
+      }
+    },
+    [navigate]
+  )
 
   return (
     <>
-      {(
+      {
         <div
           style={{
             backgroundImage: `url(${authBackground})`
@@ -73,7 +77,7 @@ function Auth() {
           <div
             className={clsx(
               styles.container,
-              'fade-in relative bg-transparent backdrop-blur-lg w-[800px] max-w-full min-h-[680px] rounded-[30px] text-white'
+              'fade-in relative bg-transparent backdrop-blur-lg w-[800px] max-w-full min-h-[680px] rounded-[30px] text-white overflow-hidden'
             )}
             ref={container}
           >
@@ -83,7 +87,11 @@ function Auth() {
                 'absolute top-0 left-0 h-full opacity-0 z-[1] transition-all duration-[600ms] ease-in-out w-1/2'
               )}
             >
-              <SignUpForm ref={signUpFormRef} errors={signUpErrors} onSubmit={handleSignUp} />
+              <SignUpForm
+                ref={signUpFormRef}
+                errors={signUpErrors}
+                onSubmit={handleSignUp}
+              />
             </div>
             <div
               className={clsx(
@@ -106,7 +114,14 @@ function Auth() {
                     'absolute top-0 translate-x-[-200%] w-1/2 h-full transition-all duration-[600ms] ease-in-out flex flex-col justify-center items-center px-[30px] text-white'
                   )}
                 >
-                  <h1 className='text-[32px] font-semibol'>Welcome Back!</h1>
+                  <Link to={routesConfig.home()} title='Back to home'>
+                    <img
+                      src={logoImage}
+                      alt='Logo'
+                      className='w-[160px] object-contain'
+                    />
+                  </Link>
+                  <h1 className='mt-3 text-[32px] font-semibol'>Welcome Back!</h1>
                   <p className='text-center text-[14px] mt-5 mb-[30px] font-light'>
                     Enter your personal details to sign up
                   </p>
@@ -127,7 +142,16 @@ function Auth() {
                     'absolute top-0 translate-x-full w-1/2 h-full transition-all duration-[600ms] ease-in-out flex flex-col justify-center items-center px-[30px] text-white'
                   )}
                 >
-                  <h1 className='text-[32px] font-semibol'>Hello Friend!</h1>
+                  <Link to={routesConfig.home()} title='Back to home'>
+                    <img
+                      src={logoImage}
+                      alt='Logo'
+                      className='w-[160px] object-contain'
+                    />
+                  </Link>
+                  <h1 className='mt-3 text-[32px] font-semibol'>
+                    Hello Friend!
+                  </h1>
                   <p className='text-center text-[14px] mt-5 mb-[30px] font-light'>
                     Enter your email and password to use all of site features
                   </p>
@@ -146,7 +170,7 @@ function Auth() {
             </div>
           </div>
         </div>
-      )}
+      }
       <ToastContainer autoClose={2000} />
     </>
   )

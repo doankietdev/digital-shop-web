@@ -3,7 +3,7 @@ import clsx from 'clsx'
 const inputClasses = ({ primary, outlined, rounded, hasError, className }) => {
   return clsx(
     {
-      'border-[1px] hover:border-[2px] focus:border-[2px] bg-transparent':
+      'border-[1px] hover:border-[2px] focus:border-[2px] bg-transparent placeholder:text-[#cacaca]':
         outlined,
       'text-black': !outlined
     },
