@@ -33,14 +33,28 @@ const signIn = createAsyncThunk(
   }
 )
 
-const signOut = createAsyncThunk('auth/signOut', async (payload, { rejectWithValue }) => {
-  try {
-    await authService.signOut()
-    localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
-  } catch (error) {
-    return rejectWithValue(error)
+const signOut = createAsyncThunk(
+  'auth/signOut',
+  async (payload, { rejectWithValue }) => {
+    try {
+      await authService.signOut()
+      localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
+    } catch (error) {
+      return rejectWithValue(error)
+    }
   }
-})
+)
+
+const verifyEmail = createAsyncThunk(
+  'auth/verifyEmail',
+  async (payload, { rejectWithValue }) => {
+    try {
+      await authService.verifyEmail(payload)
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 
 const authSlice = createSlice({
   name: 'auth',
@@ -71,6 +85,6 @@ const authSlice = createSlice({
 const { reducer, actions } = authSlice
 const { clear } = actions
 
-export { signUp, signIn, signOut, clear }
+export { signUp, signIn, signOut, verifyEmail, clear }
 
 export default persistReducer({ key: 'user', storage }, reducer)

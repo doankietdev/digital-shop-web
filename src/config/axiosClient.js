@@ -28,10 +28,13 @@ instance.interceptors.response.use(
     return response.data
   },
   function (error) {
-    if (error.response.status === StatusCodes.UNAUTHORIZED) {
-      dispatch(clear())
+    if (error.response) {
+      if (error.response.status === StatusCodes.UNAUTHORIZED) {
+        dispatch(clear())
+      }
+      return Promise.reject(error.response.data)
     }
-    return Promise.reject(error.response.data)
+    return Promise.reject(error)
   }
 )
 

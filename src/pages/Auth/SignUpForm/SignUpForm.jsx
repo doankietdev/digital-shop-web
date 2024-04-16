@@ -103,7 +103,7 @@ function SignUpForm({ onSubmit, errors }, ref) {
       onSubmit={form.handleSubmit(handleSubmit)}
       className='px-10 h-full flex justify-center items-center flex-col'
     >
-      <h1 className='text-[32px] font-semibold capitalize'>Sign Up</h1>
+      <h1 className='text-[32px] font-semibold capitalize tracking-[2px]'>Sign Up</h1>
       <div className='flex gap-3 my-5'>
         <a
           href='#'
@@ -130,7 +130,7 @@ function SignUpForm({ onSubmit, errors }, ref) {
           <FaFacebookFIcon />
         </a>
       </div>
-      <span className='text-[12px] font-light'>
+      <span className='text-[12px] font-light tracking-[1px]'>
         or use your email for sign up
       </span>
       <div className='flex flex-col gap-3 w-full text-[13px] mt-[10px] mb-[25px]'>

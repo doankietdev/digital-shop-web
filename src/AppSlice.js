@@ -13,7 +13,8 @@ const appSlice = createSlice({
 })
 
 const { reducer, actions } = appSlice
+const { setLoading } = actions
 
-export { actions }
+export { actions, setLoading }
 
 export default reducer

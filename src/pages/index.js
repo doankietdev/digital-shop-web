@@ -1,2 +1,5 @@
 export { default as Home } from './Home'
 export { default as Auth } from './Auth'
+export { default as VerifyEmail } from './VerifyEmail'
+export { default as EmailVerificationSuccess } from './EmailVerificationSuccess'
+export { default as EmailVerificationError } from './EmailVerificationError'

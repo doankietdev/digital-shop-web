@@ -2,9 +2,6 @@ import clsx from 'clsx'
 
 function Button({
   children,
-  textColor,
-  bgColor,
-  borderColor,
   className,
   primary,
   outlined,
@@ -13,38 +10,31 @@ function Button({
   type = 'button',
   onClick
 }) {
-  const renderedColor = `text=[${textColor}]` || null
-  const renderedBgColor = `bg-[${bgColor}]` || null
-  const renderedBorderColor = `border-[${borderColor}]` || null
-
   const classes = clsx(
     {
-      'text-white': !textColor && !outlined
+      'text-white': !outlined
     },
     {
-      'bg-main': primary && !outlined && !bgColor,
-      'hover:bg-black': primary && !outlined && !bgColor
+      'bg-main': primary && !outlined,
+      'hover:bg-black': primary && !outlined
     },
     {
-      'border-main': primary && outlined && !borderColor,
-      'text-main': primary && outlined && !textColor
+      'border-main': primary && outlined,
+      'text-main': primary && outlined
     },
     {
-      'bg-black hover:bg-[#161616]': !primary && !outlined && !bgColor
+      'bg-black hover:bg-[#161616]': !primary && !outlined
     },
     {
       border: outlined,
-      'border-black': outlined && !borderColor,
+      'border-black': outlined,
       'hover:border-[2px]': outlined,
-      'text-black': outlined && !textColor,
+      'text-black': outlined,
       'transition-all duration-200': !outlined
     },
     {
       'rounded-lg': rounded
     },
-    renderedColor,
-    renderedBgColor,
-    renderedBorderColor,
     className,
     'px-[15px]',
     'text-[16px] font-medium',

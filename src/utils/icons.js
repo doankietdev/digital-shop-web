@@ -1,23 +1,31 @@
 import {
-  FaPhoneAlt as FaPhoneAltIcon,
-  FaUser as FaUserIcon,
   FaFacebookF as FaFacebookFIcon,
-  FaTwitter as FaTwitterIcon,
+  FaGithub as FaGithubIcon,
   FaGooglePlusG as FaGooglePlusGIcon,
   FaLinkedinIn as FaLinkedinInIcon,
-  FaGithub as FaGithubIcon
+  FaPhoneAlt as FaPhoneAltIcon,
+  FaTwitter as FaTwitterIcon,
+  FaUser as FaUserIcon
 } from 'react-icons/fa'
-import { IoMdMail as IoMdMailIcon } from 'react-icons/io'
 import { FaCartShopping as FaCartShoppingIcon } from 'react-icons/fa6'
+import {
+  IoMdCheckmarkCircleOutline as IoMdCheckmarkCircleOutlineIcon,
+  IoMdMail as IoMdMailIcon
+} from 'react-icons/io'
+import { MdErrorOutline as MdErrorOutlineIcon } from 'react-icons/md'
+import { TbMailCheck as TbMailCheckIcon } from 'react-icons/tb'
 
 export {
-  FaPhoneAltIcon,
-  IoMdMailIcon,
   FaCartShoppingIcon,
-  FaUserIcon,
   FaFacebookFIcon,
-  FaTwitterIcon,
+  FaGithubIcon,
   FaGooglePlusGIcon,
   FaLinkedinInIcon,
-  FaGithubIcon
+  FaPhoneAltIcon,
+  FaTwitterIcon,
+  FaUserIcon,
+  IoMdCheckmarkCircleOutlineIcon,
+  IoMdMailIcon,
+  MdErrorOutlineIcon,
+  TbMailCheckIcon
 }

@@ -51,7 +51,7 @@ function SignInForm({ onSubmit }, ref) {
       onSubmit={form.handleSubmit(handleSubmit)}
       className='px-10 h-full flex justify-center items-center flex-col'
     >
-      <h1 className='text-[32px] font-semibold capitalize'>Sign In</h1>
+      <h1 className='text-[32px] font-semibold capitalize tracking-[2px]'>Sign In</h1>
       <div className='flex gap-3 my-5'>
         <a
           href='#'
@@ -78,7 +78,7 @@ function SignInForm({ onSubmit }, ref) {
           <FaFacebookFIcon />
         </a>
       </div>
-      <span className='text-[12px] font-light'>or use your email password</span>
+      <span className='text-[12px] font-light tracking-[1px]'>or use your email password</span>
       <div className='flex flex-col gap-3 w-full text-[13px] mt-[10px]'>
         <TextField
           form={form}
@@ -95,7 +95,7 @@ function SignInForm({ onSubmit }, ref) {
           rounded
         />
       </div>
-      <a href='#' className='mt-[24px] text-[13px] font-light mb-[25px]'>
+      <a href='#' className='tracking-[1px] mt-[24px] text-[13px] font-light mb-[25px]'>
         Forget Your Password?
       </a>
       <div className='w-full relative'>

@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import axios from '~/config/axiosClient'
-import { signInApi, signOutApi, signUpApi } from '~/apis/authApis'
+import { signInApi, signOutApi, signUpApi, verifyEmailApi } from '~/apis/authApis'
 import { parseResponseMessage } from '~/utils/formatter'
 import UIError from '~/utils/UIError'
 
@@ -39,4 +39,18 @@ const signOut = async () => {
   }
 }
 
-export default { signUp, signIn, signOut }
+const verifyEmail = async ({ userId, token }) => {
+  try {
+    const { message } = await axios.post(verifyEmailApi, { userId, token })
+    return {
+      message
+    }
+  } catch (error) {
+    if (error.statusCode === StatusCodes.BAD_REQUEST || error.statusCode === StatusCodes.NOT_FOUND) {
+      return Promise.reject(new UIError(['Not found']))
+    }
+    return Promise.reject(new UIError(['Something went wrong']))
+  }
+}
+
+export default { signUp, signIn, signOut, verifyEmail }
