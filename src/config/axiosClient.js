@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { RequestHeaderKeys, StorageKeys } from '~/utils/constants'
-import { store } from '~/redux'
+import { dispatch, store } from '~/redux'
+import { StatusCodes } from 'http-status-codes'
+import { clear } from '~/pages/Auth/AuthSlice'
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_ROOT
@@ -23,13 +25,13 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
-    return response.data?.metadata
+    return response.data
   },
   function (error) {
-    if (error.response && error.response.data) {
-      return Promise.reject(error.response.data)
+    if (error.response.status === StatusCodes.UNAUTHORIZED) {
+      dispatch(clear())
     }
-    return Promise.reject(error.message)
+    return Promise.reject(error.response.data)
   }
 )
 

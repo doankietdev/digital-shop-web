@@ -54,7 +54,7 @@ function SignInForm({ onSubmit }, ref) {
       <h1 className='text-[32px] font-semibold capitalize'>Sign In</h1>
       <div className='flex gap-3 my-5'>
         <a
-          href='javascript:void(0)'
+          href='#'
           className={clsx(
             {
               disabled: isSubmitting
@@ -65,7 +65,7 @@ function SignInForm({ onSubmit }, ref) {
           <FaGooglePlusGIcon />
         </a>
         <a
-          href='javascript:void(0)'
+          href='#'
           className={clsx(
             {
               disabled: isSubmitting

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import noImage from '~/assets/no-image.png'
 import { Button, Countdown, Rating } from '~/components'
 import { routesConfig } from '~/config'
-import { getProducts } from '~/services/productsServices'
+import { getProducts } from '~/services/productService'
 import { formatCash } from '~/utils/formatter'
 
 const MAX_REQUEST = 3

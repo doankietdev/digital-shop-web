@@ -5,7 +5,7 @@ import Slider from 'react-slick'
 import noImage from '~/assets/logo.png'
 import { Loading, Product } from '~/components'
 import { routesConfig } from '~/config'
-import { getProducts } from '~/services/productsServices'
+import { getProducts } from '~/services/productService'
 import { CATEGORIES } from '~/utils/constants'
 
 const tabs = {

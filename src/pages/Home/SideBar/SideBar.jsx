@@ -3,7 +3,7 @@ import { useEffect, useState, memo } from 'react'
 import { Link } from 'react-router-dom'
 import { FaListUl } from 'react-icons/fa6'
 import { routesConfig } from '~/config'
-import { getCategories } from '~/services/categoriesServices'
+import { getCategories } from '~/services/categoryService'
 import { useDispatch } from 'react-redux'
 import { actions } from '~/AppSlice'
 

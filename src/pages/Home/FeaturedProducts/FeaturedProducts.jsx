@@ -3,7 +3,7 @@ import { memo, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { actions } from '~/AppSlice'
 import { Product } from '~/components'
-import { getProducts } from '~/services/productsServices'
+import { getProducts } from '~/services/productService'
 
 function FeaturedProducts() {
   const [products, setProducts] = useState([])

@@ -40,8 +40,8 @@ function Auth() {
 
   const handleSignUp = useCallback(async (data) => {
     try {
-      await dispatch(signUp(data)).unwrap()
-      toast.success('Sign up successfully! 🎉')
+      const { message } = await dispatch(signUp(data)).unwrap()
+      toast.success(message)
       signUpFormRef.current.reset()
       handleSwitchSignIn()
     } catch (error) {

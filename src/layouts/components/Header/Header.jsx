@@ -27,7 +27,7 @@ function Header() {
       await dispatch(signOut()).unwrap()
       toast.success('Sign out successfully! 🎉')
     } catch (error) {
-      // toast.error(error.message)
+      toast.error(error.messages[0])
     }
   }
 

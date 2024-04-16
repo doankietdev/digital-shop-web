@@ -2,7 +2,7 @@
 import { memo, useCallback, useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import { Loading, Product } from '~/components'
-import { getProducts } from '~/services/productsServices'
+import { getProducts } from '~/services/productService'
 import {
   CATEGORIES,
   PRODUCT_CONDITIONS_TO_CHECK,

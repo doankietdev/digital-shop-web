@@ -4,32 +4,42 @@ import storage from 'redux-persist/lib/storage'
 import authService from '~/services/authService'
 import { StorageKeys } from '~/utils/constants'
 
-const signUp = createAsyncThunk('auth', async (payload, { rejectWithValue }) => {
+const signUp = createAsyncThunk(
+  'auth',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { firstName, lastName, mobile, email, password } = payload
+      return await authService.signUp({
+        firstName,
+        lastName,
+        mobile,
+        email,
+        password
+      })
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+const signIn = createAsyncThunk(
+  'auth/signIn',
+  async (payload, { rejectWithValue }) => {
+    try {
+      return await authService.signIn(payload)
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+const signOut = createAsyncThunk('auth/signOut', async (payload, { rejectWithValue }) => {
   try {
-    const { firstName, lastName, mobile, email, password } = payload
-    return await authService.signUp({
-      firstName,
-      lastName,
-      mobile,
-      email,
-      password
-    })
+    await authService.signOut()
+    localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
   } catch (error) {
     return rejectWithValue(error)
   }
-})
-
-const signIn = createAsyncThunk('auth/signIn', async (payload, { rejectWithValue }) => {
-  try {
-    return await authService.signIn(payload)
-  } catch (error) {
-    return rejectWithValue(error)
-  }
-})
-
-const signOut = createAsyncThunk('auth/signOut', async () => {
-  await authService.signOut()
-  localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
 })
 
 const authSlice = createSlice({
@@ -38,7 +48,12 @@ const authSlice = createSlice({
     current: {},
     settings: {}
   },
-  reducers: {},
+  reducers: {
+    clear: (state) => {
+      state.current = {}
+      state.settings = {}
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(signIn.fulfilled, (state, action) => {
       const { user, accessToken } = action.payload
@@ -48,12 +63,14 @@ const authSlice = createSlice({
 
     builder.addCase(signOut.fulfilled, (state) => {
       state.current = {}
+      state.settings = {}
     })
   }
 })
 
-const { reducer } = authSlice
+const { reducer, actions } = authSlice
+const { clear } = actions
 
-export { signUp, signIn, signOut }
+export { signUp, signIn, signOut, clear }
 
 export default persistReducer({ key: 'user', storage }, reducer)

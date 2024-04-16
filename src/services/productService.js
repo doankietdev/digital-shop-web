@@ -1,10 +1,11 @@
 import axios from '~/config/axiosClient'
-import { getProductsApi } from '~/apis/productsApis'
+import { getProductsApi } from '~/apis/productApis'
 
 const getProducts = async (params = {}) => {
-  return await axios.get(getProductsApi, {
+  const { metadata } = await axios.get(getProductsApi, {
     params
   })
+  return metadata
 }
 
 export { getProducts }

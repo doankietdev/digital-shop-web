@@ -6,7 +6,10 @@ import UIError from '~/utils/UIError'
 
 const signUp = async (data) => {
   try {
-    return await axios.post(signUpApi, data)
+    const { message } = await axios.post(signUpApi, data)
+    return {
+      message
+    }
   } catch (error) {
     if (error.statusCode === StatusCodes.CONFLICT) {
       return Promise.reject(new UIError(parseResponseMessage(error.message)))
@@ -17,10 +20,11 @@ const signUp = async (data) => {
 
 const signIn = async (data) => {
   try {
-    return await axios.post(signInApi, data)
+    const { metadata } = await axios.post(signInApi, data)
+    return metadata
   } catch (error) {
     if (error.statusCode === StatusCodes.UNAUTHORIZED) {
-      return Promise.reject(new UIError(['Invalid email or password']))
+      return Promise.reject(new UIError([error.message]))
     }
     return Promise.reject(new UIError(['Something went wrong']))
   }
@@ -28,9 +32,10 @@ const signIn = async (data) => {
 
 const signOut = async () => {
   try {
-    return await axios.post(signOutApi)
+    const { metadata } = await axios.post(signOutApi)
+    return metadata
   } catch (error) {
-    throw new Error('Something went wrong')
+    return Promise.reject(new UIError(['Something went wrong']))
   }
 }
 
