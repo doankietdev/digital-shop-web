@@ -42,7 +42,7 @@ function Auth() {
   const handleSignUp = useCallback(async (data) => {
     try {
       const { message } = await dispatch(signUp(data)).unwrap()
-      toast.success(message)
+      toast.success(message, { autoClose: 5000 })
       signUpFormRef.current.reset()
       handleSwitchSignIn()
     } catch (error) {
@@ -57,7 +57,8 @@ function Auth() {
         sessionStorage.setItem('signIn', true)
         navigate(routesConfig.home())
       } catch (error) {
-        toast.error(error.messages[0])
+        toast.error(error.messages[0], { autoClose: 5000 })
+        signInFormRef.current.reset()
       }
     },
     [navigate]
@@ -114,14 +115,20 @@ function Auth() {
                     'absolute top-0 translate-x-[-200%] w-1/2 h-full transition-all duration-[600ms] ease-in-out flex flex-col justify-center items-center px-[30px] text-white'
                   )}
                 >
-                  <Link to={routesConfig.home()} title='Back to home' className='absolute top-[100px]'>
+                  <Link
+                    to={routesConfig.home()}
+                    title='Back to home'
+                    className='absolute top-[100px]'
+                  >
                     <img
                       src={logoImage}
                       alt='Logo'
                       className='w-[240px] object-contain'
                     />
                   </Link>
-                  <h1 className='mt-3 text-[32px] font-medium tracking-[2px]'>Welcome Back!</h1>
+                  <h1 className='mt-3 text-[32px] font-medium tracking-[2px]'>
+                    Welcome Back!
+                  </h1>
                   <p className='tracking-[1px] text-center text-[12px] mt-5 mb-[30px] font-light'>
                     Enter your personal details to sign up
                   </p>
@@ -141,7 +148,11 @@ function Auth() {
                     'absolute top-0 translate-x-full w-1/2 h-full transition-all duration-[600ms] ease-in-out flex flex-col justify-center items-center px-[30px] text-white'
                   )}
                 >
-                  <Link to={routesConfig.home()} title='Back to home' className='absolute top-[100px]'>
+                  <Link
+                    to={routesConfig.home()}
+                    title='Back to home'
+                    className='absolute top-[100px]'
+                  >
                     <img
                       src={logoImage}
                       alt='Logo'
@@ -169,7 +180,7 @@ function Auth() {
           </div>
         </div>
       }
-      <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={3000} />
     </>
   )
 }

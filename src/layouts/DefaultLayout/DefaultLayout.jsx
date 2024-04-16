@@ -11,7 +11,7 @@ function DefaultLayout({ children }) {
       <NavBar />
       <main className='my-8 flex-1 relative'>{children}</main>
       {!loading && <Footer />}
-      <ToastContainer position='bottom-right' autoClose={2000} />
+      <ToastContainer position='bottom-right' autoClose={3000} />
     </div>
   )
 }
