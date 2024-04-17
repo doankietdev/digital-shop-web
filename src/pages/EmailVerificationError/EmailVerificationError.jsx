@@ -11,7 +11,7 @@ function EmailVerificationError() {
         'bg-red-900 flex justify-center items-center h-screen bg-cover bg-no-repeat'
       )}
     >
-      <Card className='bg-red-700 fade-in'>
+      <Card className='!bg-red-700 fade-in'>
         <MdErrorOutlineIcon className='w-[200px] h-[200px] text-white' />
         <h2 className='mb-2 font-semibold text-2xl tracking-[2px] text-white'>
           Whoops!!
