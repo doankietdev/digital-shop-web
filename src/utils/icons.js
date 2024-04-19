@@ -8,6 +8,7 @@ import {
   FaUser as FaUserIcon
 } from 'react-icons/fa'
 import { FaCartShopping as FaCartShoppingIcon } from 'react-icons/fa6'
+import { GrSend as GrSendIcon } from 'react-icons/gr'
 import {
   IoMdCheckmarkCircleOutline as IoMdCheckmarkCircleOutlineIcon,
   IoMdMail as IoMdMailIcon
@@ -23,9 +24,9 @@ export {
   FaLinkedinInIcon,
   FaPhoneAltIcon,
   FaTwitterIcon,
-  FaUserIcon,
-  IoMdCheckmarkCircleOutlineIcon,
+  FaUserIcon, GrSendIcon, IoMdCheckmarkCircleOutlineIcon,
   IoMdMailIcon,
   MdErrorOutlineIcon,
   TbMailCheckIcon
 }
+

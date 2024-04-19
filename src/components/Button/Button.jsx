@@ -7,7 +7,9 @@ function Button({
   outlined,
   rounded,
   icon,
+  startIcon,
   type = 'button',
+  disabled = false,
   onClick
 }) {
   const classes = clsx(
@@ -16,19 +18,19 @@ function Button({
     },
     {
       'bg-main': primary && !outlined,
-      'hover:bg-black': primary && !outlined
+      'hover:bg-black': primary && !outlined && !disabled
     },
     {
       'border-main': primary && outlined,
       'text-main': primary && outlined
     },
     {
-      'bg-black hover:bg-[#161616]': !primary && !outlined
+      'bg-black hover:bg-[#161616]': !primary && !outlined && !disabled
     },
     {
       border: outlined,
       'border-black': outlined,
-      'hover:border-[2px]': outlined,
+      'hover:border-[2px]': outlined && !disabled,
       'text-black': outlined,
       'transition-all duration-200': !outlined
     },
@@ -45,7 +47,20 @@ function Button({
   )
 
   return (
-    <button onClick={onClick} type={type} className={classes}>
+    <button
+      type={type}
+      className={clsx(classes, {
+        relative: startIcon,
+        'opacity-70': disabled
+      })}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {startIcon && (
+        <div className='absolute top-1/2 left-4 translate-y-[-50%]'>
+          {startIcon}
+        </div>
+      )}
       {icon}
       {children}
     </button>

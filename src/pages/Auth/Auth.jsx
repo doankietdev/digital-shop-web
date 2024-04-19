@@ -13,6 +13,7 @@ import SignInForm from './SignInForm'
 import SignUpForm from './SignUpForm'
 import authBackground from '~/assets/auth-background.jpg'
 import logoImage from '~/assets/logo.png'
+import { StorageKeys } from '~/utils/constants'
 
 function Auth() {
   const container = useRef(null)
@@ -28,6 +29,14 @@ function Auth() {
       navigate(routesConfig.home())
     }
   }, [navigate, user])
+
+  useEffect(() => {
+    const isResetPasswordSuccess = sessionStorage.getItem(
+      StorageKeys.IS_RESET_PASSWORD_SUCCESS
+    )
+    sessionStorage.removeItem(StorageKeys.IS_RESET_PASSWORD_SUCCESS)
+    if (isResetPasswordSuccess) toast.success('Reset password successfully')
+  }, [])
 
   const handleSwitchSignUp = () => {
     container.current.classList.add(styles.active)

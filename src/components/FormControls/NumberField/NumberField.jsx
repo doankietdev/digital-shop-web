@@ -3,14 +3,15 @@ import { useEffect, useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { errorMessageClasses, inputClasses } from '../classes'
 
-function TextField({
+function NumberField({
   form = {},
   name = '',
   className = '',
   placeholder = '',
-  primary,
-  outlined,
-  rounded
+  hideArrows = false,
+  primary = false,
+  outlined = false,
+  rounded = false
 }) {
   const [hasError, setHasError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -33,9 +34,12 @@ function TextField({
           return (
             <input
               {...field}
-              type='text'
+              type='number'
               placeholder={placeholder}
               className={clsx(
+                {
+                  'hide-arrows': hideArrows
+                },
                 inputClasses({
                   primary,
                   outlined,
@@ -55,4 +59,4 @@ function TextField({
   )
 }
 
-export default TextField
+export default NumberField

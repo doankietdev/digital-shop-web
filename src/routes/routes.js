@@ -4,7 +4,10 @@ import {
   Auth,
   VerifyEmail,
   EmailVerificationSuccess,
-  EmailVerificationError
+  EmailVerificationError,
+  ForgotPassword,
+  VerifyPasswordResetOTP,
+  ResetPassword
 } from '~/pages'
 
 const publicRoutes = [
@@ -19,6 +22,21 @@ const publicRoutes = [
   {
     path: routesConfig.emailVerificationError,
     component: EmailVerificationError,
+    layout: null
+  },
+  {
+    path: routesConfig.forgotPassword,
+    component: ForgotPassword,
+    layout: null
+  },
+  {
+    path: routesConfig.verifyPasswordResetOTP,
+    component: VerifyPasswordResetOTP,
+    layout: null
+  },
+  {
+    path: routesConfig.resetPassword,
+    component: ResetPassword,
     layout: null
   }
 ]

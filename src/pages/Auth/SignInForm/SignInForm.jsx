@@ -6,6 +6,8 @@ import * as yup from 'yup'
 import clsx from 'clsx'
 import { Button, Loading, PasswordField, TextField } from '~/components'
 import { FaGooglePlusGIcon, FaFacebookFIcon } from '~/utils/icons'
+import { Link } from 'react-router-dom'
+import { routesConfig } from '~/config'
 
 function SignInForm({ onSubmit }, ref) {
   const [disable, setDisable] = useState(false)
@@ -95,9 +97,9 @@ function SignInForm({ onSubmit }, ref) {
           rounded
         />
       </div>
-      <a href='#' className='tracking-[1px] mt-[24px] text-[13px] font-light mb-[25px]'>
+      <Link to={routesConfig.forgotPassword()} className='tracking-[1px] mt-[24px] text-[13px] font-light mb-[25px]'>
         Forget Your Password?
-      </a>
+      </Link>
       <div className='w-full relative'>
         <Button
           className='absolute top-0 left-1/2 translate-x-[-50%]'

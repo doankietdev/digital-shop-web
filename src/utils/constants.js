@@ -57,7 +57,8 @@ const CATEGORIES = {
 }
 
 const StorageKeys = {
-  ACCESS_TOKEN: 'access_token'
+  ACCESS_TOKEN: 'access_token',
+  IS_RESET_PASSWORD_SUCCESS: 'is_reset_password_success'
 }
 
 const RequestHeaderKeys = {

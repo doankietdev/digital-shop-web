@@ -25,7 +25,7 @@ function PasswordField({
   }, [name, form.formState])
 
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex flex-col gap-1 w-full'>
       <Controller
         name={name}
         control={form.control}

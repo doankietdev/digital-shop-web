@@ -23,8 +23,8 @@ const inputClasses = ({ primary, outlined, rounded, hasError, className }) => {
       'border border-red-500 hover:border-[2px] focus:border-[2px]':
         hasError
     },
-    className,
-    'w-full px-[15px] py-[10px] outline-none placeholder:capitalize'
+    'border-[#a2a2a2] w-full px-[15px] py-[10px] outline-none placeholder:capitalize',
+    className
   )
 }
 
