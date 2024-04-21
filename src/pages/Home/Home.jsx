@@ -31,14 +31,14 @@ function Home() {
         })}
       >
         <section>
-          <div className='container grid grid-cols-12 gap-5'>
+          <div className='container md:grid md:grid-cols-4 md:gap-5'>
             <SideBar />
             <Slider />
           </div>
         </section>
 
         <section className='mt-8'>
-          <div className='container h-[608px] grid grid-cols-12 gap-5'>
+          <div className='container min-h-[608px] grid-cols-1 grid md:grid-cols-4  gap-5'>
             <DailyDeals />
             <ProductSlider />
           </div>

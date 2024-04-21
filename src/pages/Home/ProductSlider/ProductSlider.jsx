@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+import clsx from 'clsx'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
@@ -27,10 +28,33 @@ const settings = {
   dots: false,
   infinite: true,
   speed: 500,
+  autoplay: true,
+  autoplaySpeed: 2000,
   slidesToShow: 3,
   slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 2000
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+  ]
 }
 
 function ProductSlider() {
@@ -69,16 +93,23 @@ function ProductSlider() {
   }, [])
 
   return (
-    <div className='col-span-9 h-full flex flex-col'>
-      <div className='uppercase font-semibold text-xl text-gray-400 mb-5 pb-[15px] border-b-2 border-main'>
-        {Object.keys(tabs).map((key, index) => {
+    <div className='md:col-span-3 h-full flex flex-col'>
+      <div className='text-base md:text-xl uppercase font-semibold text-gray-400 mb-5 pb-2 lg:pb-4 border-b-2 border-primary-400'>
+        {Object.keys(tabs).map((key, index, tabKeys) => {
           const tab = tabs[key]
           return (
             <span
               key={tab.id}
-              className={`cursor-pointer ${index === 0 ? 'pr-5' : 'px-5'} ${
-                index === tabs.length - 1 ? '' : 'border-r'
-              } ${tab.id === activedTab ? '!text-[#000]' : ''}`}
+              className={clsx(
+                {
+                  'pr-3 lg:pr-5': index === 0,
+                  'px-3 lg:px-5': index !== 0 && index !== tabKeys.length - 1,
+                  'pl-3 lg:pl-5': index === tabKeys.length - 1,
+                  'border-r': index !== tabKeys.length - 1,
+                  '!text-black': tab.id === activedTab
+                },
+                'cursor-pointer'
+              )}
               onClick={handleClickTab}
               data-id={tab.id}
             >
@@ -87,7 +118,7 @@ function ProductSlider() {
           )
         })}
       </div>
-      <div className='mx-[-10px] flex-1'>
+      <div className='mx-[-10px] h-[430px] md:flex-1 md:h-auto'>
         {loading ? (
           <div className='h-full flex justify-center items-center'>
             <Loading />
@@ -105,7 +136,7 @@ function ProductSlider() {
           </Slider>
         )}
       </div>
-      <div className='flex justify-between mt-5'>
+      <div className='flex flex-col justify-between mt-5 gap-5 lg:flex-row  xl:gap-0'>
         <Link to={routesConfig.productDetails('asus-rog-g752vm-1712644060821')}>
           <div className='banner'>
             <img
@@ -114,7 +145,7 @@ function ProductSlider() {
                 noImage
               }
               alt='banner'
-              className='w-[440px] h-[140px] object-cover'
+              className='w-full lg:h-[140px] object-contain'
             />
           </div>
         </Link>
@@ -126,7 +157,7 @@ function ProductSlider() {
                 noImage
               }
               alt='banner'
-              className='w-[440px] h-[140px] object-cover'
+              className='w-full lg:h-[140px] object-contain'
             />
           </div>
         </Link>

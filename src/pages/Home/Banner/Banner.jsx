@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 
 function Banner() {
   return (
-    <div className='grid grid-cols-4 gap-5'>
-      <div className='col-span-2 h-[656px]'>
+    <div className='grid md:grid-cols-4 gap-5 md:min-h-[400px] lg:min-h-[600px] xl:min-h-[656px]'>
+      <div className='md:col-span-2 h-full'>
         <Link
           className='banner h-full'
           to='http://localhost:3000/products/asus-rog-g752vm-1712644060821'
@@ -17,7 +17,7 @@ function Banner() {
           />
         </Link>
       </div>
-      <div className='col-span-1 h-[656px] grid grid-rows-2 gap-5'>
+      <div className='md:col-span-1 h-full grid md:grid-rows-2 gap-5'>
         <Link
           className='banner h-full'
           to='http://localhost:3000/products/hp-probook-450-1712644059490'
@@ -39,7 +39,7 @@ function Banner() {
           />
         </Link>
       </div>
-      <div className='col-span-1 h-[656px]'>
+      <div className='md:col-span-1 h-full'>
         <Link
           className='banner h-full'
           to='http://localhost:3000/products/hp-probook-450-1712644059490'

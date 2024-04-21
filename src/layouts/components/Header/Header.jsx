@@ -36,8 +36,8 @@ function Header() {
 
   return (
     <>
-      <header className='sticky top-0 z-40 bg-white'>
-        <div className='container py-4 lg:py-[35px] flex justify-between items-center text-[13px]'>
+      <header className='sticky top-0 z-50'>
+        <div className='relative z-50 container py-3 lg:py-4 flex justify-between items-center text-[13px] bg-white'>
           <div className='lg:hidden'>
             <span onClick={handleOpenExpandedNavBar} className='p-2'>
               <IoMenuIcon className='icon !text-2xl md:lg:!text-4xl text-primary-400' />

@@ -13,7 +13,7 @@ function Footer() {
     <footer>
       <div className='py-[50px] bg-[#191919] text-white'>
         <div className='container'>
-          <div className='flex gap-[160px]'>
+          <div className='flex flex-col gap-16 lg:flex-row lg:gap-[160px]'>
             <div className='flex flex-col gap-5'>
               <h3 className='uppercase font-semibold text-[15pxs] pl-[15px] border-l-4 border-main flex'>
                 About Us
@@ -71,19 +71,19 @@ function Footer() {
                 Information
               </h3>
               <div className='flex flex-col gap-3 text-[13px]'>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>Blogs</span>
                 </a>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>Gallery</span>
                 </a>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>Store Location</span>
                 </a>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>Today&apos;s Deals</span>
                 </a>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>Contact</span>
                 </a>
               </div>
@@ -94,19 +94,19 @@ function Footer() {
                 Who We Are
               </h3>
               <div className='flex flex-col gap-3 text-[13px]'>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>Help</span>
                 </a>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>Free Shipping</span>
                 </a>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>FAQs</span>
                 </a>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>Return & Exchange</span>
                 </a>
-                <a href='/' className='hover:text-primary-400'>
+                <a href='/' className='hover:text-main'>
                   <span className='flex font-light'>Testimonials</span>
                 </a>
               </div>
@@ -116,7 +116,7 @@ function Footer() {
       </div>
       <div className='py-[20px] bg-[#0f0f0f] text-[#b7b7b7]'>
         <div className='container'>
-          <div className='flex justify-between items-center'>
+          <div className='flex flex-col gap-3 md:flex-row md:justify-between md:items-center md:gap-0'>
             <span className='text-[13px] font-light'>
               © 2024, Digital World Powered by Doan Anh Kiet
             </span>

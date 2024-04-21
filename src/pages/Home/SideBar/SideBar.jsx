@@ -26,17 +26,17 @@ function SideBar() {
   }, [dispatch])
 
   return (
-    <div className='col-span-3 border h-fit max-h-full overflow-auto'>
-      <div className='px-[20px] py-[12px] flex gap-2 items-center bg-primary-400 text-white font-semibold'>
+    <div className='relative mb-5 md:mb-0 md:col-span-1 border h-fit max-h-full overflow-auto'>
+      <div className='sticky top-0 left-0 right-0 flex gap-2 items-center px-3 py-2 text-sm bg-primary-400 text-white font-semibold lg:text-base lg:px-5 lg:py-3'>
         <FaListUl size='20px' />
         <span>All Categories</span>
       </div>
-      <div>
+      <div className='flex md:block text-xs lg:text-[14px] capitalize'>
         {categories?.map((category) => (
           <Link
             key={category._id}
             to={routesConfig.productsOfCategory(category.slug)}
-            className='block w-full px-[20px] py-[15px] text-[14px] hover:text-primary-400 capitalize'
+            className='block w-full px-[20px] py-[15px] hover:text-primary-400 '
           >
             {category.title}
           </Link>

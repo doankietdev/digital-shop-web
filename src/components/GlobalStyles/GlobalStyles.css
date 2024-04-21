@@ -16,7 +16,7 @@ input:-webkit-autofill:active {
 }
 
 .container {
-  @apply max-w-[1220px] mx-auto px-4 xl:px-0 bg-white;
+  @apply max-w-[1220px] mx-auto px-4 xl:px-0;
 }
 
 .icon {

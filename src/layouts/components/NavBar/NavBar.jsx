@@ -11,10 +11,10 @@ function NavBar({ open }) {
           [styles.expanded]: open,
           hidden: !open
         },
-        'lg:block'
+        'lg:block animate-slideDown bg-white'
       )}
     >
-      <ul className='container flex flex-col lg:flex-row border-t lg:border-t lg:border-b lg:py-2 font-medium'>
+      <ul className='container flex flex-col lg:flex-row border-t lg:border-b lg:py-2 font-medium'>
         {NAV_BAR.map((item) => (
           <li
             key={item.ID}

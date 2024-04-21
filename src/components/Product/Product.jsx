@@ -108,7 +108,7 @@ function Product({
         },
         styles.card,
         className,
-        'h-full mx-[10px] p-[15px] border relative'
+        'mx-[10px] p-[15px] border relative flex flex-col'
       )}
     >
       <div
@@ -150,7 +150,7 @@ function Product({
           {
             'col-span-3': horizontal
           },
-          'ml-5'
+          'ml-5 flex-1'
         )}
       >
         <Link to={routesConfig.productDetails(product.slug)}>

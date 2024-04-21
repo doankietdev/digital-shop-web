@@ -33,10 +33,10 @@ function FeaturedProducts() {
 
   return (
     <div>
-      <h2 className='uppercase font-semibold text-xl border-b-2 border-main pb-[15px]'>
+      <h2 className='uppercase font-semibold text-xl border-b-2 border-primary-400 pb-2 lg:pb-4'>
         Featured Products
       </h2>
-      <div className='grid grid-cols-3 gap-5 mx-[-10px] mt-5'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-[-10px] mt-5'>
         {products.map((product) => (
           <Product key={product._id} product={product} horizontal />
         ))}

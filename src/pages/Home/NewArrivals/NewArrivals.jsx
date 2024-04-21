@@ -28,10 +28,33 @@ const settings = {
   dots: false,
   infinite: true,
   speed: 500,
+  autoplay: true,
+  autoplaySpeed: 2000,
   slidesToShow: 3,
   slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 2000
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+  ]
 }
 
 function NewArrivals() {
@@ -69,6 +92,7 @@ function NewArrivals() {
           _sort: '-createdAt',
           _limit: 10
         })
+        laptopResult
         setProducts(laptopResult.products)
       }
       setLoading(false)
@@ -83,7 +107,7 @@ function NewArrivals() {
 
   return (
     <div className='col-span-9 flex flex-col h-[550px]'>
-      <div className='mb-5 pb-[15px] border-b-2 border-main flex justify-between items-center'>
+      <div className='mb-5 pb-2 lg:pb-4 border-b-2 border-primary-400 flex flex-col  justify-between gap-2 md:flex-row md:items-center md:gap-0'>
         <h2 className='uppercase font-semibold text-xl'>NEW ARRIVALS</h2>
         <div className='font-medium text-sm text-gray-400'>
           {Object.keys(tabs).map((key, index) => {
