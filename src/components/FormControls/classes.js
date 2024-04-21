@@ -8,11 +8,11 @@ const inputClasses = ({ primary, outlined, rounded, hasError, className }) => {
       'text-black': !outlined
     },
     {
-      'border-main text-main placeholder:text-dark-main':
+      'border-main text-primary-400 placeholder:text-primary-600':
         primary && outlined && !hasError
     },
     {
-      'bg-main text-white placeholder:text-[#d4d4d4]':
+      'bg-primary-400 text-white placeholder:text-[#d4d4d4]':
         primary && !outlined && !hasError
     },
     {

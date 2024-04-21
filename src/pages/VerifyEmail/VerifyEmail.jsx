@@ -25,7 +25,7 @@ function VerifyEmail() {
   return (
     <div
       className={clsx(
-        'bg-[#0F172A] flex justify-center items-center h-screen bg-cover bg-no-repeat'
+        'bg-secondary-400 flex justify-center items-center h-screen bg-cover bg-no-repeat'
       )}
     >
       <h3 className='font-semibold text-2xl tracking-[2px] text-white mr-4'>

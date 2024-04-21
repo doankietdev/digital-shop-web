@@ -1,9 +1,10 @@
 import { Dropdown } from '~/components'
 
-function AvatarDropDown({ children, fullName, email, avatarSrc }) {
+function AvatarDropDown({ className, children, fullName, email, avatarSrc }) {
   if (!avatarSrc) throw new Error('`avatarSrc` is missing')
   return (
     <Dropdown
+      className={className}
       label={
         <>
           <img

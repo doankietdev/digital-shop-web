@@ -17,12 +17,12 @@ function Button({
       'text-white': !outlined
     },
     {
-      'bg-main': primary && !outlined,
+      'bg-primary-400': primary && !outlined,
       'hover:bg-black': primary && !outlined && !disabled
     },
     {
       'border-main': primary && outlined,
-      'text-main': primary && outlined
+      'text-primary-400': primary && outlined
     },
     {
       'bg-black hover:bg-[#161616]': !primary && !outlined && !disabled

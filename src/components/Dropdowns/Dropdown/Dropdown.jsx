@@ -1,8 +1,9 @@
+import clsx from 'clsx'
 import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Divider } from '~/components'
 
-function Dropdown({ label, title, children }) {
+function Dropdown({ className, label, title, children }) {
   const [open, setOpen] = useState(false)
 
   const handleToggle = useCallback(() => {
@@ -10,7 +11,10 @@ function Dropdown({ label, title, children }) {
   }, [])
 
   return (
-    <div className='min-w-[32px] relative'>
+    <div className={clsx(
+      className,
+      'min-w-[32px] relative'
+    )}>
       <button
         className='flex items-center text-sm pe-1 font-medium text-gray-900 hover:text-mai md:me-0  px-2'
         onClick={handleToggle}

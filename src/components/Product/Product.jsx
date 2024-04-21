@@ -154,7 +154,7 @@ function Product({
         )}
       >
         <Link to={routesConfig.productDetails(product.slug)}>
-          <h3 className='hover:text-main mb-[10px] capitalize line-clamp-1'>
+          <h3 className='hover:text-primary-400 mb-[10px] capitalize line-clamp-1'>
             {product.title}
           </h3>
         </Link>

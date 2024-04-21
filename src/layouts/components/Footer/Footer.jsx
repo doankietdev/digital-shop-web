@@ -71,19 +71,19 @@ function Footer() {
                 Information
               </h3>
               <div className='flex flex-col gap-3 text-[13px]'>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>Blogs</span>
                 </a>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>Gallery</span>
                 </a>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>Store Location</span>
                 </a>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>Today&apos;s Deals</span>
                 </a>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>Contact</span>
                 </a>
               </div>
@@ -94,19 +94,19 @@ function Footer() {
                 Who We Are
               </h3>
               <div className='flex flex-col gap-3 text-[13px]'>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>Help</span>
                 </a>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>Free Shipping</span>
                 </a>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>FAQs</span>
                 </a>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>Return & Exchange</span>
                 </a>
-                <a href='/' className='hover:text-main'>
+                <a href='/' className='hover:text-primary-400'>
                   <span className='flex font-light'>Testimonials</span>
                 </a>
               </div>

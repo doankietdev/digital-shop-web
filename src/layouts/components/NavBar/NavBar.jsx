@@ -1,25 +1,40 @@
 import { NavLink } from 'react-router-dom'
 import { NAV_BAR } from '~/utils/constants'
+import styles from './NavBar.module.css'
+import clsx from 'clsx'
 
-function NavBar() {
+function NavBar({ open }) {
   return (
-    <nav>
-      <div className='container border-t border-b py-2 font-medium'>
+    <nav
+      className={clsx(
+        {
+          [styles.expanded]: open,
+          hidden: !open
+        },
+        'lg:block'
+      )}
+    >
+      <ul className='container flex flex-col lg:flex-row border-t lg:border-t lg:border-b lg:py-2 font-medium'>
         {NAV_BAR.map((item) => (
-          <NavLink
+          <li
             key={item.ID}
-            to={item.PATH}
-            className={({ isActive }) => {
-              const baseStyle = 'uppercase pr-[30px] py-1 text-sm'
-              return isActive
-                ? `${baseStyle} text-main`
-                : `${baseStyle} hover:text-main`
-            }}
+            className='p-2 lg:py-0'
           >
-            {item.VALUE}
-          </NavLink>
+            <NavLink
+              key={item.ID}
+              to={item.PATH}
+              className={({ isActive }) => {
+                const baseStyle = 'uppercase pr-[30px] text-sm'
+                return isActive
+                  ? `${baseStyle} text-primary-400`
+                  : `${baseStyle} hover:text-primary-400`
+              }}
+            >
+              {item.VALUE}
+            </NavLink>
+          </li>
         ))}
-      </div>
+      </ul>
     </nav>
   )
 }

@@ -15,6 +15,8 @@ import {
 } from 'react-icons/io'
 import { MdErrorOutline as MdErrorOutlineIcon } from 'react-icons/md'
 import { TbMailCheck as TbMailCheckIcon } from 'react-icons/tb'
+import { FaCircleInfo as FaCircleInfoIcon } from 'react-icons/fa6'
+import { IoMenu as IoMenuIcon, IoCloseSharp as IoCloseSharpIcon } from 'react-icons/io5'
 
 export {
   FaCartShoppingIcon,
@@ -24,9 +26,13 @@ export {
   FaLinkedinInIcon,
   FaPhoneAltIcon,
   FaTwitterIcon,
-  FaUserIcon, GrSendIcon, IoMdCheckmarkCircleOutlineIcon,
+  FaUserIcon,
+  GrSendIcon,
+  IoMdCheckmarkCircleOutlineIcon,
   IoMdMailIcon,
   MdErrorOutlineIcon,
-  TbMailCheckIcon
+  TbMailCheckIcon,
+  FaCircleInfoIcon,
+  IoMenuIcon,
+  IoCloseSharpIcon
 }
-

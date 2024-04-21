@@ -52,7 +52,7 @@ function VerifyPasswordResetOTP() {
 
   return (
     <div
-      className={clsx('flex justify-center items-center h-screen bg-[#885CEE]')}
+      className={clsx('flex justify-center items-center h-screen bg-secondary-400')}
     >
       <Card className='fade-in !min-w-0 w-[520px] shadow-none'>
         <div className='flex flex-col justify-center items-center p-[44px] relative'>
@@ -75,9 +75,9 @@ function VerifyPasswordResetOTP() {
             <Button
               className={clsx(
                 {
-                  'hover:!bg-[#976ff3]': !disabled
+                  'hover:!bg-secondary-200': !disabled
                 },
-                '!bg-[#885CEE] w-full py-[15px]'
+                '!bg-secondary-400 w-full py-[15px]'
               )}
               type='submit'
               startIcon={<GrSendIcon className='text-[18px]' />}
@@ -91,7 +91,7 @@ function VerifyPasswordResetOTP() {
 
           <div className='mt-6 text-[14px] font-semibold'>
             <span className='mr-1'>Didn&apos;t receive OTP?</span>
-            <span className='p-[6px] text-[#885CEE] cursor-pointer' onClick={handleResendOtp}>
+            <span className='p-[6px] text-secondary-400 hover:text-secondary-200 cursor-pointer' onClick={handleResendOtp}>
               Resend OTP
             </span>
           </div>

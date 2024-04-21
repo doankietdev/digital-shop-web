@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import { Header, NavBar, Footer } from '~/layouts/components'
+import { Footer, Header } from '~/layouts/components'
 import { appSelector } from '~/redux/selectors'
 
 function DefaultLayout({ children }) {
@@ -8,8 +8,7 @@ function DefaultLayout({ children }) {
   return (
     <div className='w-full min-h-screen flex flex-col'>
       <Header />
-      <NavBar />
-      <main className='my-8 flex-1 relative'>{children}</main>
+      <main className='lg:my-8 flex-1 relative'>{children}</main>
       {!loading && <Footer />}
       <ToastContainer position='bottom-right' autoClose={3000} />
     </div>

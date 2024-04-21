@@ -52,7 +52,7 @@ function DailyDeals() {
   return (
     <div className='relative p-[20px] col-span-3 border h-full flex flex-col'>
       <h2 className='flex items-center text-xl font-semibold'>
-        <FaStar className='text-main' />
+        <FaStar className='text-primary-400' />
         <span className='text-[#505050] uppercase absolute left-[50%] translate-x-[-50%]'>
           DAILY DEALS
         </span>
@@ -74,7 +74,7 @@ function DailyDeals() {
                 />
               </Link>
               <Link to={routesConfig.productDetails(product.slug)}>
-                <h3 className='mt-4 hover:text-main'>{product.title}</h3>
+                <h3 className='mt-4 hover:text-primary-400'>{product.title}</h3>
               </Link>
               <Rating
                 className='mt-2'

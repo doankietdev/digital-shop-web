@@ -52,7 +52,7 @@ function ForgotPassword() {
 
   return (
     <div
-      className={clsx('flex justify-center items-center h-screen bg-[#885CEE]')}
+      className={clsx('flex justify-center items-center h-screen bg-secondary-400')}
     >
       <Card className='fade-in !min-w-0 w-[520px] shadow-none'>
         <form
@@ -80,7 +80,7 @@ function ForgotPassword() {
           />
           <div className='mt-5 w-full relative flex justify-center items-center'>
             <Button
-              className='!bg-[#885CEE] hover:!bg-[#976ff3] w-full py-[15px]'
+              className='!bg-secondary-400 hover:!bg-secondary-200 w-full py-[15px]'
               type='submit'
               rounded
               startIcon={<GrSendIcon className='text-[18px]' />}
@@ -91,7 +91,7 @@ function ForgotPassword() {
 
           <div className='mt-6 text-[14px] font-semibold'>
             <span className='mr-1'>Remember password?</span>
-            <Link className='p-1 text-[#885CEE]' to={routesConfig.auth()}>
+            <Link className='p-1 text-secondary-400 hover:text-secondary-200' to={routesConfig.auth()}>
               Sign in
             </Link>
           </div>
