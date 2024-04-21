@@ -31,22 +31,26 @@ function Header() {
   }
 
   const handleOpenExpandedNavBar = () => {
-    setOpenExpandedNavBar(prev => !prev)
+    setOpenExpandedNavBar((prev) => !prev)
   }
 
   return (
     <>
       <header className='sticky top-0 z-50'>
         <div className='relative z-50 container py-3 lg:py-4 flex justify-between items-center text-[13px] bg-white'>
-          <div className='lg:hidden'>
+          <div className='lg:hidden -ml-2'>
             <span onClick={handleOpenExpandedNavBar} className='p-2'>
               <IoMenuIcon className='icon !text-2xl md:lg:!text-4xl text-primary-400' />
             </span>
           </div>
           <Link to={routesConfig.home}>
-            <img src={logo} alt='logo' className='h-[15px] md:h-[20px] lg:h-[28px] object-contain' />
+            <img
+              src={logo}
+              alt='logo'
+              className='h-[15px] md:h-[20px] lg:h-[28px] object-contain'
+            />
           </Link>
-          <div className='flex gap-10'>
+          <div className='flex items-center gap-10'>
             <div className='hidden lg:flex lg:flex-col lg:justify-center lg:items-center'>
               <span className='flex items-center gap-3'>
                 <FaPhoneAltIcon className='icon text-primary-400' />
@@ -61,9 +65,9 @@ function Header() {
               </span>
               <span className='text-[12px]'>Online Support 24/7</span>
             </div>
-            <div className='flex items-center gap-2'>
-              <FaCartShoppingIcon size='20px' className='text-primary-400' />
-              <span className='text-[14px]'>0 item</span>
+            <div className='p-2 relative'>
+              <FaCartShoppingIcon className='icon text-primary-400' />
+              <span className='absolute bottom-[calc(100%-20px)] left-[calc(100%-20px)] min-w-[26px] h-[22px] rounded-full flex justify-center items-center px-[6px] bg-primary-400 text-white border-2 border-white text-[10px]'>99+</span>
             </div>
             {user._id ? (
               <AvatarDropdown
