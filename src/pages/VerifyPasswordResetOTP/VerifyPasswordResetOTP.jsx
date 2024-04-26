@@ -30,7 +30,7 @@ function VerifyPasswordResetOTP() {
       await authService.verifyPasswordResetOtp({
         otp
       })
-      navigate(routesConfig.resetPassword())
+      navigate(routesConfig.resetPassword)
     } catch (error) {
       toast.error(error.messages[0])
     } finally {

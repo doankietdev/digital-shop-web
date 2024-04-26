@@ -86,7 +86,7 @@ function Header() {
               </AvatarDropdown>
             ) : (
               <Link
-                to={routesConfig.auth()}
+                to={routesConfig.auth}
                 className='flex items-center gap-2 p-2'
               >
                 <FaUserIcon className='icon text-primary-400' />

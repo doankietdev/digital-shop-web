@@ -40,7 +40,7 @@ function ForgotPassword() {
       try {
         setDisabled(true)
         await authService.forgotPassword(data)
-        navigate(routesConfig.verifyPasswordResetOTP())
+        navigate(routesConfig.verifyPasswordResetOTP)
       } catch (error) {
         toast.error(error.messages[0])
       } finally {
@@ -91,7 +91,7 @@ function ForgotPassword() {
 
           <div className='mt-6 text-[14px] font-semibold'>
             <span className='mr-1'>Remember password?</span>
-            <Link className='p-1 text-secondary-400 hover:text-secondary-200' to={routesConfig.auth()}>
+            <Link className='p-1 text-secondary-400 hover:text-secondary-200' to={routesConfig.auth}>
               Sign in
             </Link>
           </div>

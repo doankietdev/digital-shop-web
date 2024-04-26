@@ -19,7 +19,7 @@ function EmailVerificationError() {
         <h3 className='mb-2 font-semibold text-[15px] tracking-[1px] text-white'>
           We had trouble verifying your email.
         </h3>
-        <Link to={routesConfig.home()}>
+        <Link to={routesConfig.home}>
           <Button className='border-white text-white' outlined rounded>
             Back to home
           </Button>

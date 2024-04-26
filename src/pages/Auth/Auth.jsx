@@ -26,7 +26,7 @@ function Auth() {
 
   useEffect(() => {
     if (user?.current?._id) {
-      navigate(routesConfig.home())
+      navigate(routesConfig.home)
     }
   }, [navigate, user])
 
@@ -64,7 +64,7 @@ function Auth() {
       try {
         await dispatch(signIn(data)).unwrap()
         sessionStorage.setItem('signIn', true)
-        navigate(routesConfig.home())
+        navigate(routesConfig.home)
       } catch (error) {
         toast.error(error.messages[0], { autoClose: 5000 })
         signInFormRef.current.reset()
@@ -125,7 +125,7 @@ function Auth() {
                   )}
                 >
                   <Link
-                    to={routesConfig.home()}
+                    to={routesConfig.home}
                     title='Back to home'
                     className='absolute top-[100px]'
                   >
@@ -158,7 +158,7 @@ function Auth() {
                   )}
                 >
                   <Link
-                    to={routesConfig.home()}
+                    to={routesConfig.home}
                     title='Back to home'
                     className='absolute top-[100px]'
                   >

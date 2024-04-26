@@ -97,7 +97,7 @@ function SignInForm({ onSubmit }, ref) {
           rounded
         />
       </div>
-      <Link to={routesConfig.forgotPassword()} className='tracking-[1px] mt-[24px] text-[13px] font-light mb-[25px]'>
+      <Link to={routesConfig.forgotPassword} className='tracking-[1px] mt-[24px] text-[13px] font-light mb-[25px]'>
         Forget Your Password?
       </Link>
       <div className='w-full relative'>

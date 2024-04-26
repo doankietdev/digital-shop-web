@@ -14,9 +14,9 @@ function VerifyEmail() {
     const handleVerifyEmail = async () => {
       try {
         await dispatch(verifyEmail({ userId, token })).unwrap()
-        navigate(routesConfig.emailVerificationSuccess())
+        navigate(routesConfig.emailVerificationSuccess)
       } catch (error) {
-        navigate(routesConfig.emailVerificationError())
+        navigate(routesConfig.emailVerificationError)
       }
     }
     handleVerifyEmail()
