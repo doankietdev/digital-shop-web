@@ -5,7 +5,7 @@ import { MdOutlineNewLabel } from 'react-icons/md'
 import { FaArrowTrendUp } from 'react-icons/fa6'
 import clsx from 'clsx'
 
-import { formatCash } from '~/utils/formatter'
+import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
 import noImage from '~/assets/no-image.png'
 import { routesConfig } from '~/config'
 import { Rating } from '~/components'
@@ -120,7 +120,12 @@ function Product({
           'flex'
         )}
       >
-        <Link className='flex-1' to={routesConfig.productDetails(product.slug)}>
+        <Link
+          className='flex-1'
+          to={parsePlaceHolderUrl(routesConfig.productDetails, {
+            slug: product.slug
+          })}
+        >
           <img
             src={product.thumb || noImage}
             alt={product.title}
@@ -153,7 +158,11 @@ function Product({
           'ml-5 flex-1'
         )}
       >
-        <Link to={routesConfig.productDetails(product.slug)}>
+        <Link
+          to={parsePlaceHolderUrl(routesConfig.productDetails, {
+            slug: product.slug
+          })}
+        >
           <h3 className='hover:text-primary-400 mb-[10px] capitalize line-clamp-1'>
             {product.title}
           </h3>

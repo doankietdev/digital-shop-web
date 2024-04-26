@@ -1,18 +1,18 @@
 const routesConfig = {
-  home: () => '/',
-  auth: () => '/auth',
-  verifyEmail: () => '/auth/verify-email/:userId/:token',
-  emailVerificationSuccess: () => '/auth/email-verification-success',
-  emailVerificationError: () => '/auth/email-verification-error',
-  forgotPassword: () => '/auth/forgot-password',
-  verifyPasswordResetOTP: () => '/auth/verify-password-reset-otp',
-  resetPassword: () => '/auth/reset-password',
-  products: () => '/products',
-  blogs: () => '/blogs',
-  service: () => '/service',
-  faqs: () => '/faqs',
-  productsOfCategory: (slug) => `/categories/${slug}`,
-  productDetails: (slug) => `/products/${slug}`
+  home: '/',
+  auth: '/auth',
+  verifyEmail: '/auth/verify-email/:userId/:token',
+  emailVerificationSuccess: '/auth/email-verification-success',
+  emailVerificationError: '/auth/email-verification-error',
+  forgotPassword: '/auth/forgot-password',
+  verifyPasswordResetOTP: '/auth/verify-password-reset-otp',
+  resetPassword: '/auth/reset-password',
+  products: '/products',
+  blogs: '/blogs',
+  service: '/service',
+  faqs: '/faqs',
+  productsOfCategory: '/categories/:slug',
+  productDetails: '/products/:slug'
 }
 
 export default routesConfig

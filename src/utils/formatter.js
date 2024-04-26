@@ -19,7 +19,7 @@ const parseResponseMessage = (responseMessage) => {
   }
 }
 
-const formatPlaceHolderUrl = (originalUrl, data = {}) => {
+const parsePlaceHolderUrl = (originalUrl, data = {}) => {
   const placeholderRegex = /:(\w+)/g
   const placeholderNames = Object.keys(data)
 
@@ -32,4 +32,4 @@ const formatPlaceHolderUrl = (originalUrl, data = {}) => {
   })
 }
 
-export { formatCash, parseResponseMessage, formatPlaceHolderUrl }
+export { formatCash, parseResponseMessage, parsePlaceHolderUrl }

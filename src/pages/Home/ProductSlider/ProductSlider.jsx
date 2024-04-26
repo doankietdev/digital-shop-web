@@ -8,6 +8,7 @@ import { Loading, Product } from '~/components'
 import { routesConfig } from '~/config'
 import { getProducts } from '~/services/productService'
 import { CATEGORIES } from '~/utils/constants'
+import { parsePlaceHolderUrl } from '~/utils/formatter'
 
 const tabs = {
   bestSeller: {
@@ -137,7 +138,11 @@ function ProductSlider() {
         )}
       </div>
       <div className='flex flex-col justify-between mt-5 gap-5 lg:flex-row  xl:gap-0'>
-        <Link to={routesConfig.productDetails('asus-rog-g752vm-1712644060821')}>
+        <Link
+          to={parsePlaceHolderUrl(routesConfig.productDetails, {
+            slug: 'asus-rog-g752vm-1712644060821'
+          })}
+        >
           <div className='banner'>
             <img
               src={
@@ -149,7 +154,11 @@ function ProductSlider() {
             />
           </div>
         </Link>
-        <Link to={routesConfig.productDetails('hp-probook-450-1712644059490')}>
+        <Link
+          to={parsePlaceHolderUrl(routesConfig.productDetails, {
+            slug: 'hp-probook-450-1712644059490'
+          })}
+        >
           <div className='banner'>
             <img
               src={

@@ -6,6 +6,7 @@ import { routesConfig } from '~/config'
 import { getCategories } from '~/services/categoryService'
 import { useDispatch } from 'react-redux'
 import { actions } from '~/AppSlice'
+import { parsePlaceHolderUrl } from '~/utils/formatter'
 
 function SideBar() {
   const [categories, setCategories] = useState([])
@@ -17,7 +18,9 @@ function SideBar() {
         dispatch(actions.setLoading(true))
         const result = await getCategories()
         setCategories(result.categories)
-      } catch (error) { /* empty */ } finally {
+      } catch (error) {
+        /* empty */
+      } finally {
         dispatch(actions.setLoading(false))
       }
     }
@@ -35,7 +38,9 @@ function SideBar() {
         {categories?.map((category) => (
           <Link
             key={category._id}
-            to={routesConfig.productsOfCategory(category.slug)}
+            to={parsePlaceHolderUrl(routesConfig.productsOfCategory, {
+              slug: category.slug
+            })}
             className='block w-full px-[20px] py-[15px] hover:text-primary-400 '
           >
             {category.title}

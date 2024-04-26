@@ -75,10 +75,10 @@ function Header() {
                 fullName={`${user.firstName} ${user.lastName}`}
                 email={user.email}
               >
-                <DropdownItem link={routesConfig.auth()}>
+                <DropdownItem link={routesConfig.auth}>
                   My Account
                 </DropdownItem>
-                <DropdownItem link={routesConfig.auth()}>
+                <DropdownItem link={routesConfig.auth}>
                   My Orders
                 </DropdownItem>
                 <DropdownDivider />
