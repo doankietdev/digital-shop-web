@@ -43,14 +43,14 @@ function Header() {
               <IoMenuIcon className='icon !text-2xl md:lg:!text-4xl text-primary-400' />
             </span>
           </div>
-          <Link to={routesConfig.home}>
+          <Link to={routesConfig.home} className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:translate-x-0 lg:translate-y-0 lg:static'>
             <img
               src={logo}
               alt='logo'
               className='h-[15px] md:h-[20px] lg:h-[28px] object-contain'
             />
           </Link>
-          <div className='flex items-center gap-10'>
+          <div className='flex items-center gap-2 md:gap-4 lg:gap-10'>
             <div className='hidden lg:flex lg:flex-col lg:justify-center lg:items-center'>
               <span className='flex items-center gap-3'>
                 <FaPhoneAltIcon className='icon text-primary-400' />
@@ -71,7 +71,6 @@ function Header() {
             </div>
             {user._id ? (
               <AvatarDropdown
-                className='hidden lg:block'
                 avatarSrc={user.image?.url || noAvatarImage}
                 fullName={`${user.firstName} ${user.lastName}`}
                 email={user.email}
