@@ -7,7 +7,7 @@ import noImage from '~/assets/no-image.png'
 import { Button, Countdown, Rating } from '~/components'
 import { routesConfig } from '~/config'
 import { getProducts } from '~/services/productService'
-import { formatCash } from '~/utils/formatter'
+import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
 
 const MAX_REQUEST = 3
 
@@ -65,7 +65,9 @@ function DailyDeals() {
             <>
               <Link
                 className='flex-1'
-                to={routesConfig.productDetails(product.slug)}
+                to={parsePlaceHolderUrl(routesConfig.productDetails, {
+                  slug: product.slug
+                })}
               >
                 <img
                   src={product?.thumb || noImage}
@@ -73,7 +75,9 @@ function DailyDeals() {
                   className='h-full object-contain'
                 />
               </Link>
-              <Link to={routesConfig.productDetails(product.slug)}>
+              <Link to={parsePlaceHolderUrl(routesConfig.productDetails, {
+                slug: product.slug
+              })}>
                 <h3 className='mt-4 hover:text-primary-400'>{product.title}</h3>
               </Link>
               <Rating
@@ -99,7 +103,9 @@ function DailyDeals() {
               />
               <Link
                 className='mt-4 w-full'
-                to={routesConfig.productDetails(product.slug)}
+                to={parsePlaceHolderUrl(routesConfig.productDetails, {
+                  slug: product.slug
+                })}
               >
                 <Button className='w-full' icon={<FaEye size='17px' />} primary>
                   View

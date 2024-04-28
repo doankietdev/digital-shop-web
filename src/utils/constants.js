@@ -43,16 +43,16 @@ const PRODUCT_CONDITIONS_TO_CHECK = {
 
 const CATEGORIES = {
   SMARTPHONE: {
-    ID: '661775d8997aaf9e9e6ee866',
-    SLUG: 'smartphone-1712813528456'
+    ID: '662db747bed2a099eef18287',
+    SLUG: 'smartphone-1714272071811'
   },
   TABLET: {
-    ID: '661775d8997aaf9e9e6ee867',
-    SLUG: 'tablet-1712813528456'
+    ID: '662db747bed2a099eef18288',
+    SLUG: 'tablet-1714272071812'
   },
   LAPTOP: {
-    ID: '661775d8997aaf9e9e6ee868',
-    SLUG: 'laptop-1712813528456'
+    ID: '662db747bed2a099eef18289',
+    SLUG: 'laptop-1714272071812'
   }
 }
 

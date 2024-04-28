@@ -9,9 +9,11 @@ import {
   VerifyPasswordResetOTP,
   ResetPassword
 } from '~/pages'
+import ProductDetails from '~/pages/ProductDetails'
 
 const publicRoutes = [
   { path: routesConfig.home, component: Home },
+  { path: routesConfig.productDetails, component: ProductDetails },
   { path: routesConfig.auth, component: Auth, layout: null },
   { path: routesConfig.verifyEmail, component: VerifyEmail, layout: null },
   {
