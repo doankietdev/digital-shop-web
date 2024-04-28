@@ -50,7 +50,7 @@ function DailyDeals() {
   }, [])
 
   return (
-    <div className='relative p-[20px] md:col-span-1 border h-full flex flex-col'>
+    <div className='relative p-[20px] md:col-span-1 border h-full flex flex-col rounded'>
       <h2 className='flex items-center text-xl font-semibold'>
         <FaStar className='text-primary-400' />
         <span className='text-[#505050] uppercase absolute left-[50%] translate-x-[-50%]'>

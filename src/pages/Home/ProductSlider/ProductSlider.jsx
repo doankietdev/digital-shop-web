@@ -150,7 +150,7 @@ function ProductSlider() {
                 noImage
               }
               alt='banner'
-              className='w-full lg:h-[140px] object-contain'
+              className='w-full lg:h-[140px] object-contain rounded'
             />
           </div>
         </Link>
@@ -166,7 +166,7 @@ function ProductSlider() {
                 noImage
               }
               alt='banner'
-              className='w-full lg:h-[140px] object-contain'
+              className='w-full lg:h-[140px] object-contain rounded'
             />
           </div>
         </Link>

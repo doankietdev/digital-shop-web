@@ -108,7 +108,7 @@ function Product({
         },
         styles.card,
         className,
-        'mx-[10px] p-[15px] border relative flex flex-col'
+        'mx-[10px] p-[15px] border relative flex flex-col rounded'
       )}
     >
       <div
