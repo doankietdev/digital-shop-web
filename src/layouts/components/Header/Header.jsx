@@ -36,7 +36,7 @@ function Header() {
 
   return (
     <>
-      <header className='sticky top-0 z-50'>
+      <header>
         <div className='relative z-50 container py-3 lg:py-4 flex justify-between items-center text-[13px] bg-white'>
           <div className='lg:hidden -ml-2'>
             <span onClick={handleOpenExpandedNavBar} className='p-2'>

@@ -2,12 +2,16 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx,css}', './public/index.html'],
   theme: {
+    listStyleType: {
+      square: 'square'
+    },
     fontFamily: {
       main: ['Poppins', 'sans-serif']
     },
     extend: {
       colors: {
         primary: {
+          200: '#ff4646',
           400: '#ee3131',
           600: '#941212'
         },

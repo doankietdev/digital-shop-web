@@ -18,10 +18,10 @@ function Button({
     },
     {
       'bg-primary-400': primary && !outlined,
-      'hover:bg-black': primary && !outlined && !disabled
+      'hover:bg-primary-200': primary && !outlined && !disabled
     },
     {
-      'border-main': primary && outlined,
+      'border-primary-400': primary && outlined,
       'text-primary-400': primary && outlined
     },
     {

@@ -11,7 +11,7 @@ function NavBar({ open }) {
           [styles.expanded]: open,
           hidden: !open
         },
-        'lg:block animate-slideDown bg-white shadow-2xl'
+        'lg:block animate-slideDown bg-white'
       )}
     >
       <ul className='container flex flex-col lg:flex-row border-t lg:border-b lg:py-2 font-medium'>

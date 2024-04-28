@@ -173,7 +173,7 @@ function Product({
             averageRatings={product.averageRatings}
           />
           <span className={clsx(`text-[${soldSize}]`, 'relative top-[1.3px]')}>
-            Sold {product.sold}
+            {product.sold} Sold
           </span>
         </div>
         <div className='mt-[10px] flex items-center'>

@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import ReactImageMagnify from 'react-image-magnify'
 import { useParams } from 'react-router-dom'
 import Slider from 'react-slick'
-import { Rating } from '~/components'
+import { Button, QuantityField, Rating } from '~/components'
 import { getProductBySlug } from '~/services/productService'
 import { formatCash } from '~/utils/formatter'
+import Variants from './Variants'
+import { FaCartPlusIcon, FaCartShoppingIcon } from '~/utils/icons'
 
 const settings = {
   dots: false,
@@ -45,6 +47,7 @@ function ProductDetails() {
   const [product, setProduct] = useState(null)
   const [variant, setVariant] = useState(null)
   const [currentThumb, setCurrentThumb] = useState(null)
+  const quantityFieldRef = useRef(null)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -60,11 +63,19 @@ function ProductDetails() {
     setCurrentThumb(e.target.src)
   }
 
+  const handleSelectVariant = (variant) => {
+    setVariant(variant)
+  }
+
+  const handleAddToCart = () => {
+    console.log(quantityFieldRef.current.getValue())
+  }
+
   return (
     <>
       <div className='container'>
-        <div className='mt-9 grid grid-cols-3'>
-          <div className='col-span-1'>
+        <div className='grid grid-cols-2 gap-11'>
+          <div>
             <div className='border'>
               <ReactImageMagnify
                 {...{
@@ -95,9 +106,15 @@ function ProductDetails() {
               </Slider>
             </div>
           </div>
-          <div className='col-span-2'>
-            <h2 className='text-2xl font-medium'>{product?.title}</h2>
-            <div className='mt-[10px] flex items-center'>
+          <div>
+            <h2 className='text-2xl font-semibold'>{product?.title}</h2>
+            <div className='mt-2 flex items-center gap-4'>
+              <Rating size='14px' averageRatings={product?.averageRatings} />
+              <span className='text-[14px]'>
+                {product?.sold} Sold
+              </span>
+            </div>
+            <div className='mt-5 flex items-center'>
               {product?.price ? (
                 <span className='mr-3 text-xl text-gray-500 line-through'>
                   {formatCash(product?.price)}
@@ -109,11 +126,31 @@ function ProductDetails() {
                 {formatCash(product?.price)}
               </span>
             </div>
-            <div className='flex items-center gap-4'>
-              <Rating size='16px' averageRatings={product?.averageRatings} />
-              <span className='text-[16px] relative top-[1.3px]'>
-                Sold {product?.sold}
+            <div className='mt-7 flex items-center gap-6'>
+              <span className='text-sm font-medium text-gray-600'>
+                Variants
               </span>
+              <Variants
+                variants={product?.variants}
+                onSelect={handleSelectVariant}
+              />
+            </div>
+            <div className='mt-7 flex items-center gap-6 w-fit'>
+              <span className='text-sm font-medium text-gray-600'>
+                Quantity
+              </span>
+              <div className='flex items-center gap-4'>
+                <QuantityField max={variant?.quantity} ref={quantityFieldRef} />
+                <span className='text-sm text-gray-600'>{variant?.quantity} products available</span>
+              </div>
+            </div>
+            <div className='mt-7 flex gap-4'>
+              <Button icon={<FaCartPlusIcon />} primary outlined rounded onClick={handleAddToCart}>
+                Add To Cart
+              </Button>
+              <Button primary rounded>
+                Buy Now
+              </Button>
             </div>
           </div>
         </div>
