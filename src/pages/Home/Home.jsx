@@ -7,7 +7,7 @@ import { appSelector } from '~/redux/selectors'
 import Banner from './Banner'
 import DailyDeals from './DailyDeals'
 import FeaturedProducts from './FeaturedProducts'
-import NewArrivals from './NewArrivals'
+import BestSellingSmartphone from './BestSellingSmartphone'
 import { ProductSlider } from './ProductSlider'
 import SideBar from './SideBar'
 import Slider from './Slider'
@@ -37,28 +37,28 @@ function Home() {
           </div>
         </section>
 
-        <section className='mt-8'>
+        <section className='mt-2 md:mt-4 lg:mt-6'>
           <div className='container min-h-[608px] grid-cols-1 grid md:grid-cols-4  gap-5'>
             <DailyDeals />
             <ProductSlider />
           </div>
         </section>
 
-        <section className='mt-8'>
+        <section className='mt-2 md:mt-4 lg:mt-6'>
           <div className='container'>
             <FeaturedProducts />
           </div>
         </section>
 
-        <section className='mt-8'>
+        <section className='mt-2 md:mt-4 lg:mt-6'>
           <div className='container'>
             <Banner />
           </div>
         </section>
 
-        <section className='mt-8'>
+        <section className='mt-2 md:mt-4 lg:mt-6'>
           <div className='container'>
-            <NewArrivals />
+            <BestSellingSmartphone />
           </div>
         </section>
       </div>

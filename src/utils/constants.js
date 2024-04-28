@@ -8,17 +8,17 @@ const NAV_BAR = [
   },
   {
     ID: 2,
-    VALUE: 'products',
-    PATH: routesConfig.products
+    VALUE: 'My Orders',
+    PATH: routesConfig.myOrders
   },
   {
     ID: 3,
-    VALUE: 'blogs',
+    VALUE: 'Tech News',
     PATH: routesConfig.blogs
   },
   {
     ID: 4,
-    VALUE: 'our services',
+    VALUE: 'Payment Guide',
     PATH: routesConfig.service
   },
   {
@@ -43,16 +43,16 @@ const PRODUCT_CONDITIONS_TO_CHECK = {
 
 const CATEGORIES = {
   SMARTPHONE: {
-    ID: '662db747bed2a099eef18287',
-    SLUG: 'smartphone-1714272071811'
+    ID: '662e0e505dc87fceec4e5590',
+    SLUG: 'smartphone-1714294352467'
   },
   TABLET: {
-    ID: '662db747bed2a099eef18288',
-    SLUG: 'tablet-1714272071812'
+    ID: '662e0e505dc87fceec4e5591',
+    SLUG: 'tablet-1714294352468'
   },
   LAPTOP: {
-    ID: '662db747bed2a099eef18289',
-    SLUG: 'laptop-1714272071812'
+    ID: '662e0e505dc87fceec4e5592',
+    SLUG: 'laptop-1714294352468'
   }
 }
 

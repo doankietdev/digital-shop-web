@@ -6,7 +6,8 @@ import {
   FaPhoneAlt as FaPhoneAltIcon,
   FaTwitter as FaTwitterIcon,
   FaUser as FaUserIcon,
-  FaCartPlus as FaCartPlusIcon
+  FaCartPlus as FaCartPlusIcon,
+  FaSearch as FaSearchIcon
 } from 'react-icons/fa'
 import {
   FaCartShopping as FaCartShoppingIcon,
@@ -45,5 +46,6 @@ export {
   MdErrorOutlineIcon,
   TbMailCheckIcon,
   FaPlusIcon,
-  FaCartPlusIcon
+  FaCartPlusIcon,
+  FaSearchIcon
 }

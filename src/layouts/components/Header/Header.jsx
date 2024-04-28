@@ -1,22 +1,27 @@
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import logo from '~/assets/logo.png'
 import noAvatarImage from '~/assets/no-avatar-image.png'
-import { AvatarDropdown, DropdownDivider, DropdownItem } from '~/components'
+import {
+  AvatarDropdown,
+  Button,
+  DropdownDivider,
+  DropdownItem,
+  Search
+} from '~/components'
 import { routesConfig } from '~/config'
 import { signOut } from '~/pages/Auth/AuthSlice'
 import { dispatch } from '~/redux'
 import { userSelector } from '~/redux/selectors'
 import {
   FaCartShoppingIcon,
-  FaPhoneAltIcon,
+  FaSearchIcon,
   FaUserIcon,
-  IoMdMailIcon,
   IoMenuIcon
 } from '~/utils/icons'
 import NavBar from '../NavBar'
-import { useState } from 'react'
 
 function Header() {
   const [openExpandedNavBar, setOpenExpandedNavBar] = useState(false)
@@ -36,63 +41,76 @@ function Header() {
 
   return (
     <>
-      <header>
-        <div className='relative z-50 container py-3 lg:py-4 flex justify-between items-center text-[13px] bg-white'>
-          <div className='lg:hidden -ml-2'>
-            <span onClick={handleOpenExpandedNavBar} className='p-2'>
-              <IoMenuIcon className='icon !text-2xl md:lg:!text-4xl text-primary-400' />
-            </span>
+      <header className='bg-primary-400 text-white relative z-50'>
+        <div className='container py-2 md:py-3 lg:py-4 flex items-center gap-2 md:gap-10 text-[13px] relative z-50'>
+          <div className='flex items-center gap-1 -ml-2'>
+            <div className='lg:hidden'>
+              <span onClick={handleOpenExpandedNavBar} className='p-2'>
+                <IoMenuIcon className='icon !text-4xl' />
+              </span>
+            </div>
+            <Link to={routesConfig.home} className=''>
+              <img
+                src={logo}
+                alt='logo'
+                className='h-[15px] md:h-[20px] lg:h-[26px] object-contain'
+              />
+            </Link>
           </div>
-          <Link to={routesConfig.home} className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:translate-x-0 lg:translate-y-0 lg:static'>
-            <img
-              src={logo}
-              alt='logo'
-              className='h-[15px] md:h-[20px] lg:h-[28px] object-contain'
-            />
-          </Link>
-          <div className='flex items-center gap-2 md:gap-4 lg:gap-10'>
-            <div className='hidden lg:flex lg:flex-col lg:justify-center lg:items-center'>
-              <span className='flex items-center gap-3'>
-                <FaPhoneAltIcon className='icon text-primary-400' />
-                <span className='font-semibold'>(+1800) 000 8808</span>
-              </span>
-              <span className='text-[12px]'>Mon-Sat 9:00AM - 8:00PM</span>
+          <div className='flex items-center gap-1 md:gap-7 flex-1'>
+            <div className='flex-1'>
+              <div className='hidden md:block'>
+                <Search />
+              </div>
+              <div className='flex justify-end md:hidden'>
+                <Button
+                  icon={<FaSearchIcon className='icon !text-base text-white' />}
+                  className='border-white min-w-[20px]'
+                  outlined
+                  rounded
+                />
+              </div>
             </div>
-            <div className='hidden lg:flex lg:flex-col lg:justify-center lg:items-center'>
-              <span className='flex items-center gap-3'>
-                <IoMdMailIcon className='icon text-primary-400' />
-                <span className='font-semibold'>SUPPORT@TADATHEMES.COM</span>
-              </span>
-              <span className='text-[12px]'>Online Support 24/7</span>
+            <div className='flex items-center gap-2 md:gap-4 lg:gap-7'>
+              <div className='p-2 relative'>
+                <FaCartShoppingIcon className='icon' />
+                <span className='absolute bottom-[calc(100%-20px)] left-[calc(100%-20px)] min-w-[26px] h-[22px] rounded-full flex justify-center items-center px-[6px] bg-white text-primary-400 border-2 border-primary-400 text-[10px]'>
+                  99+
+                </span>
+              </div>
+              {user._id ? (
+                <AvatarDropdown
+                  avatarSrc={user.image?.url || noAvatarImage}
+                  fullName={`${user.firstName} ${user.lastName}`}
+                  email={user.email}
+                >
+                  <DropdownItem link={routesConfig.auth}>
+                    My Account
+                  </DropdownItem>
+                  <DropdownItem link={routesConfig.myOrders}>
+                    My Orders
+                  </DropdownItem>
+                  <DropdownDivider />
+                  <DropdownItem onClick={handleSignOut}>Sign Out</DropdownItem>
+                </AvatarDropdown>
+              ) : (
+                <Link
+                  to={routesConfig.auth}
+                  className='flex items-center gap-2'
+                >
+                  <Button
+                    icon={<FaUserIcon className='!hidden md:!inline-block icon !text-base text-white' />}
+                    className='border-white min-w-[20px] text-white'
+                    outlined
+                    rounded
+                  >
+                    <span className='text-[12px] md:text-[14px]'>
+                      Sign In
+                    </span>
+                  </Button>
+                </Link>
+              )}
             </div>
-            <div className='p-2 relative'>
-              <FaCartShoppingIcon className='icon text-primary-400' />
-              <span className='absolute bottom-[calc(100%-20px)] left-[calc(100%-20px)] min-w-[26px] h-[22px] rounded-full flex justify-center items-center px-[6px] bg-primary-400 text-white border-2 border-white text-[10px]'>99+</span>
-            </div>
-            {user._id ? (
-              <AvatarDropdown
-                avatarSrc={user.image?.url || noAvatarImage}
-                fullName={`${user.firstName} ${user.lastName}`}
-                email={user.email}
-              >
-                <DropdownItem link={routesConfig.auth}>
-                  My Account
-                </DropdownItem>
-                <DropdownItem link={routesConfig.auth}>
-                  My Orders
-                </DropdownItem>
-                <DropdownDivider />
-                <DropdownItem onClick={handleSignOut}>Sign Out</DropdownItem>
-              </AvatarDropdown>
-            ) : (
-              <Link
-                to={routesConfig.auth}
-                className='flex items-center gap-2 p-2'
-              >
-                <FaUserIcon className='icon text-primary-400' />
-                <span className='text-[14px]'>Sign In</span>
-              </Link>
-            )}
           </div>
         </div>
         <NavBar open={openExpandedNavBar} />

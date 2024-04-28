@@ -7,7 +7,7 @@ const routesConfig = {
   forgotPassword: '/auth/forgot-password',
   verifyPasswordResetOTP: '/auth/verify-password-reset-otp',
   resetPassword: '/auth/reset-password',
-  products: '/products',
+  myOrders: '/me/orders',
   blogs: '/blogs',
   service: '/service',
   faqs: '/faqs',

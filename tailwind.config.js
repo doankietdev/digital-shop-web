@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx,css}', './public/index.html'],
@@ -12,7 +14,7 @@ module.exports = {
       colors: {
         primary: {
           200: '#ff4646',
-          400: '#ee3131',
+          400: '#349FE2',
           600: '#941212'
         },
         secondary: {
@@ -21,13 +23,13 @@ module.exports = {
         }
       },
       boxShadow: {
-        'card': '0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15)'
+        card: '0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15)'
       },
       animation: {
-        'slideDown': 'slideDown .3s ease-in-out'
+        slideDown: 'slideDown .3s ease-in-out'
       },
       keyframes: {
-        'slideDown': {
+        slideDown: {
           '0%': {
             opacity: 0,
             transform: 'translateY(-100%)'
@@ -38,6 +40,10 @@ module.exports = {
           }
         }
       }
+    },
+    screens: {
+      xs: '375px',
+      ...defaultTheme.screens
     }
   },
   plugins: [require('@tailwindcss/line-clamp')]

@@ -8,7 +8,7 @@ function DefaultLayout({ children }) {
   return (
     <div className='w-full min-h-screen flex flex-col'>
       <Header />
-      <main className='lg:my-8 flex-1 relative'>{children}</main>
+      <main className='py-2 md:py-4 lg:py-6 flex-1 relative'>{children}</main>
       {!loading && <Footer />}
       <ToastContainer position='bottom-right' autoClose={3000} />
     </div>

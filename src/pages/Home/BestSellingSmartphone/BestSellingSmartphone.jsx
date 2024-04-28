@@ -30,20 +30,20 @@ const settings = {
   speed: 500,
   autoplay: true,
   autoplaySpeed: 2000,
-  slidesToShow: 3,
+  slidesToShow: 5,
   slidesToScroll: 1,
   responsive: [
     {
       breakpoint: 1024,
       settings: {
-        slidesToShow: 3,
+        slidesToShow: 5,
         slidesToScroll: 1
       }
     },
     {
       breakpoint: 768,
       settings: {
-        slidesToShow: 2,
+        slidesToShow: 3,
         slidesToScroll: 1
       }
     },
@@ -57,7 +57,7 @@ const settings = {
   ]
 }
 
-function NewArrivals() {
+function BestSellingSmartphone() {
   const [activedTab, setActivedTab] = useState(1)
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
@@ -108,7 +108,9 @@ function NewArrivals() {
   return (
     <div className='col-span-9 flex flex-col h-[550px]'>
       <div className='mb-5 pb-2 lg:pb-4 border-b-2 border-primary-400 flex flex-col  justify-between gap-2 md:flex-row md:items-center md:gap-0'>
-        <h2 className='uppercase font-semibold text-xl'>NEW ARRIVALS</h2>
+        <h2 className='uppercase font-semibold text-xl'>
+          Best Selling Smartphone
+        </h2>
         <div className='font-medium text-sm text-gray-400'>
           {Object.keys(tabs).map((key, index) => {
             const tab = tabs[key]
@@ -151,4 +153,4 @@ function NewArrivals() {
   )
 }
 
-export default memo(NewArrivals)
+export default memo(BestSellingSmartphone)
