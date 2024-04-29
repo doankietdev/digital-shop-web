@@ -97,7 +97,7 @@ function ProductDetails() {
       ).products
       setProduct(product)
       setVariant(product.variants[0])
-      setCurrentThumb(product.thumb)
+      setCurrentThumb(product.thumb.url)
       setSimilarProducts(similarProducts)
     }
     fetchProduct()
@@ -112,7 +112,6 @@ function ProductDetails() {
   }
 
   const handleAddToCart = () => {
-    console.log(quantityFieldRef.current.getValue())
   }
 
   return (

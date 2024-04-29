@@ -127,8 +127,8 @@ function Product({
           })}
         >
           <img
-            src={product.thumb || noImage}
-            alt={product.title}
+            src={product?.thumb?.url || noImage}
+            alt={product?.title}
             className={clsx(
               {
                 'h-[120px]': horizontal,

@@ -70,7 +70,7 @@ function DailyDeals() {
                 })}
               >
                 <img
-                  src={product?.thumb || noImage}
+                  src={product?.thumb?.url || noImage}
                   alt={product?.title}
                   className='h-full object-contain'
                 />
