@@ -37,22 +37,31 @@ const TIME = {
 
 const PRODUCT_CONDITIONS_TO_CHECK = {
   NEW_DISTANCE_DAY: 100,
-  SOLD: 100,
-  FAVORITE_RATING: 4
+  SOLD: 50,
+  FAVORITE_RATING: 4,
+  BIG_DISCOUNTS: 200000
 }
 
 const CATEGORIES = {
   SMARTPHONE: {
-    ID: '662e0e505dc87fceec4e5590',
-    SLUG: 'smartphone-1714294352467'
+    ID: '662fd94a16690383cc9f6481',
+    SLUG: 'smartphone-1714411850886'
   },
   TABLET: {
-    ID: '662e0e505dc87fceec4e5591',
-    SLUG: 'tablet-1714294352468'
+    ID: '662fd94a16690383cc9f6482',
+    SLUG: 'tablet-1714411850887'
   },
   LAPTOP: {
-    ID: '662e0e505dc87fceec4e5592',
-    SLUG: 'laptop-1714294352468'
+    ID: '662fd94a16690383cc9f6483',
+    SLUG: 'laptop-1714411850887'
+  },
+  TELEVISION: {
+    ID: '662fd94a16690383cc9f6488',
+    SLUG: 'television-1714411850887'
+  },
+  ACCESSORY: {
+    ID: '662fd94a16690383cc9f6487',
+    SLUG: 'accessories-1714411850887'
   }
 }
 

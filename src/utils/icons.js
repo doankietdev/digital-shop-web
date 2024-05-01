@@ -7,7 +7,11 @@ import {
   FaTwitter as FaTwitterIcon,
   FaUser as FaUserIcon,
   FaCartPlus as FaCartPlusIcon,
-  FaSearch as FaSearchIcon
+  FaSearch as FaSearchIcon,
+  FaShippingFast as ShippingFastIcon,
+  FaIdCard as IdCardIcon,
+  FaShieldAlt as ShieldIcon,
+  FaHeadset as HeadsetIcon
 } from 'react-icons/fa'
 import {
   FaCartShopping as FaCartShoppingIcon,
@@ -24,7 +28,11 @@ import {
   IoCloseSharp as IoCloseSharpIcon,
   IoMenu as IoMenuIcon
 } from 'react-icons/io5'
-import { MdErrorOutline as MdErrorOutlineIcon } from 'react-icons/md'
+import {
+  MdErrorOutline as MdErrorOutlineIcon,
+  MdArrowBackIosNew as MdArrowBackIosNewIcon,
+  MdArrowForwardIos as MdArrowForwardIosIcon
+} from 'react-icons/md'
 import { TbMailCheck as TbMailCheckIcon } from 'react-icons/tb'
 
 export {
@@ -47,5 +55,11 @@ export {
   TbMailCheckIcon,
   FaPlusIcon,
   FaCartPlusIcon,
-  FaSearchIcon
+  FaSearchIcon,
+  MdArrowBackIosNewIcon,
+  MdArrowForwardIosIcon,
+  ShippingFastIcon,
+  IdCardIcon,
+  ShieldIcon,
+  HeadsetIcon
 }

@@ -45,7 +45,7 @@ const labels = {
   },
   bestSeller: {
     icon: FaStackOverflow,
-    name: 'Best Seller',
+    name: 'Best Selling',
     color: '#fff',
     backgroundColor: '#ee4d2d',
     iconSize: '16px',
@@ -108,7 +108,7 @@ function Product({
         },
         styles.card,
         className,
-        'mx-[10px] p-[15px] border relative flex flex-col rounded'
+        'mx-[10px] p-[15px] relative flex flex-col rounded shadow-card hover:shadow-card-md transition-all duration-300'
       )}
     >
       <div
@@ -163,7 +163,7 @@ function Product({
             slug: product.slug
           })}
         >
-          <h3 className='hover:text-primary-400 mb-[10px] capitalize line-clamp-1'>
+          <h3 className='hover:text-primary-400 transition-all duration-300 ease-in-out mb-[10px] capitalize line-clamp-1'>
             {product.title}
           </h3>
         </Link>

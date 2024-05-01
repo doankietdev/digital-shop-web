@@ -43,7 +43,12 @@ function Countdown({ endTime, className, onTimeOut }) {
   }, [endTime])
 
   return (
-    <div className={clsx(className, 'flex gap-1')}>
+    <div
+      className={clsx(
+        className,
+        'flex md:flex-col lg:flex-row gap-1 md:gap-0 lg:gap-1'
+      )}
+    >
       <TimePartial label='Days' number={days} />
       <TimePartial label='Hours' number={hours} />
       <TimePartial label='Minutes' number={minutes} />

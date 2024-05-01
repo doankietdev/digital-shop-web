@@ -1,15 +1,12 @@
-import { useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import { Footer, Header } from '~/layouts/components'
-import { appSelector } from '~/redux/selectors'
 
 function DefaultLayout({ children }) {
-  const { loading } = useSelector(appSelector)
   return (
-    <div className='w-full min-h-screen flex flex-col'>
+    <div className='w-full min-h-screen flex flex-col bg-[#F6F9FC]'>
       <Header />
-      <main className='py-2 md:py-4 lg:py-6 flex-1 relative'>{children}</main>
-      {!loading && <Footer />}
+      <main className='pt-2 pb-10 md:pt-4 md:pb-14 flex-1 relative'>{children}</main>
+      {<Footer />}
       <ToastContainer position='bottom-right' autoClose={3000} />
     </div>
   )

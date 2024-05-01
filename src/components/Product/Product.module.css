@@ -1,7 +1,7 @@
 .card .card__options {
   display: none;
   -webkit-animation: fadeIn 0.4s;
-  animation: fadeIn 0.4s;
+  animation: fadeIn 0.3s;
 }
 .card:hover .card__options {
   display: flex;

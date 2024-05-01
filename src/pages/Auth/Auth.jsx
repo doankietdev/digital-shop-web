@@ -87,7 +87,7 @@ function Auth() {
           <div
             className={clsx(
               styles.container,
-              'fade-in relative bg-transparent backdrop-blur-lg w-[800px] max-w-full min-h-[680px] rounded-[30px] text-white overflow-hidden'
+              'animate-fadeIn relative bg-transparent backdrop-blur-lg w-[800px] max-w-full min-h-[680px] rounded-[30px] text-white overflow-hidden'
             )}
             ref={container}
           >

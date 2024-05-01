@@ -54,7 +54,7 @@ function VerifyPasswordResetOTP() {
     <div
       className={clsx('flex justify-center items-center h-screen bg-secondary-400')}
     >
-      <Card className='fade-in !min-w-0 w-[520px] shadow-none'>
+      <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none'>
         <div className='flex flex-col justify-center items-center p-[44px] relative'>
           <h2 className='text-[23px] tracking-[2px] font-semibold'>
             Verify OTP

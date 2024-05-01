@@ -3,25 +3,33 @@ import clsx from 'clsx'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
+import bestSellingImage from '~/assets/best-selling.png'
+import giftImage from '~/assets/gift.png'
 import noImage from '~/assets/logo.png'
-import { Loading, Product } from '~/components'
+import newImage from '~/assets/new.png'
+import { Loading, NoProductsAvailable, Product } from '~/components'
 import { routesConfig } from '~/config'
+import { ReactSlickArrow } from '~/customLibraries/components'
 import { getProducts } from '~/services/productService'
-import { CATEGORIES } from '~/utils/constants'
+import { PRODUCT_CONDITIONS_TO_CHECK } from '~/utils/constants'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
+import { MdArrowBackIosNewIcon, MdArrowForwardIosIcon } from '~/utils/icons'
 
 const tabs = {
-  bestSeller: {
+  bigDiscounts: {
     id: 1,
-    name: 'best seller'
+    iconImage: giftImage,
+    name: 'Big Discounts'
+  },
+  bestSeller: {
+    id: 2,
+    iconImage: bestSellingImage,
+    name: 'Best Selling'
   },
   newArrivals: {
-    id: 2,
-    name: 'new arrivals'
-  },
-  tablet: {
     id: 3,
-    name: 'tablet'
+    iconImage: newImage,
+    name: 'New Arrivals'
   }
 }
 
@@ -33,6 +41,16 @@ const settings = {
   autoplaySpeed: 2000,
   slidesToShow: 3,
   slidesToScroll: 1,
+  prevArrow: (
+    <ReactSlickArrow>
+      <MdArrowBackIosNewIcon />
+    </ReactSlickArrow>
+  ),
+  nextArrow: (
+    <ReactSlickArrow>
+      <MdArrowForwardIosIcon />
+    </ReactSlickArrow>
+  ),
   responsive: [
     {
       breakpoint: 1024,
@@ -66,81 +84,99 @@ function ProductSlider() {
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true)
-      if (activedTab === tabs.bestSeller.id) {
+
+      let products = []
+      if (activedTab === tabs.bigDiscounts.id) {
+        const allProductsResult = await getProducts()
+        products = allProductsResult.products.filter(
+          (product) =>
+            product.oldPrice - product.price >=
+            PRODUCT_CONDITIONS_TO_CHECK.BIG_DISCOUNTS
+        )
+      } else if (activedTab === tabs.bestSeller.id) {
         const bestSellingResult = await getProducts({
           _sort: '-sold',
-          _limit: 10
+          _limit: 50
         })
-        setProducts(bestSellingResult.products)
+        products = bestSellingResult.products
       } else if (activedTab === tabs.newArrivals.id) {
         const newArrivalsResult = await getProducts({
           _sort: '-createdAt',
-          _limit: 10
+          _limit: 50
         })
-        setProducts(newArrivalsResult.products)
-      } else if (activedTab === tabs.tablet.id) {
-        const tabletResult = await getProducts({
-          category: CATEGORIES.TABLET.ID
-        })
-        setProducts(tabletResult.products)
+        products = newArrivalsResult.products
       }
+
+      // fix number of sliders less than slidesToShow
+      if (products.length < settings.slidesToShow) {
+        settings.autoplay = false
+        settings.arrows = false
+      }
+
+      setProducts(products)
       setLoading(false)
     }
     fetchProducts()
   }, [activedTab])
 
-  const handleClickTab = useCallback((e) => {
-    setActivedTab(parseInt(e.target.dataset.id))
+  const handleClickTab = useCallback((tabId) => {
+    setActivedTab(tabId)
   }, [])
 
   return (
     <div className='md:col-span-3 h-full flex flex-col'>
-      <div className='text-base md:text-xl uppercase font-semibold text-gray-400 mb-5 pb-2 lg:pb-4 border-b-2 border-primary-400'>
-        {Object.keys(tabs).map((key, index, tabKeys) => {
-          const tab = tabs[key]
-          return (
-            <span
-              key={tab.id}
-              className={clsx(
-                {
+      <div className='flex-1 flex flex-col'>
+        <div className='text-base md:text-xl font-semibold text-gray-400 pb-2 lg:pb-4 border-b-2 border-primary-400 flex'>
+          {Object.keys(tabs).map((key, index, tabKeys) => {
+            const tab = tabs[key]
+            return (
+              <div
+                key={tab.id}
+                className={clsx('flex items-center gap-2 cursor-pointer', {
                   'pr-3 lg:pr-5': index === 0,
                   'px-3 lg:px-5': index !== 0 && index !== tabKeys.length - 1,
                   'pl-3 lg:pl-5': index === tabKeys.length - 1,
-                  'border-r': index !== tabKeys.length - 1,
-                  '!text-black': tab.id === activedTab
-                },
-                'cursor-pointer'
-              )}
-              onClick={handleClickTab}
-              data-id={tab.id}
-            >
-              {tab.name}
-            </span>
-          )
-        })}
-      </div>
-      <div className='mx-[-10px] h-[430px] md:flex-1 md:h-auto'>
-        {loading ? (
-          <div className='h-full flex justify-center items-center'>
-            <Loading />
-          </div>
-        ) : (
-          <Slider {...settings}>
-            {products.map((product) => (
-              <Product
-                key={product._id}
-                product={product}
-                showLabel
-                autoLabel
-              />
-            ))}
-          </Slider>
-        )}
+                  'border-r': index !== tabKeys.length - 1
+                })}
+                onClick={() => handleClickTab(tab.id)}
+              >
+                <img src={tab.iconImage} className='h-[32px] object-contain' />
+                <span
+                  className={clsx({
+                    '!text-black': tab.id === activedTab
+                  })}
+                >
+                  {tab.name}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+        <div className='mx-[-10px] md:flex-1 md:h-auto'>
+          {loading ? (
+            <div className='h-full flex justify-center items-center'>
+              <Loading />
+            </div>
+          ) : products.length ? (
+            <Slider {...settings} className='mt-5'>
+              {products.map((product) => (
+                <Product
+                  key={product._id}
+                  product={product}
+                  showLabel
+                  autoLabel
+                />
+              ))}
+            </Slider>
+          ) : (
+            <NoProductsAvailable />
+          )}
+        </div>
       </div>
       <div className='flex flex-col justify-between mt-5 gap-5 lg:flex-row  xl:gap-0'>
         <Link
           to={parsePlaceHolderUrl(routesConfig.productDetails, {
-            slug: 'asus-rog-g752vm-1712644060821'
+            slug: 'apple-watch-edition-series-2-1714411875510'
           })}
         >
           <div className='banner'>
@@ -156,7 +192,7 @@ function ProductSlider() {
         </Link>
         <Link
           to={parsePlaceHolderUrl(routesConfig.productDetails, {
-            slug: 'hp-probook-450-1712644059490'
+            slug: 'acer-aspire-e5-1714411875642'
           })}
         >
           <div className='banner'>

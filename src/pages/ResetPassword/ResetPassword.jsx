@@ -68,7 +68,7 @@ function ResetPassword() {
     <div
       className={clsx('flex justify-center items-center h-screen bg-[#885CEE]')}
     >
-      <Card className='fade-in !min-w-0 w-[520px] shadow-none'>
+      <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none'>
         <form
           className='flex flex-col justify-center items-center p-[44px] relative'
           onSubmit={form.handleSubmit(handleSubmit)}

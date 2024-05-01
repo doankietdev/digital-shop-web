@@ -1,26 +1,44 @@
-import { useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { TextFieldWithoutForm } from '../FormControls'
 import { FaSearchIcon } from '~/utils/icons'
 import clsx from 'clsx'
 
 function Search({ className }) {
   const [focus, setFocus] = useState(false)
+  const textFieldRef = useRef(null)
 
-  const handleFocusSearchInput = () => {
+  const handleFocusSearchInput = useCallback(() => {
     setFocus(true)
-  }
-  const handleBlurSearchInput = () => {
+  }, [])
+  const handleBlurSearchInput = useCallback(() => {
     setFocus(false)
-  }
+  }, [])
+
+  const handleClickSearchIcon = useCallback(() => {
+    if (!focus) {
+      textFieldRef.current.focus()
+      setFocus(true)
+    }
+  }, [focus])
 
   return (
-    <div className={clsx(
-      'flex items-center bg-white p-[3px] rounded',
-      className
-    )}>
+    <div
+      className={clsx(
+        'flex items-center bg-white p-[3px] rounded-full',
+        className
+      )}
+    >
+      <div
+        className='cursor-pointer w-[40px] h-[34px] px-[10px] rounded-full flex justify-center items-center'
+        onClick={handleClickSearchIcon}
+      >
+        <FaSearchIcon className='icon !text-base text-black' />
+      </div>
       <div className='relative flex-1'>
         <TextFieldWithoutForm
+          className='px-0'
           placeholder='Search'
+          ref={textFieldRef}
           onFocus={handleFocusSearchInput}
           onBlur={handleBlurSearchInput}
         />
@@ -28,7 +46,7 @@ function Search({ className }) {
           className={clsx(
             'absolute top-[calc(100%+16px)] left-0 right-0 bg-white text-black shadow rounded overflow-hidden',
             {
-              'hidden': !focus
+              hidden: !focus
             }
           )}
         >
@@ -49,9 +67,6 @@ function Search({ className }) {
           </li>
         </ul>
       </div>
-      <button className='bg-primary-400 w-[60px] h-[34px] px-[15px] rounded'>
-        <FaSearchIcon className='icon !text-base text-white' />
-      </button>
     </div>
   )
 }

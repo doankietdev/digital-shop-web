@@ -11,6 +11,11 @@ import BestSellingSmartphone from './BestSellingSmartphone'
 import { ProductSlider } from './ProductSlider'
 import SideBar from './SideBar'
 import Slider from './Slider'
+import BestSellingLaptop from './BestSellingLaptop'
+import BestSellingTablet from './BestSellingTablet'
+import BestSellingAccessory from './BestSellingAccessory'
+import BestSellingTelevision from './BestSellingTelevision'
+import ServiceInfo from './ServiceInfo'
 
 function Home() {
   const { loading } = useSelector(appSelector)
@@ -26,39 +31,69 @@ function Home() {
   return (
     <>
       <div
-        className={clsx({
+        className={clsx('animate-fadeIn', {
           hidden: loading
         })}
       >
         <section>
-          <div className='container md:grid md:grid-cols-4 md:gap-5'>
+          <div className='container lg:grid lg:grid-cols-4 lg:gap-5'>
             <SideBar />
             <Slider />
           </div>
         </section>
 
-        <section className='mt-2 md:mt-4 lg:mt-6'>
+        <section className='mt-10 lg:mt-16'>
           <div className='container min-h-[608px] grid-cols-1 grid md:grid-cols-4  gap-5'>
             <DailyDeals />
             <ProductSlider />
           </div>
         </section>
 
-        <section className='mt-2 md:mt-4 lg:mt-6'>
+        <section className='mt-10 lg:mt-16'>
           <div className='container'>
             <FeaturedProducts />
           </div>
         </section>
 
-        <section className='mt-2 md:mt-4 lg:mt-6'>
+        <section className='mt-10 lg:mt-16'>
           <div className='container'>
             <Banner />
           </div>
         </section>
 
-        <section className='mt-2 md:mt-4 lg:mt-6'>
+        <section className='mt-10 lg:mt-16'>
           <div className='container'>
             <BestSellingSmartphone />
+          </div>
+        </section>
+
+        <section className='mt-10 lg:mt-16'>
+          <div className='container'>
+            <BestSellingTablet />
+          </div>
+        </section>
+
+        <section className='mt-10 lg:mt-16'>
+          <div className='container'>
+            <BestSellingLaptop />
+          </div>
+        </section>
+
+        <section className='mt-10 lg:mt-16'>
+          <div className='container'>
+            <BestSellingTelevision />
+          </div>
+        </section>
+
+        <section className='mt-10 lg:mt-16'>
+          <div className='container'>
+            <BestSellingAccessory />
+          </div>
+        </section>
+
+        <section className='mt-10 lg:mt-16'>
+          <div className='container'>
+            <ServiceInfo />
           </div>
         </section>
       </div>

@@ -13,7 +13,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          200: '#ff4646',
+          200: '#40b5ff',
           400: '#349FE2',
           600: '#941212'
         },
@@ -23,10 +23,12 @@ module.exports = {
         }
       },
       boxShadow: {
-        card: '0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15)'
+        card: '0px 4px 16px rgb(43 52 69 / 10%)',
+        'card-md': '0px 4px 24px rgb(43 52 69 / 16%)'
       },
       animation: {
-        slideDown: 'slideDown .3s ease-in-out'
+        slideDown: 'slideDown .3s ease-in-out',
+        fadeIn: 'fadeIn .3s ease-in-out'
       },
       keyframes: {
         slideDown: {
@@ -37,6 +39,14 @@ module.exports = {
           '100%': {
             opacity: 1,
             transform: 'translateY(0)'
+          }
+        },
+        fadeIn: {
+          '0%': {
+            opacity: 0
+          },
+          '100%': {
+            opacity: 100
           }
         }
       }

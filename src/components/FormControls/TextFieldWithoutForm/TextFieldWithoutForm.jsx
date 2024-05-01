@@ -1,18 +1,31 @@
+/* eslint-disable react-refresh/only-export-components */
 import clsx from 'clsx'
 import { errorMessageClasses, inputClasses } from '../classes'
+import { forwardRef, useImperativeHandle, useRef } from 'react'
 
-function TextField({
-  name = '',
-  className = '',
-  placeholder = '',
-  primary,
-  outlined,
-  rounded,
-  hasError,
-  errorMessage,
-  onFocus = () => {},
-  onBlur = () => {}
-}) {
+function TextField(
+  {
+    name = '',
+    className = '',
+    placeholder = '',
+    primary,
+    outlined,
+    rounded,
+    hasError,
+    errorMessage,
+    onFocus = () => {},
+    onBlur = () => {}
+  },
+  ref
+) {
+  const inputRef = useRef()
+
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current.focus()
+    }
+  }))
+
   return (
     <div className='flex flex-col gap-1 w-full'>
       <input
@@ -30,6 +43,7 @@ function TextField({
         )}
         onFocus={onFocus}
         onBlur={onBlur}
+        ref={inputRef}
       />
       {hasError && (
         <span className={errorMessageClasses()}>{errorMessage}</span>
@@ -38,4 +52,4 @@ function TextField({
   )
 }
 
-export default TextField
+export default forwardRef(TextField)

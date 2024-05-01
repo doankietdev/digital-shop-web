@@ -1,10 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { FaEye, FaStar } from 'react-icons/fa'
-import { MdOutlineErrorOutline } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import noImage from '~/assets/no-image.png'
-import { Button, Countdown, Rating } from '~/components'
+import { Button, Countdown, NoProductsAvailable, Rating } from '~/components'
 import { routesConfig } from '~/config'
 import { getProducts } from '~/services/productService'
 import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
@@ -50,17 +49,17 @@ function DailyDeals() {
   }, [])
 
   return (
-    <div className='relative p-[20px] md:col-span-1 border h-full flex flex-col rounded'>
-      <h2 className='flex items-center text-xl font-semibold'>
-        <FaStar className='text-primary-400' />
-        <span className='text-[#505050] uppercase absolute left-[50%] translate-x-[-50%]'>
-          DAILY DEALS
+    <div className='relative p-[20px] md:col-span-1 h-full flex flex-col rounded shadow-card'>
+      <h2 className='flex items-center font-semibold'>
+        <FaStar className='text-[22px] text-primary-400' />
+        <span className='text-xl text-[#505050] capitalize absolute left-[50%] translate-x-[-50%]'>
+          Daily Deals
         </span>
       </h2>
       {loading ? (
         ''
       ) : (
-        <div className='mt-4 flex flex-col flex-1 items-center'>
+        <div className='mt-4 flex flex-col lg:flex-1 items-center'>
           {product ? (
             <>
               <Link
@@ -75,10 +74,14 @@ function DailyDeals() {
                   className='h-full object-contain'
                 />
               </Link>
-              <Link to={parsePlaceHolderUrl(routesConfig.productDetails, {
-                slug: product.slug
-              })}>
-                <h3 className='mt-4 hover:text-primary-400'>{product.title}</h3>
+              <Link
+                to={parsePlaceHolderUrl(routesConfig.productDetails, {
+                  slug: product.slug
+                })}
+              >
+                <h3 className='mt-4 lg:mt-0 hover:text-primary-400 line-clamp-1 md:line-clamp-2 lg:line-clamp-1 text-center transition-all duration-300 ease-in-out'>
+                  {product.title}
+                </h3>
               </Link>
               <Rating
                 className='mt-2'
@@ -107,16 +110,18 @@ function DailyDeals() {
                   slug: product.slug
                 })}
               >
-                <Button className='w-full' icon={<FaEye size='17px' />} primary>
+                <Button
+                  className='w-full'
+                  icon={<FaEye size='17px' />}
+                  primary
+                  rounded
+                >
                   View
                 </Button>
               </Link>
             </>
           ) : (
-            <div className='flex flex-1 justify-center items-center gap-1 text-[20px]'>
-              <MdOutlineErrorOutline className='inline-block' />
-              <span>No Products</span>
-            </div>
+            <NoProductsAvailable />
           )}
         </div>
       )}

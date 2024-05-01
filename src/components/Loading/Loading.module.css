@@ -7,7 +7,7 @@
   justify-content: flex-start;
   height: var(--uib-size);
   width: var(--uib-size);
-  animation: fade-in 0.4;
+  animation: animate-fadeIn 0.4;
 }
 
 .dotSpinner__dot {
@@ -87,7 +87,7 @@
   animation-delay: calc(var(--uib-speed) * -0.125);
 }
 
-@keyframes fade-in {
+@keyframes animate-fadeIn {
   from {
     opacity: 0;
   }

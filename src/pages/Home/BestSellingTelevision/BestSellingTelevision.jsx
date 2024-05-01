@@ -55,17 +55,13 @@ const settings = {
   ]
 }
 
-function BestSellingSmartphone() {
+function BestSellingTelevision() {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
     const fetchProducts = async () => {
-      // const MILLISECONDS_NEW_DISTANCE_DAY =
-      //   Date.now() -
-      //   PRODUCT_CONDITIONS_TO_CHECK.NEW_DISTANCE_DAY * TIME.MILLISECONDS_1_DAY
-
       const result = await getProducts({
-        category: CATEGORIES.SMARTPHONE.ID,
+        category: CATEGORIES.TELEVISION.ID,
         'sold[gte]': PRODUCT_CONDITIONS_TO_CHECK.SOLD,
         _sort: '-createdAt',
         _limit: 10
@@ -86,7 +82,7 @@ function BestSellingSmartphone() {
     <div className='col-span-9 flex flex-col'>
       <h2 className='capitalize font-semibold text-xl flex gap-2 mb-5 pb-2 lg:pb-4 border-b-2 border-primary-400'>
         <img src={bestSellingImage} className='h-7' />
-        Best Selling Smartphone
+        Best Selling Television
       </h2>
       <div className={clsx('mx-[-10px]')}>
         {products.length ? (
@@ -108,4 +104,4 @@ function BestSellingSmartphone() {
   )
 }
 
-export default memo(BestSellingSmartphone)
+export default memo(BestSellingTelevision)
