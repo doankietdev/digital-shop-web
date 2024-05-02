@@ -108,7 +108,7 @@ function Product({
         },
         styles.card,
         className,
-        'mx-[10px] p-[15px] relative flex flex-col rounded shadow-card hover:shadow-card-md transition-all duration-300'
+        'mx-[10px] p-[15px] relative flex flex-col rounded shadow-card hover:shadow-card-md transition-all duration-300 bg-white'
       )}
     >
       <div

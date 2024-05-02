@@ -16,6 +16,7 @@ import BestSellingTablet from './BestSellingTablet'
 import BestSellingAccessory from './BestSellingAccessory'
 import BestSellingTelevision from './BestSellingTelevision'
 import ServiceInfo from './ServiceInfo'
+import Brand from './Brand'
 
 function Home() {
   const { loading } = useSelector(appSelector)
@@ -39,6 +40,12 @@ function Home() {
           <div className='container lg:grid lg:grid-cols-4 lg:gap-5'>
             <SideBar />
             <Slider />
+          </div>
+        </section>
+
+        <section className='mt-10 lg:mt-16'>
+          <div className='container'>
+            <Brand />
           </div>
         </section>
 

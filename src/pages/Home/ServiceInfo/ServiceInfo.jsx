@@ -7,8 +7,8 @@ import {
 
 function ServiceInfo() {
   return (
-    <ul className='grid grid-cols-4 gap-12'>
-      <li className='p-[30px] bg-white shadow-card rounded-lg'>
+    <ul className='grid md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 xl:gap-12'>
+      <li className='p-7 bg-white shadow-card rounded-lg'>
         <span className='m-auto w-[70px] h-[70px] rounded-full bg-[#F3F5F9] flex justify-center items-center'>
           <ShippingFastIcon className='text-[32px]' />
         </span>
@@ -19,7 +19,7 @@ function ServiceInfo() {
           We offer competitive prices on our 100 million plus product any range.
         </p>
       </li>
-      <li className='p-[30px] bg-white shadow-card rounded-lg'>
+      <li className='p-7 bg-white shadow-card rounded-lg'>
         <span className='m-auto w-[70px] h-[70px] rounded-full bg-[#F3F5F9] flex justify-center items-center'>
           <IdCardIcon className='text-[32px]' />
         </span>
@@ -30,7 +30,7 @@ function ServiceInfo() {
           We offer competitive prices on our 100 million plus product any range.
         </p>
       </li>
-      <li className='p-[30px] bg-white shadow-card rounded-lg'>
+      <li className='p-7 bg-white shadow-card rounded-lg'>
         <span className='m-auto w-[70px] h-[70px] rounded-full bg-[#F3F5F9] flex justify-center items-center'>
           <ShieldIcon className='text-[32px]' />
         </span>
@@ -41,7 +41,7 @@ function ServiceInfo() {
           We offer competitive prices on our 100 million plus product any range.
         </p>
       </li>
-      <li className='p-[30px] bg-white shadow-card rounded-lg'>
+      <li className='p-7 bg-white shadow-card rounded-lg'>
         <span className='m-auto w-[70px] h-[70px] rounded-full bg-[#F3F5F9] flex justify-center items-center'>
           <HeadsetIcon className='text-[32px]' />
         </span>

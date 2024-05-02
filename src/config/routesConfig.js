@@ -12,7 +12,8 @@ const routesConfig = {
   service: '/service',
   faqs: '/faqs',
   productsOfCategory: '/categories/:slug',
-  productDetails: '/products/:slug'
+  productDetails: '/products/:slug',
+  productsOfBrands: '/brands/:slug'
 }
 
 export default routesConfig
