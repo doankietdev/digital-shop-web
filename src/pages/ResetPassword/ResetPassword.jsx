@@ -6,7 +6,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import * as yup from 'yup'
 import resetPasswordIcon from '~/assets/reset-password-icon.png'
-import { Button, Card, Loading, PasswordField } from '~/components'
+import {
+  Button,
+  Card,
+  DocumentTitle,
+  Loading,
+  PasswordField
+} from '~/components'
 import { routesConfig } from '~/config'
 import authService from '~/services/authService'
 import { StorageKeys } from '~/utils/constants'
@@ -65,62 +71,67 @@ function ResetPassword() {
   )
 
   return (
-    <div
-      className={clsx('flex justify-center items-center h-screen bg-[#885CEE]')}
-    >
-      <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none'>
-        <form
-          className='flex flex-col justify-center items-center p-[44px] relative'
-          onSubmit={form.handleSubmit(handleSubmit)}
-        >
-          <h2 className='text-[23px] tracking-[2px] font-semibold'>
-            Reset Password
-          </h2>
-          <img
-            src={resetPasswordIcon}
-            className='my-6 w-[100px] h-[100px] object-contain'
-          />
-          <p className='text-[14px] text-center opacity-60 font-medium'>
-            Enter your new password to reset your password.
-          </p>
-          <PasswordField
-            className='mt-4 text-[14px]'
-            form={form}
-            name='newPassword'
-            placeholder='New Password'
-            outlined
-            rounded
-          />
-          <PasswordField
-            className='mt-4 text-[14px]'
-            form={form}
-            name='confirmNewPassword'
-            placeholder='Confirm New Password'
-            outlined
-            rounded
-          />
-          <div className='mt-5 w-full relative flex justify-center items-center'>
-            <Button
-              className='!bg-[#885CEE] hover:!bg-[#976ff3] w-full py-[15px]'
-              type='submit'
-              rounded
-              startIcon={<GrSendIcon className='text-[18px]' />}
-            >
+    <>
+      <DocumentTitle title='Reset Password' />
+      <div
+        className={clsx(
+          'flex justify-center items-center h-screen bg-[#885CEE]'
+        )}
+      >
+        <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none'>
+          <form
+            className='flex flex-col justify-center items-center p-[44px] relative'
+            onSubmit={form.handleSubmit(handleSubmit)}
+          >
+            <h2 className='text-[23px] tracking-[2px] font-semibold'>
               Reset Password
-            </Button>
-          </div>
+            </h2>
+            <img
+              src={resetPasswordIcon}
+              className='my-6 w-[100px] h-[100px] object-contain'
+            />
+            <p className='text-[14px] text-center opacity-60 font-medium'>
+              Enter your new password to reset your password.
+            </p>
+            <PasswordField
+              className='mt-4 text-[14px]'
+              form={form}
+              name='newPassword'
+              placeholder='New Password'
+              outlined
+              rounded
+            />
+            <PasswordField
+              className='mt-4 text-[14px]'
+              form={form}
+              name='confirmNewPassword'
+              placeholder='Confirm New Password'
+              outlined
+              rounded
+            />
+            <div className='mt-5 w-full relative flex justify-center items-center'>
+              <Button
+                className='!bg-[#885CEE] hover:!bg-[#976ff3] w-full py-[15px]'
+                type='submit'
+                rounded
+                startIcon={<GrSendIcon className='text-[18px]' />}
+              >
+                Reset Password
+              </Button>
+            </div>
 
-          <div className='mt-6 text-[14px] font-semibold'>
-            <span className='mr-1'>Remember password?</span>
-            <Link className='p-1 text-[#885CEE]' to={routesConfig.auth}>
-              Sign in
-            </Link>
-          </div>
-          {isSubmitting && <Loading className='absolute bottom-[-12px]' />}
-        </form>
-      </Card>
-      <ToastContainer autoClose={3000} />
-    </div>
+            <div className='mt-6 text-[14px] font-semibold'>
+              <span className='mr-1'>Remember password?</span>
+              <Link className='p-1 text-[#885CEE]' to={routesConfig.auth}>
+                Sign in
+              </Link>
+            </div>
+            {isSubmitting && <Loading className='absolute bottom-[-12px]' />}
+          </form>
+        </Card>
+        <ToastContainer autoClose={3000} />
+      </div>
+    </>
   )
 }
 

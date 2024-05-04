@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
-import { Button } from '~/components'
+import { Button, DocumentTitle } from '~/components'
 import { routesConfig } from '~/config'
 import { userSelector } from '~/redux/selectors'
 import { dispatch } from '~/redux/store'
@@ -16,6 +16,7 @@ import logoImage from '~/assets/logo.png'
 import { StorageKeys } from '~/utils/constants'
 
 function Auth() {
+  const [headTitle, setHeadTitle] = useState('Sign In')
   const container = useRef(null)
   const signUpFormRef = useRef(null)
   const signInFormRef = useRef(null)
@@ -39,11 +40,13 @@ function Auth() {
   }, [])
 
   const handleSwitchSignUp = () => {
+    setHeadTitle('Sign Up')
     container.current.classList.add(styles.active)
     signInFormRef.current.reset()
   }
 
   const handleSwitchSignIn = () => {
+    setHeadTitle('Sign In')
     container.current.classList.remove(styles.active)
     signUpFormRef.current.reset()
   }
@@ -75,6 +78,7 @@ function Auth() {
 
   return (
     <>
+      <DocumentTitle title={headTitle} />
       {
         <div
           style={{
