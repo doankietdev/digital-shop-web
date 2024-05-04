@@ -14,7 +14,7 @@ function Variants({ variants = [], onSelect = () => {} }) {
       {variants?.map((variant, index) => (
         <button
           key={index}
-          className={clsx('border rounded-sm py-1 px-2 text-sm', {
+          className={clsx('border-2 rounded-sm py-1 px-2 text-sm', {
             'border-primary-400':
             selectedVariant && selectedVariant?._id === variant?._id
           })}

@@ -2,21 +2,21 @@ import clsx from 'clsx'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { Loading } from '~/components'
+import { GlobalLoading } from '~/components'
 import { appSelector } from '~/redux/selectors'
 import Banner from './Banner'
+import BestSellingAccessory from './BestSellingAccessory'
+import BestSellingLaptop from './BestSellingLaptop'
+import BestSellingSmartphone from './BestSellingSmartphone'
+import BestSellingTablet from './BestSellingTablet'
+import BestSellingTelevision from './BestSellingTelevision'
+import Brand from './Brand'
 import DailyDeals from './DailyDeals'
 import FeaturedProducts from './FeaturedProducts'
-import BestSellingSmartphone from './BestSellingSmartphone'
 import { ProductSlider } from './ProductSlider'
+import ServiceInfo from './ServiceInfo'
 import SideBar from './SideBar'
 import Slider from './Slider'
-import BestSellingLaptop from './BestSellingLaptop'
-import BestSellingTablet from './BestSellingTablet'
-import BestSellingAccessory from './BestSellingAccessory'
-import BestSellingTelevision from './BestSellingTelevision'
-import ServiceInfo from './ServiceInfo'
-import Brand from './Brand'
 
 function Home() {
   const { loading } = useSelector(appSelector)
@@ -31,6 +31,9 @@ function Home() {
 
   return (
     <>
+      {loading && (
+        <GlobalLoading />
+      )}
       <div
         className={clsx('animate-fadeIn', {
           hidden: loading
@@ -104,14 +107,6 @@ function Home() {
           </div>
         </section>
       </div>
-
-      {loading && (
-        <div className='absolute top-0 right-0 bottom-0 left-0 flex justify-center'>
-          <div className='mt-[140px]'>
-            <Loading />
-          </div>
-        </div>
-      )}
     </>
   )
 }

@@ -108,7 +108,7 @@ function Product({
         },
         styles.card,
         className,
-        'mx-[10px] p-[15px] relative flex flex-col rounded shadow-card hover:shadow-card-md transition-all duration-300 bg-white'
+        'mx-[10px] p-[15px] relative flex flex-col rounded shadow-card hover:shadow-card-md transition-all duration-300 bg-white h-full'
       )}
     >
       <div
@@ -176,7 +176,7 @@ function Product({
             {product.sold} Sold
           </span>
         </div>
-        <div className='mt-[10px] flex items-center'>
+        <div className='mt-[10px] flex items-center flex-wrap gap-1'>
           {product.oldPrice ? (
             <span className='mr-3 text-sm text-gray-500 line-through'>
               {formatCash(product.oldPrice)}

@@ -28,7 +28,7 @@ function QuantityField({ min = 1, max, defaultValue = 1 }, ref) {
   }
 
   return (
-    <div className='border rounded-sm'>
+    <div className='border rounded-sm flex'>
       <button
         className={clsx('px-2 py-[6px] border-r text-sm', {
           'hover:bg-gray-200 transition-all duration-200 ease-in-out':

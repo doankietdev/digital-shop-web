@@ -31,8 +31,14 @@ input:-webkit-autofill:active {
   @apply text-xl inline-block;
 }
 
+.slick-track {
+  @apply flex;
+}
 .slick-slide {
-  @apply animate-fadeIn;
+  @apply animate-fadeIn h-auto;
+}
+.slick-slide > div {
+  @apply h-full;
 }
 .slick-arrow::before {
   @apply hidden;
