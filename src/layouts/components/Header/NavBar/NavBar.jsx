@@ -19,7 +19,7 @@ function NavBar({ open }) {
         {NAV_BAR.map((item) => (
           <li
             key={item.ID}
-            className='capitalize mr-[24px] py-1 text-sm transition-all duration-300 ease-in-out relative after:cursor-pointer after:absolute after:bottom-0 after:left-0 after:bg-primary-400 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:ease-in-out after:duration-300'
+            className='capitalize mr-[24px] py-1 text-sm underline-run'
           >
             <NavLink
               key={item.ID}

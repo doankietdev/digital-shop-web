@@ -86,7 +86,7 @@ function ForgotPassword() {
             />
             <div className='mt-5 w-full relative flex justify-center items-center'>
               <Button
-                className='!bg-secondary-400 hover:!bg-secondary-200 w-full py-[15px]'
+                className='!bg-success-400 hover:!bg-success-200 w-full py-[15px]'
                 type='submit'
                 rounded
                 startIcon={<GrSendIcon className='text-[18px]' />}
@@ -98,8 +98,8 @@ function ForgotPassword() {
             <div className='mt-6 text-[14px] font-semibold'>
               <span className='mr-1'>Remember password?</span>
               <Link
-                className='p-3 lg:p-1 text-secondary-400 hover:text-secondary-200'
-                to={routesConfig.auth}
+                className='p-3 lg:p-1 text-success-400 hover:text-success-200 underline-run hover:after:bg-success-200'
+                to={routesConfig.signIn}
               >
                 Sign in
               </Link>

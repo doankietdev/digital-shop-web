@@ -101,7 +101,7 @@ function Header() {
                     fullName={`${user.firstName} ${user.lastName}`}
                     email={user.email}
                   >
-                    <DropdownItem link={routesConfig.auth}>
+                    <DropdownItem link={routesConfig.signIn}>
                       My Account
                     </DropdownItem>
                     <DropdownItem link={routesConfig.myOrders}>
@@ -114,7 +114,7 @@ function Header() {
                   </AvatarDropdown>
                 ) : (
                   <Link
-                    to={routesConfig.auth}
+                    to={routesConfig.signIn}
                     className='flex items-center gap-2'
                   >
                     <Button

@@ -27,6 +27,10 @@ input:-webkit-autofill:active {
   @apply max-w-[1348px] mx-auto px-2 lg:px-4 xl:px-0;
 }
 
+.underline-run {
+  @apply transition-all duration-300 ease-in-out relative after:cursor-pointer after:absolute after:bottom-0 after:left-0 after:bg-primary-400 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:ease-in-out after:duration-300;
+}
+
 .icon {
   @apply text-xl inline-block;
 }

@@ -21,7 +21,7 @@ function EmailVerificationSuccess() {
           <h3 className='mb-6 font-semibold text-[15px] tracking-[1px] text-white text-center'>
             You can now sign in
           </h3>
-          <Link to={routesConfig.auth} className='w-full md:w-auto'>
+          <Link to={routesConfig.signIn} className='w-full md:w-auto'>
             <Button className='border-white text-white w-full md:w-auto' outlined rounded>
               Sign in
             </Button>

@@ -59,7 +59,7 @@ function ResetPassword() {
         setDisabled(true)
         await authService.resetPassword({ newPassword: data.newPassword })
         sessionStorage.setItem(StorageKeys.IS_RESET_PASSWORD_SUCCESS, true)
-        navigate(routesConfig.auth)
+        navigate(routesConfig.signIn)
       } catch (error) {
         toast.error(error.messages[0])
       } finally {
@@ -122,7 +122,7 @@ function ResetPassword() {
 
             <div className='mt-6 text-[14px] font-semibold'>
               <span className='mr-1'>Remember password?</span>
-              <Link className='p-3 lg:p-1 text-[#885CEE]' to={routesConfig.auth}>
+              <Link className='p-3 lg:p-1 text-[#885CEE] underline-run hover:after:bg-[#885CEE]' to={routesConfig.signIn}>
                 Sign in
               </Link>
             </div>

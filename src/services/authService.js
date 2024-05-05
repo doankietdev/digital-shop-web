@@ -21,7 +21,7 @@ const signUp = async (data) => {
     }
   } catch (error) {
     if (error.statusCode === StatusCodes.CONFLICT) {
-      return Promise.reject(new UIError(parseResponseMessage(error.message)))
+      return Promise.reject(new UIError(parseResponseMessage(error.message), StatusCodes.CONFLICT))
     }
     return Promise.reject(new UIError(['Something went wrong']))
   }

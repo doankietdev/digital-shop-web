@@ -79,9 +79,9 @@ function VerifyPasswordResetOTP() {
               <Button
                 className={clsx(
                   {
-                    'hover:!bg-secondary-200': !disabled
+                    'hover:!bg-success-200': !disabled
                   },
-                  '!bg-secondary-400 w-full py-[15px]'
+                  '!bg-success-400 w-full py-[15px]'
                 )}
                 type='submit'
                 startIcon={<GrSendIcon className='text-[18px]' />}
@@ -96,7 +96,7 @@ function VerifyPasswordResetOTP() {
             <div className='mt-6 text-[14px] font-semibold'>
               <span className='mr-1'>Didn&apos;t receive OTP?</span>
               <span
-                className='p-3 lg:p-1 text-secondary-400 hover:text-secondary-200 cursor-pointer'
+                className='p-3 lg:p-1 text-success-400 hover:text-success-200 cursor-pointer underline-run hover:after:bg-success-200'
                 onClick={handleResendOtp}
               >
                 Resend OTP

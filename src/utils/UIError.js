@@ -1,5 +1,8 @@
 class UIError {
-  constructor(messages = []) {
+  constructor(messages = [], statusCode) {
+    if (statusCode) {
+      this.statusCode = statusCode
+    }
     this.messages = messages
   }
 }
