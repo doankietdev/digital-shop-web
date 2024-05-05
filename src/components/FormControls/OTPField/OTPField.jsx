@@ -75,7 +75,7 @@ function OTPField({
   }
 
   return (
-    <div className='flex justify-center gap-[10px] w-[80%]'>
+    <div className='flex justify-center gap-[10px] w-full md:w-[80%]'>
       {otp.map((digit, index) => (
         <input
           key={index}
@@ -97,6 +97,7 @@ function OTPField({
               hasError: false,
               className
             }),
+            '!px-[4px]', //override common input classes
             'hide-arrows w-[48px] h-[48px] text-center text-[18px] font-medium'
           )}
         />

@@ -35,6 +35,7 @@ function PasswordField({
             type='password'
             placeholder={placeholder}
             className={clsx(
+              'py-[6px]',
               inputClasses({
                 primary,
                 outlined,

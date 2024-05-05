@@ -36,6 +36,7 @@ function TextField({
               type='text'
               placeholder={placeholder}
               className={clsx(
+                'py-[6px]',
                 inputClasses({
                   primary,
                   outlined,

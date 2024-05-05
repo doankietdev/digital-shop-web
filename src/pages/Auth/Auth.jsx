@@ -85,7 +85,7 @@ function Auth() {
             backgroundImage: `url(${authBackground})`
           }}
           className={clsx(
-            'flex justify-center items-center h-screen bg-cover bg-no-repeat'
+            'flex justify-center items-center h-screen bg-cover bg-no-repeat p-3'
           )}
         >
           <div

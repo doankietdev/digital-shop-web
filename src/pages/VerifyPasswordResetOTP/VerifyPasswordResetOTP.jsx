@@ -55,15 +55,15 @@ function VerifyPasswordResetOTP() {
       <DocumentTitle title='Verify OTP' />
       <div
         className={clsx(
-          'flex justify-center items-center h-screen bg-secondary-400'
+          'flex justify-center items-center h-screen bg-secondary-400 p-3'
         )}
       >
-        <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none'>
-          <div className='flex flex-col justify-center items-center p-[44px] relative'>
-            <h2 className='text-[23px] tracking-[2px] font-semibold'>
+        <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none bg-white p-8 md:p-11 lg:p-16'>
+          <div className='flex flex-col justify-center items-center relative'>
+            <h2 className='text-[20px] md:text-[23px] tracking-[2px] font-semibold'>
               Verify OTP
             </h2>
-            <img src={otpIcon} className='w-[100px] h-[100px] object-contain' />
+            <img src={otpIcon} className='w-[80px] h-[80px] md:w-[100px] md:h-[100px] object-contain' />
             <p className='text-[14px] text-center opacity-60 font-medium'>
               OTP code has been sent to your email. Please check your email and
               enter OTP code below.
@@ -96,13 +96,13 @@ function VerifyPasswordResetOTP() {
             <div className='mt-6 text-[14px] font-semibold'>
               <span className='mr-1'>Didn&apos;t receive OTP?</span>
               <span
-                className='p-[6px] text-secondary-400 hover:text-secondary-200 cursor-pointer'
+                className='p-3 lg:p-1 text-secondary-400 hover:text-secondary-200 cursor-pointer'
                 onClick={handleResendOtp}
               >
                 Resend OTP
               </span>
             </div>
-            {loading && <Loading className='absolute bottom-[-12px]' />}
+            {loading && <Loading className='absolute -bottom-12' />}
           </div>
         </Card>
         <ToastContainer autoClose={3000} />

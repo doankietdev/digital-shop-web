@@ -55,20 +55,22 @@ function ForgotPassword() {
       <DocumentTitle title='Forgot Password' />
       <div
         className={clsx(
-          'flex justify-center items-center h-screen bg-secondary-400'
+          'flex justify-center items-center h-screen bg-secondary-400 p-3'
         )}
       >
-        <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none'>
+        <Card
+          className='animate-fadeIn !min-w-0 w-[520px] shadow-none bg-white p-8 md:p-11 lg:p-16'
+        >
           <form
-            className='flex flex-col justify-center items-center p-[44px] relative'
+            className='flex flex-col justify-center items-center relative'
             onSubmit={form.handleSubmit(handleSubmit)}
           >
-            <h2 className='text-[23px] tracking-[2px] font-semibold'>
+            <h2 className='text-[20px] md:text-[23px] tracking-[2px] font-semibold'>
               Forgot Password?
             </h2>
             <img
               src={forgotPasswordImage}
-              className='w-[160px] h-[160px] object-contain'
+              className='w-[140px] h-[140px] md:w-[160px] md:h-[160px] object-contain'
             />
             <p className='text-[14px] text-center opacity-60 font-medium'>
               Enter your email and we&apos;ll send you a OTP code to reset your
@@ -96,13 +98,13 @@ function ForgotPassword() {
             <div className='mt-6 text-[14px] font-semibold'>
               <span className='mr-1'>Remember password?</span>
               <Link
-                className='p-1 text-secondary-400 hover:text-secondary-200'
+                className='p-3 lg:p-1 text-secondary-400 hover:text-secondary-200'
                 to={routesConfig.auth}
               >
                 Sign in
               </Link>
             </div>
-            {isSubmitting && <Loading className='absolute bottom-[-12px]' />}
+            {isSubmitting && <Loading className='absolute -bottom-12' />}
           </form>
         </Card>
         <ToastContainer autoClose={3000} />

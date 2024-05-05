@@ -75,20 +75,20 @@ function ResetPassword() {
       <DocumentTitle title='Reset Password' />
       <div
         className={clsx(
-          'flex justify-center items-center h-screen bg-[#885CEE]'
+          'flex justify-center items-center h-screen bg-[#885CEE] p-3'
         )}
       >
-        <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none'>
+        <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none bg-white p-8 md:p-11 lg:p-16'>
           <form
-            className='flex flex-col justify-center items-center p-[44px] relative'
+            className='flex flex-col justify-center items-center relative'
             onSubmit={form.handleSubmit(handleSubmit)}
           >
-            <h2 className='text-[23px] tracking-[2px] font-semibold'>
+            <h2 className='text-[20px] md:text-[23px] tracking-[2px] font-semibold'>
               Reset Password
             </h2>
             <img
               src={resetPasswordIcon}
-              className='my-6 w-[100px] h-[100px] object-contain'
+              className='my-6 w-[80px] h-[80px] md:w-[100px] md:h-[100px] object-contain'
             />
             <p className='text-[14px] text-center opacity-60 font-medium'>
               Enter your new password to reset your password.
@@ -122,11 +122,11 @@ function ResetPassword() {
 
             <div className='mt-6 text-[14px] font-semibold'>
               <span className='mr-1'>Remember password?</span>
-              <Link className='p-1 text-[#885CEE]' to={routesConfig.auth}>
+              <Link className='p-3 lg:p-1 text-[#885CEE]' to={routesConfig.auth}>
                 Sign in
               </Link>
             </div>
-            {isSubmitting && <Loading className='absolute bottom-[-12px]' />}
+            {isSubmitting && <Loading className='absolute -bottom-12' />}
           </form>
         </Card>
         <ToastContainer autoClose={3000} />

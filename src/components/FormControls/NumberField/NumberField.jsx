@@ -37,6 +37,7 @@ function NumberField({
               type='number'
               placeholder={placeholder}
               className={clsx(
+                'py-[6px]',
                 {
                   'hide-arrows': hideArrows
                 },
