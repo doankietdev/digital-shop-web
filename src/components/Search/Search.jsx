@@ -36,7 +36,7 @@ function Search({ className }) {
       </div>
       <div className='relative flex-1'>
         <TextFieldWithoutForm
-          className='px-0'
+          className='px-0 rounded-full'
           placeholder='Search'
           ref={textFieldRef}
           onFocus={handleFocusSearchInput}
