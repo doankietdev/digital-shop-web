@@ -3,7 +3,7 @@ import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { FaEye, FaStar } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import noImage from '~/assets/no-image.png'
-import { Button, Countdown, NoProductsAvailable, Rating } from '~/components'
+import { Button, Card, Countdown, NoProductsAvailable, Rating } from '~/components'
 import { routesConfig } from '~/config'
 import { getProducts } from '~/services/productService'
 import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
@@ -49,7 +49,7 @@ function DailyDeals() {
   }, [])
 
   return (
-    <div className='relative p-[20px] md:col-span-1 h-full flex flex-col rounded shadow-card'>
+    <Card className='relative p-[20px] md:col-span-1 h-full flex flex-col bg-white'>
       <h2 className='flex items-center font-semibold'>
         <FaStar className='text-[22px] text-primary-400' />
         <span className='text-xl text-[#505050] capitalize absolute left-[50%] translate-x-[-50%]'>
@@ -125,7 +125,7 @@ function DailyDeals() {
           )}
         </div>
       )}
-    </div>
+    </Card>
   )
 }
 
