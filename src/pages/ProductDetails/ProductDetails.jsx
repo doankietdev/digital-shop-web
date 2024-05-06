@@ -27,11 +27,11 @@ import Variants from './Variants'
 
 const imageSliderSettings = {
   dots: false,
-  infinite: true,
+  infinite: false,
   speed: 500,
-  autoplay: true,
+  // autoplay: true,
   autoplaySpeed: 2000,
-  slidesToShow: 3,
+  slidesToShow: 5,
   slidesToScroll: 1,
   prevArrow: (
     <ReactSlickArrow>
@@ -142,8 +142,8 @@ function ProductDetails() {
     fetchProduct()
   }, [slug])
 
-  const handleClickThumbItem = (e) => {
-    setCurrentThumb(e.target.src)
+  const handleClickThumbItem = (image) => {
+    setCurrentThumb(image)
   }
 
   const handleSelectVariant = (variant) => {
@@ -159,23 +159,23 @@ function ProductDetails() {
       ) : (
         <>
           <DocumentTitle title={product?.title} />
-          <div className='container'>
-            <section className='md:grid md:grid-rows-2 md:grid-cols-2 md:gap-11'>
+          <div className='container flex flex-col gap-7'>
+            <Card className='p-[26px] md:grid md:grid-cols-2 md:gap-11 bg-white'>
               <div>
                 <div className='rounded'>
                   <ReactImageMagnify
                     {...{
                       smallImage: {
                         alt: 'Wristwatch by Ted Baker London',
-                        src: currentThumb,
+                        src: currentThumb || '',
                         isFluidWidth: true
                       },
                       largeImage: {
-                        src: currentThumb,
+                        src: currentThumb || '',
                         width: 1200,
                         height: 1200
                       },
-                      imageClassName: 'object-cover !h-[460px]'
+                      imageClassName: 'object-contain !h-[460px]'
                     }}
                   />
                 </div>
@@ -184,9 +184,9 @@ function ProductDetails() {
                     {variant?.images?.map((image, index) => (
                       <div key={index} className='bg-white !w-auto mx-[10px]'>
                         <img
-                          onClick={handleClickThumbItem}
+                          onClick={() => handleClickThumbItem(image)}
                           src={image}
-                          className='w-full object-contain cursor-pointer rounded'
+                          className='h-[140px] object-contain cursor-pointer rounded'
                         />
                       </div>
                     ))}
@@ -204,7 +204,7 @@ function ProductDetails() {
                   />
                   <span className='text-[14px]'>{product?.sold} Sold</span>
                 </div>
-                <div className='mt-5 flex lg:items-center md:flex-col md:gap-1 flex-wrap'>
+                <div className='mt-5 flex items-center gap-1 flex-wrap'>
                   {product?.price ? (
                     <span className='mr-3 text-lg text-gray-500 line-through'>
                       {formatCash(product?.price)}
@@ -254,33 +254,33 @@ function ProductDetails() {
                   </Button>
                 </div>
               </div>
-            </section>
-            <section className='grid xl:grid-cols-3 gap-8 xl:gap-6 mt-7'>
-              <Card className='xl:col-span-2 order-2 xl:order-none'>
-                <h2 className='text-center uppercase text-lg font-semibold'>
-                  Highlights
+            </Card>
+            <Card className='p-[26px] bg-white flex flex-col gap-5'>
+              <div>
+                <h2 className='text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]'>
+                  Specifications
                 </h2>
-                <p className='mt-2'>{product?.description}</p>
-              </Card>
-              <Card className='xl:col-span-1 order-1 xl:order-none'>
-                <h2 className='font-semibold uppercase'>Specifications</h2>
-                <table className='w-full mt-2 text-sm'>
+                <table className='w-full mt-5 mx-3'>
                   <tbody>
-                    {product?.specs?.map((spec) => (
-                      <>
-                        <tr className='flex'>
-                          <td className='p-2 bg-[#f7f7f7] border w-[152px] font-semibold'>
-                            {spec.k}
-                          </td>
-                          <td className='p-2 border flex-1'>{spec.v}</td>
-                        </tr>
-                      </>
+                    {product?.specs?.map((spec, index) => (
+                      <tr key={index} className='flex'>
+                        <td className='p-[6px] w-[120px] md:w-[152px] text-[14px] text-[#00000066]'>
+                          {spec.k}
+                        </td>
+                        <td className='p-[6px] flex-1 text-[14px]'>{spec.v}</td>
+                      </tr>
                     ))}
                   </tbody>
                 </table>
-              </Card>
-            </section>
-            <section className='mt-7'>
+              </div>
+              <div>
+                <h2 className='text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]'>
+                  Description
+                </h2>
+                <p className='mt-2'>{product?.description}</p>
+              </div>
+            </Card>
+            <section>
               <h2 className='uppercase font-semibold text-xl border-b-2 border-primary-400 pb-2'>
                 Similar Products
               </h2>
