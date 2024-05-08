@@ -79,7 +79,7 @@ function DailyDeals() {
                   slug: product.slug
                 })}
               >
-                <h3 className='mt-4 lg:mt-0 hover:text-primary-400 line-clamp-1 md:line-clamp-2 lg:line-clamp-1 text-center transition-all duration-300 ease-in-out'>
+                <h3 className='mt-4 lg:mt-0 hover:text-primary-400 line-clamp-1 md:line-clamp-2 lg:line-clamp-1 text-center transition-all duration-300 ease-in-out font-medium'>
                   {product.title}
                 </h3>
               </Link>

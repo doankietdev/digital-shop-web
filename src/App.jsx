@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { publicRoutes } from './routes'
 import { DefaultLayout } from './layouts'
 import GlobalStyles from './components/GlobalStyles'
+import { ScrollToTop } from './components'
 
 function App() {
   return (
     <GlobalStyles>
       <div className='font-main'>
         <Router>
+          <ScrollToTop />
           <Routes>
             {publicRoutes.map((route, index) => {
               const Page = route.component

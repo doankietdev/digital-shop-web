@@ -108,7 +108,7 @@ function Product({
         },
         styles.card,
         className,
-        'mx-[10px] p-[15px] relative flex flex-col rounded shadow-card hover:shadow-card-md transition-all duration-300 bg-white h-full'
+        'mx-[10px] px-6 py-3 relative flex flex-col gap-5 rounded shadow-card hover:shadow-card-md transition-all duration-300 bg-white h-full'
       )}
     >
       <div
@@ -116,12 +116,10 @@ function Product({
           {
             'col-span-1': horizontal,
             relative: !horizontal
-          },
-          'flex'
+          }
         )}
       >
         <Link
-          className='flex-1'
           to={parsePlaceHolderUrl(routesConfig.productDetails, {
             slug: product.slug
           })}
@@ -132,7 +130,7 @@ function Product({
             className={clsx(
               {
                 'h-[120px]': horizontal,
-                'h-full': !horizontal
+                'h-[200px]': !horizontal
               },
               'w-full object-contain'
             )}
@@ -155,7 +153,7 @@ function Product({
           {
             'col-span-3': horizontal
           },
-          'ml-5 flex-1'
+          'flex-1'
         )}
       >
         <Link
@@ -163,7 +161,7 @@ function Product({
             slug: product.slug
           })}
         >
-          <h3 className='hover:text-primary-400 transition-all duration-300 ease-in-out mb-[10px] capitalize line-clamp-1'>
+          <h3 className='hover:text-primary-400 transition-all duration-300 ease-in-out mb-[10px] capitalize line-clamp-1 font-medium'>
             {product.title}
           </h3>
         </Link>
@@ -178,13 +176,13 @@ function Product({
         </div>
         <div className='mt-[10px] flex items-center flex-wrap gap-1'>
           {product.oldPrice ? (
-            <span className='mr-3 text-sm text-gray-500 line-through'>
+            <span className='mr-3 text-sm text-gray-500 line-through font-medium'>
               {formatCash(product.oldPrice)}
             </span>
           ) : (
             ''
           )}
-          <span>{formatCash(product.price)}</span>
+          <span className='font-medium'>{formatCash(product.price)}</span>
         </div>
       </div>
       {showLabel && label ? (
