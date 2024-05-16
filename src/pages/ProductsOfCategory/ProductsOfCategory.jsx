@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { setLoading } from '~/AppSlice'
@@ -39,7 +39,8 @@ function ProductsOfCategory() {
   })
   const [brands, setBrands] = useState([])
   const [products, setProducts] = useState(null)
-  const [filter, setFilter] = useState(() => {
+  const { slug } = useParams()
+  const filter = useMemo(() => {
     // price
     const priceFilerArray = searchParams.get('price')?.split('-')
     let price = {}
@@ -82,11 +83,10 @@ function ProductsOfCategory() {
       brand,
       specs
     }
-  })
-  const [sort, setSort] = useState(() => {
+  }, [searchParams])
+  const sort = useMemo(() => {
     return searchParams.get('_sort')?.split(',') || []
-  })
-  const { slug } = useParams()
+  }, [searchParams])
   const { loading } = useSelector(appSelector)
 
   useEffect(() => {
@@ -136,10 +136,6 @@ function ProductsOfCategory() {
       ...prev,
       price: `${values[0]}-${values[1]}`
     }))
-    setFilter((prev) => ({
-      ...prev,
-      price: { gte: values[0], lte: values[1] }
-    }))
   }
 
   const handleBrandFilterChange = useCallback(
@@ -148,7 +144,6 @@ function ProductsOfCategory() {
         ...prev,
         brand: values.join(',')
       }))
-      setFilter((prev) => ({ ...prev, brand: values }))
     },
     [setSearchParams]
   )
@@ -159,24 +154,6 @@ function ProductsOfCategory() {
         ...prev,
         ram: values.join(',')
       }))
-
-      setFilter((prev) => {
-        if (!values.length) {
-          prev.specs = prev.specs.filter((specItem) => specItem.k !== 'ram')
-          return { ...prev }
-        }
-        const foundSpecItem = prev.specs.find(
-          (specItem) => specItem.k === 'ram'
-        )
-        if (foundSpecItem) {
-          foundSpecItem.v = values
-          return { ...prev }
-        }
-        return {
-          ...prev,
-          specs: [...prev.specs, { k: 'ram', v: values }]
-        }
-      })
     },
     [setSearchParams]
   )
@@ -184,7 +161,6 @@ function ProductsOfCategory() {
   const handleSortChange = useCallback(
     (value) => {
       setSearchParams((prev) => ({ ...prev, _sort: [value].join(',') }))
-      setSort([value])
     },
     [setSearchParams]
   )
