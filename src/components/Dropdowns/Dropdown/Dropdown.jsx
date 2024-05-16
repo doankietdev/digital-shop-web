@@ -3,7 +3,14 @@ import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Divider } from '~/components'
 
-function Dropdown({ className, label, title, children }) {
+function Dropdown({
+  className,
+  dropdownContainerClassName,
+  itemContainerClassName,
+  label,
+  title,
+  children
+}) {
   const [open, setOpen] = useState(false)
 
   const handleToggle = useCallback(() => {
@@ -11,18 +18,20 @@ function Dropdown({ className, label, title, children }) {
   }, [])
 
   return (
-    <div className={clsx(
-      className,
-      'min-w-[32px] relative'
-    )}>
+    <div className={clsx(className, 'min-w-[32px] relative')}>
       <button
-        className='flex items-center text-sm pe-1 font-medium text-gray-900 hover:text-mai md:me-0  px-2'
+        className='flex items-center text-sm pe-1 font-medium text-gray-900 md:me-0 px-2'
         onClick={handleToggle}
       >
         {label}
       </button>
       {open && (
-        <div className='z-10 bg-white rounded-lg shadow-2xl absolute right-0 bottom-[-10px] translate-y-full min-w-[180px] overflow-hidden'>
+        <div
+          className={clsx(
+            'z-10 bg-white rounded-lg shadow-2xl absolute right-0 bottom-[-10px] translate-y-full min-w-[180px] overflow-hidden',
+            dropdownContainerClassName
+          )}
+        >
           {!!title && (
             <>
               <div className='px-5 py-3 text-sm text-gray-900  w-max'>
@@ -31,9 +40,11 @@ function Dropdown({ className, label, title, children }) {
               <DropdownDivider />
             </>
           )}
-          <ul className='text-sm text-gray-700'>
+          <div
+            className={clsx('text-sm text-gray-700', itemContainerClassName)}
+          >
             {children}
-          </ul>
+          </div>
         </div>
       )}
     </div>
@@ -42,7 +53,7 @@ function Dropdown({ className, label, title, children }) {
 
 function DropdownItem({ link, children, onClick }) {
   return (
-    <li
+    <div
       className={
         link
           ? ''
@@ -60,7 +71,7 @@ function DropdownItem({ link, children, onClick }) {
       ) : (
         <>{children}</>
       )}
-    </li>
+    </div>
   )
 }
 

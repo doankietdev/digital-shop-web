@@ -53,6 +53,18 @@ input:-webkit-autofill:active {
 .slick-arrow.slick-next {
   @apply right-[10px] lg:right-[-10px];
 }
+
+/* rc-slider */
+.rc-slider-track {
+  @apply bg-primary-400
+}
+.rc-slider-handle {
+  @apply bg-white border-primary-400 opacity-100
+}
+.rc-slider-handle.rc-slider-handle-dragging {
+  @apply !border-primary-400 !shadow-none
+}
+
 /* Chrome, Safari, Edge, Opera */
 input[type='number'].hide-arrows::-webkit-outer-spin-button,
 input[type='number'].hide-arrows::-webkit-inner-spin-button {

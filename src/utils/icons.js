@@ -11,7 +11,9 @@ import {
   FaShippingFast as ShippingFastIcon,
   FaIdCard as IdCardIcon,
   FaShieldAlt as ShieldIcon,
-  FaHeadset as HeadsetIcon
+  FaHeadset as HeadsetIcon,
+  FaSortAmountDown as SortDescIcon,
+  FaSortAmountDownAlt as SortAscIcon
 } from 'react-icons/fa'
 import {
   FaCartShopping as FaCartShoppingIcon,
@@ -34,6 +36,7 @@ import {
   MdArrowForwardIos as MdArrowForwardIosIcon
 } from 'react-icons/md'
 import { TbMailCheck as TbMailCheckIcon } from 'react-icons/tb'
+import { GiBuyCard as BuyIcon } from 'react-icons/gi'
 
 export {
   FaCartShoppingIcon,
@@ -61,5 +64,8 @@ export {
   ShippingFastIcon,
   IdCardIcon,
   ShieldIcon,
-  HeadsetIcon
+  HeadsetIcon,
+  SortDescIcon,
+  SortAscIcon,
+  BuyIcon
 }
