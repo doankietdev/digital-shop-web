@@ -1,7 +1,7 @@
 const routesConfig = {
   home: '/',
-  signIn: '/sign-in',
-  signUp: '/sign-up',
+  signIn: '/auth/sign-in',
+  signUp: '/auth/sign-up',
   verifyEmail: '/auth/verify-email/:userId/:token',
   emailVerificationSuccess: '/auth/email-verification-success',
   emailVerificationError: '/auth/email-verification-error',
