@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import clsx from 'clsx'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { memo, useState } from 'react'
 import { FaMinusIcon, FaPlusIcon } from '~/utils/icons'
 
@@ -11,6 +11,10 @@ function QuantityFieldWithoutForm({
   onChange = () => {}
 }) {
   const [value, setValue] = useState(defaultValue)
+
+  useEffect(() => {
+    setValue(defaultValue)
+  }, [defaultValue])
 
   const handleDecrease = useCallback(() => {
     setValue((prevValue) => {

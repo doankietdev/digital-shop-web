@@ -7,8 +7,7 @@ const addToCart = createAsyncThunk(
   'cart/addToCart',
   async (payload, { rejectWithValue }) => {
     try {
-      await cartService.addToCart(payload)
-      return await cartService.getCart()
+      return await cartService.addToCart(payload)
     } catch (error) {
       return rejectWithValue(error)
     }
