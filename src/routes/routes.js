@@ -1,5 +1,6 @@
 import { routesConfig } from '~/config'
 import {
+  Cart,
   EmailVerificationError,
   EmailVerificationSuccess,
   ForgotPassword,
@@ -44,6 +45,10 @@ const publicRoutes = [
     path: routesConfig.resetPassword,
     component: ResetPassword,
     layout: null
+  },
+  {
+    path: routesConfig.cart,
+    component: Cart
   }
 ]
 

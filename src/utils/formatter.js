@@ -1,14 +1,11 @@
 const formatCash = (number) => {
   if (number === null || number === undefined) return ''
-  return (
-    number
-      .toString()
-      .split('')
-      .reverse()
-      .reduce((prev, next, index) => {
-        return (index % 3 ? next : next + ',') + prev
-      }) + ' VND'
-  )
+  return new Intl.NumberFormat('vi-Vn', {
+    style: 'currency',
+    currency: 'VND',
+    minimumFractionDigits: 0,
+    currencyDisplay: 'code'
+  }).format(number)
 }
 
 const parseResponseMessage = (responseMessage) => {

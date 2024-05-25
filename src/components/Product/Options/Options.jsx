@@ -1,21 +1,26 @@
+import { FaEye, FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import { FaHeart, FaEye } from 'react-icons/fa'
-import OptionItem from './OptionItem'
 import { routesConfig } from '~/config'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
-import { FaCartPlusIcon } from '~/utils/icons'
+import OptionItem from './OptionItem'
+import { useCallback } from 'react'
 
-function Options({ className, slug }) {
+// eslint-disable-next-line no-unused-vars
+function Options({ className, slug, productId }) {
+  const handleAddToWishlist = useCallback(() => {}, [])
   return (
     <div className={`${className} flex gap-4`}>
-      <OptionItem icon={<FaHeart size='14px' />} title='Add to wishlist' />
-      <OptionItem icon={<FaCartPlusIcon size='16px' />} title='Add to cart' />
+      <OptionItem
+        icon={<FaHeart size="14px" />}
+        title="Add to wishlist"
+        onClick={handleAddToWishlist}
+      />
       <Link
         to={parsePlaceHolderUrl(routesConfig.productDetails, {
           slug
         })}
       >
-        <OptionItem icon={<FaEye size='17px' />} title='View details' />
+        <OptionItem icon={<FaEye size="17px" />} title="View details" />
       </Link>
     </div>
   )

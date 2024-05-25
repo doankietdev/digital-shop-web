@@ -137,6 +137,7 @@ function Product({
           />
         </Link>
         <Options
+          productId={product._id}
           slug={product.slug}
           className={clsx(
             {
