@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import noImage from '~/assets/no-image.png'
@@ -10,6 +10,7 @@ import { updateVariant } from './CartSlice'
 import UpdateVariant from './UpdateVariant'
 
 function Cart() {
+  const updateVariantRef = useRef()
   const { products } = useSelector(cartSelector)
 
   const handleQuantityFieldChange = useCallback(() => {
@@ -34,6 +35,7 @@ function Cart() {
           },
           error: {
             render({ data }) {
+              updateVariantRef.current.rollback()
               return data.messages[0]
             }
           }
@@ -95,18 +97,16 @@ function Cart() {
                   <div className="basis-2/12 text-[14px] flex justify-center items-center">
                     <UpdateVariant
                       title={variant.name}
-                      items={product?.variants?.map((variant) => ({
-                        value: variant._id,
-                        name: variant.name
-                      }))}
-                      defaultValues={[variant._id]}
+                      variants={product?.variants}
+                      defaultVariantId={variant._id}
                       onChange={(value) =>
                         handleUpdateVariant({
                           productId: product._id,
                           oldVariantId: variant._id,
-                          variantId: value[0]
+                          variantId: value
                         })
                       }
+                      ref={updateVariantRef}
                     />
                   </div>
                   <div className="basis-[12.5%] text-[14px] flex flex-wrap justify-center items-center">

@@ -1,39 +1,38 @@
 /* eslint-disable react-refresh/only-export-components */
 import clsx from 'clsx'
-import PropTypes from 'prop-types'
-import { memo, useCallback, useState } from 'react'
+import {
+  forwardRef,
+  memo,
+  useCallback,
+  useImperativeHandle,
+  useState
+} from 'react'
 import { Dropdown } from '~/components/Dropdowns'
 
-UpdateVariant.propTypes = {
-  title: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.any.isRequired,
-      name: PropTypes.string
-    })
-  ),
-  defaultValues: PropTypes.array,
-  onChange: PropTypes.func
-}
+function UpdateVariant(
+  { title, variants, defaultVariantId, onChange = () => {} },
+  ref
+) {
+  const [prevSelectedValue, setPrevSelectedValue] = useState(null)
+  const [selectedVariantId, setSelectedVariantId] = useState(defaultVariantId || variants[0]._id)
 
-function UpdateVariant({
-  title,
-  items,
-  defaultValues = [],
-  onChange = () => {}
-}) {
-  const [selectedValues, setSelectedValues] = useState(defaultValues)
+  useImperativeHandle(ref, () => ({
+    rollback() {
+      if (prevSelectedValue) {
+        setSelectedVariantId(prevSelectedValue)
+      }
+    }
+  }), [prevSelectedValue])
 
   const handleClick = useCallback(
-    (value) => {
-      setSelectedValues((prevSelectedItems) => {
-        const foundIndex = prevSelectedItems.indexOf(value)
-        if (foundIndex > -1) {
-          return prevSelectedItems
+    (variantId) => {
+      setSelectedVariantId((prevSelectedVariantId) => {
+        if (prevSelectedVariantId === variantId) {
+          return prevSelectedVariantId
         }
-        const newSelectedItems = [value]
-        onChange(newSelectedItems)
-        return newSelectedItems
+        setPrevSelectedValue(prevSelectedVariantId)
+        onChange(variantId)
+        return variantId
       })
     },
     [onChange]
@@ -46,23 +45,23 @@ function UpdateVariant({
       dropdownContainerClassName="left-0 bg-white p-4 w-[360px]"
       itemContainerClassName="flex gap-2 items-center flex-wrap"
     >
-      {items?.map((item, index) => (
+      {variants?.map((variant, index) => (
         <span
-          onClick={() => handleClick(item.value)}
+          onClick={() => handleClick(variant._id)}
           key={index}
           className={clsx(
             'bg-[#F3F4F6] p-2 rounded cursor-pointer flex justify-center items-center border border-[#F3F4F6] select-none',
             {
               ' !border-primary-400 !bg-primary-400 !bg-opacity-10':
-                selectedValues.includes(item.value)
+              selectedVariantId === variant._id
             }
           )}
         >
-          {item.name}
+          {variant.name}
         </span>
       ))}
     </Dropdown>
   )
 }
 
-export default memo(UpdateVariant)
+export default memo(forwardRef(UpdateVariant))
