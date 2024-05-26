@@ -10,22 +10,29 @@ import {
 import { Dropdown } from '~/components/Dropdowns'
 
 function UpdateVariant(
-  { title, variants, defaultVariantId, onChange = () => {} },
+  { title, variants, defaultVariantId, disabled = false, onChange = () => {} },
   ref
 ) {
   const [prevSelectedValue, setPrevSelectedValue] = useState(null)
-  const [selectedVariantId, setSelectedVariantId] = useState(defaultVariantId || variants[0]._id)
+  const [selectedVariantId, setSelectedVariantId] = useState(
+    defaultVariantId || variants[0]?._id
+  )
 
-  useImperativeHandle(ref, () => ({
-    rollback() {
-      if (prevSelectedValue) {
-        setSelectedVariantId(prevSelectedValue)
+  useImperativeHandle(
+    ref,
+    () => ({
+      rollback() {
+        if (prevSelectedValue) {
+          setSelectedVariantId(prevSelectedValue)
+        }
       }
-    }
-  }), [prevSelectedValue])
+    }),
+    [prevSelectedValue]
+  )
 
   const handleClick = useCallback(
     (variantId) => {
+      if (disabled) return
       setSelectedVariantId((prevSelectedVariantId) => {
         if (prevSelectedVariantId === variantId) {
           return prevSelectedVariantId
@@ -35,7 +42,7 @@ function UpdateVariant(
         return variantId
       })
     },
-    [onChange]
+    [disabled, onChange]
   )
 
   return (
@@ -50,10 +57,12 @@ function UpdateVariant(
           onClick={() => handleClick(variant._id)}
           key={index}
           className={clsx(
-            'bg-[#F3F4F6] p-2 rounded cursor-pointer flex justify-center items-center border border-[#F3F4F6] select-none',
+            'bg-[#F3F4F6] p-2 rounded flex justify-center items-center border border-[#F3F4F6] select-none',
             {
               ' !border-primary-400 !bg-primary-400 !bg-opacity-10':
-              selectedVariantId === variant._id
+                selectedVariantId === variant._id,
+              'cursor-pointer': !disabled,
+              'cursor-not-allowed opacity-70': disabled
             }
           )}
         >
