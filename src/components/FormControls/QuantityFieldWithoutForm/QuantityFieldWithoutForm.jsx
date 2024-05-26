@@ -59,8 +59,8 @@ function QuantityFieldWithoutForm({
       <button
         className={clsx('px-2 py-[6px] border-r text-sm bg-white', {
           'hover:bg-gray-200 transition-all duration-200 ease-in-out':
-            value > 1 || !disabled,
-          'cursor-not-allowed opacity-70': value <= 1 || disabled
+            value > 1 && !disabled,
+          'cursor-not-allowed opacity-50': value <= 1 || disabled
         })}
         onClick={handleDecrease}
       >
@@ -78,7 +78,7 @@ function QuantityFieldWithoutForm({
           'hover:bg-gray-200 transition-all duration-200 ease-in-out': max
             ? value < max && !disabled
             : true,
-          'cursor-not-allowed opacity-70': value >= max || disabled
+          'cursor-not-allowed opacity-50': value >= max || disabled
         })}
         onClick={handleIncrease}
       >

@@ -5,9 +5,11 @@ import noImage from '~/assets/no-image.png'
 import { Card, Checkbox, DocumentTitle, QuantityField } from '~/components'
 import { dispatch } from '~/redux'
 import { cartSelector } from '~/redux/selectors'
-import { formatCash } from '~/utils/formatter'
+import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
 import { updateProductQuantity, updateVariant } from './CartSlice'
 import UpdateVariant from './UpdateVariant'
+import { Link } from 'react-router-dom'
+import { routesConfig } from '~/config'
 
 const TIME_UPDATE_QUANTITY = 700 // ms
 
@@ -137,13 +139,25 @@ function Cart() {
                     <Checkbox id="checkbox" />
                   </div>
                   <div className="basis-4/12 text-[14px] flex items-center gap-3">
-                    <img
-                      src={variant?.images[0] || noImage}
-                      className="w-[80px] h-[80px] object-contain"
-                    />
-                    <span className="text-[14px] line-clamp-2">
-                      {product?.title}
-                    </span>
+                    <Link
+                      to={parsePlaceHolderUrl(routesConfig.productDetails, {
+                        slug: product?.slug
+                      })}
+                    >
+                      <img
+                        src={variant?.images[0] || noImage}
+                        className="w-[80px] h-[80px] object-contain"
+                      />
+                    </Link>
+                    <Link
+                      to={parsePlaceHolderUrl(routesConfig.productDetails, {
+                        slug: product?.slug
+                      })}
+                    >
+                      <span className="text-[14px] line-clamp-2 hover:text-primary-400 transition-all duration-300 ease-in-out">
+                        {product?.title}
+                      </span>
+                    </Link>
                   </div>
                   <div className="basis-2/12 text-[14px] flex justify-center items-center">
                     <UpdateVariant
@@ -188,7 +202,7 @@ function Cart() {
                       }
                     />
                   </div>
-                  <div className="basis-[12.5%] text-[14px] flex justify-center items-center">
+                  <div className="basis-[12.5%] text-[14px] flex justify-center items-center text-red-600">
                     {formatCash(product?.price * quantity)}
                   </div>
                   <div className="basis-[12.5%] text-[14px] flex justify-center items-center">

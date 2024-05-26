@@ -162,7 +162,7 @@ function Product({
             slug: product.slug
           })}
         >
-          <h3 className='hover:text-primary-400 transition-all duration-300 ease-in-out mb-[10px] capitalize line-clamp-1 font-medium'>
+          <h3 className='hover:text-primary-400 transition-all duration-300 ease-in-out mb-[10px] line-clamp-1 font-medium'>
             {product.title}
           </h3>
         </Link>
