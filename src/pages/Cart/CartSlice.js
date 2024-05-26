@@ -36,6 +36,17 @@ const updateProductQuantity = createAsyncThunk(
   }
 )
 
+const deleteFromCart = createAsyncThunk(
+  'cart/deleteFromCart',
+  async (payload, { rejectWithValue }) => {
+    try {
+      return await cartService.deleteFromCart(payload)
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 const getCart = createAsyncThunk(
   'cart/getCart',
   async (payload, { rejectWithValue }) => {
@@ -79,6 +90,12 @@ const cartSlice = createSlice({
       state.countProducts = countProducts
     })
 
+    builder.addCase(deleteFromCart.fulfilled, (state, action) => {
+      const { products, countProducts } = action.payload
+      state.products = products
+      state.countProducts = countProducts
+    })
+
     builder.addCase(getCart.fulfilled, (state, action) => {
       const { _id, products, countProducts } = action.payload
       state._id = _id
@@ -91,6 +108,13 @@ const cartSlice = createSlice({
 const { reducer, actions } = cartSlice
 const { clear } = actions
 
-export { addToCart, clear, getCart, updateProductQuantity, updateVariant }
+export {
+  addToCart,
+  clear,
+  getCart,
+  updateProductQuantity,
+  updateVariant,
+  deleteFromCart
+}
 
 export default persistReducer({ key: 'user', storage }, reducer)

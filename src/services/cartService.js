@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { addToCartApi, getCartApi, updateProductQuantityApi, updateVariantApi } from '~/apis/cartApis'
+import { addToCartApi, deleteFromCartApi, getCartApi, updateProductQuantityApi, updateVariantApi } from '~/apis/cartApis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 
@@ -61,9 +61,25 @@ const getCart = async () => {
   }
 }
 
+const deleteFromCart = async ({ productId, variantId }) => {
+  try {
+    const { metadata } = await axiosClient.post(deleteFromCartApi, {
+      productId,
+      variantId
+    })
+    return metadata.cart
+  } catch (error) {
+    if (error.statusCode === StatusCodes.BAD_REQUEST) {
+      return Promise.reject(new UIError([error.message]))
+    }
+    return Promise.reject(new UIError(['Something went wrong']))
+  }
+}
+
 export default {
   addToCart,
   updateVariant,
   updateProductQuantity,
-  getCart
+  getCart,
+  deleteFromCart
 }

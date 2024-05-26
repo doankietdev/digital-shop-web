@@ -6,10 +6,15 @@ import { Card, Checkbox, DocumentTitle, QuantityField } from '~/components'
 import { dispatch } from '~/redux'
 import { cartSelector } from '~/redux/selectors'
 import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
-import { updateProductQuantity, updateVariant } from './CartSlice'
+import {
+  deleteFromCart,
+  updateProductQuantity,
+  updateVariant
+} from './CartSlice'
 import UpdateVariant from './UpdateVariant'
 import { Link } from 'react-router-dom'
 import { routesConfig } from '~/config'
+import { DeleteIcon } from '~/utils/icons'
 
 const TIME_UPDATE_QUANTITY = 700 // ms
 
@@ -83,6 +88,36 @@ function Cart() {
             render() {
               setDisabled(false)
               return 'Update variant successfully'
+            }
+          },
+          error: {
+            render({ data }) {
+              setDisabled(false)
+              updateVariantRef.current.rollback()
+              return data.messages[0]
+            }
+          }
+        }
+      )
+    },
+    []
+  )
+
+  const handleDeleteProductFromCart = useCallback(
+    ({ productId, variantId }) => {
+      toast.promise(
+        dispatch(deleteFromCart({ productId, variantId })).unwrap(),
+        {
+          pending: {
+            render() {
+              setDisabled(true)
+              return 'Deleting product from cart'
+            }
+          },
+          success: {
+            render() {
+              setDisabled(false)
+              return 'Delete product from cart successfully'
             }
           },
           error: {
@@ -206,7 +241,17 @@ function Cart() {
                     {formatCash(product?.price * quantity)}
                   </div>
                   <div className="basis-[12.5%] text-[14px] flex justify-center items-center">
-                    Action
+                    <button
+                      title="Delete"
+                      onClick={() =>
+                        handleDeleteProductFromCart({
+                          productId: product?._id,
+                          variantId
+                        })
+                      }
+                    >
+                      <DeleteIcon className="text-[22px]" />
+                    </button>
                   </div>
                 </div>
               </Card>
