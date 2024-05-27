@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import clsx from 'clsx'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { memo, useState } from 'react'
 import { FaMinusIcon, FaPlusIcon } from '~/utils/icons'
 
@@ -13,10 +13,17 @@ function QuantityFieldWithoutForm({
   onChange = ({ quantity, oldQuantity }) => {}
 }) {
   const [value, setValue] = useState(defaultValue)
+  const initialValue = useRef(null)
 
   useEffect(() => {
     setValue(defaultValue)
   }, [defaultValue])
+
+  useEffect(() => {
+    if (value !== '' && initialValue.current === null) {
+      initialValue.current = value
+    }
+  }, [value])
 
   const handleDecrease = useCallback(() => {
     if (disabled) return
@@ -42,13 +49,13 @@ function QuantityFieldWithoutForm({
   const handleInputChange = useCallback(
     (e) => {
       if (disabled) return
-      const oldValue = e.target.value
-      let value = e.target.value
 
+      let value = parseInt(e.target.value)
       if (value > max) {
         value = max
       }
-      onChange({ quantity: value, oldQuantity: oldValue })
+      onChange({ quantity: value, oldQuantity: initialValue.current })
+      initialValue.current = null
       setValue(value)
     },
     [disabled, max, onChange]

@@ -27,8 +27,11 @@ function Cart() {
 
   const handleQuantityFieldChange = useCallback(
     ({ productId, variantId, quantity, oldQuantity }) => {
+      if (!quantity) return
+
       if (timer.current) {
         clearTimeout(timer.current)
+        if (!quantity) return
       }
       if (!oldestQuantity.current) {
         oldestQuantity.current = oldQuantity
