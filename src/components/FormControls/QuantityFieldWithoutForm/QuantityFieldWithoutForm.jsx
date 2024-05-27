@@ -55,7 +55,10 @@ function QuantityFieldWithoutForm({
         value = max
       }
       onChange({ quantity: value, oldQuantity: initialValue.current })
-      initialValue.current = null
+      // case: input has 1 digit, after input empty
+      if (value) {
+        initialValue.current = null
+      }
       setValue(value)
     },
     [disabled, max, onChange]

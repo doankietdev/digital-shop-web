@@ -117,4 +117,4 @@ export {
   deleteFromCart
 }
 
-export default persistReducer({ key: 'user', storage }, reducer)
+export default persistReducer({ key: 'cart', storage }, reducer)
