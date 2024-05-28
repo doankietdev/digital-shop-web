@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import ReactImageMagnify from 'react-image-magnify'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -24,6 +24,9 @@ import {
   MdArrowForwardIosIcon
 } from '~/utils/icons'
 import Variants from './Variants'
+import { toast } from 'react-toastify'
+import { addToCart } from '~/pages/Cart/CartSlice'
+import clsx from 'clsx'
 
 const imageSliderSettings = {
   dots: false,
@@ -117,9 +120,11 @@ function ProductDetails() {
   const [product, setProduct] = useState(null)
   const [similarProducts, setSimilarProducts] = useState([])
   const [variant, setVariant] = useState(null)
+  const [quantity, setQuantity] = useState(1)
+  const [hasError, setHasError] = useState(false)
   const [currentThumb, setCurrentThumb] = useState(null)
-  const quantityFieldRef = useRef(null)
   const { loading } = useSelector(appSelector)
+
   useEffect(() => {
     const fetchProduct = async () => {
       dispatch(setLoading(true))
@@ -134,7 +139,6 @@ function ProductDetails() {
         })
       ).products
       setProduct(product)
-      setVariant(product.variants[0])
       setCurrentThumb(product.thumb.url)
       setSimilarProducts(similarProducts)
       dispatch(setLoading(false))
@@ -142,15 +146,33 @@ function ProductDetails() {
     fetchProduct()
   }, [slug])
 
-  const handleClickThumbItem = (image) => {
+  const handleClickThumbItem = useCallback((image) => {
     setCurrentThumb(image)
-  }
+  }, [])
 
-  const handleSelectVariant = (variant) => {
+  const handleSelectVariant = useCallback((variant) => {
+    setHasError(false)
     setVariant(variant)
-  }
+  }, [])
 
-  const handleAddToCart = () => {}
+  const handleQuantityFieldChange = useCallback(value => {
+    setQuantity(value)
+  }, [])
+
+  const handleAddToCart = useCallback(async () => {
+    try {
+      if (!variant) {
+        return setHasError(true)
+      }
+      setHasError(false)
+      await dispatch(
+        addToCart({ productId: product?._id, variantId: variant._id, quantity })
+      ).unwrap()
+      toast.success('Product has been added to cart')
+    } catch (error) {
+      toast.error(error.messages[0])
+    }
+  }, [product?._id, quantity, variant])
 
   return (
     <>
@@ -159,10 +181,10 @@ function ProductDetails() {
       ) : (
         <>
           <DocumentTitle title={product?.title} />
-          <div className='container flex flex-col gap-7'>
-            <Card className='p-[26px] md:grid md:grid-cols-2 md:gap-11 bg-white'>
+          <div className="container flex flex-col gap-7">
+            <Card className="p-[26px] md:grid md:grid-cols-2 md:gap-11 bg-white">
               <div>
-                <div className='rounded'>
+                <div className="rounded">
                   <ReactImageMagnify
                     {...{
                       smallImage: {
@@ -179,67 +201,83 @@ function ProductDetails() {
                     }}
                   />
                 </div>
-                <div className='mt-6 mx-[-10px]'>
+                <div className="mt-6 mx-[-10px]">
                   <Slider {...imageSliderSettings}>
                     {variant?.images?.map((image, index) => (
-                      <div key={index} className='bg-white !w-auto mx-[10px]'>
+                      <div key={index} className="bg-white !w-auto mx-[10px]">
                         <img
                           onClick={() => handleClickThumbItem(image)}
                           src={image}
-                          className='h-[140px] object-contain cursor-pointer rounded'
+                          className="h-[140px] object-contain cursor-pointer rounded"
                         />
                       </div>
                     ))}
                   </Slider>
                 </div>
               </div>
-              <div className='mt-4 md:mt-0'>
-                <h1 className='text-xl md:text-2xl font-semibold'>
+              <div className="mt-4 md:mt-0">
+                <h1 className="text-xl md:text-2xl font-semibold">
                   {product?.title}
                 </h1>
-                <div className='mt-2 flex items-center gap-4'>
+                <div className="mt-2 flex items-center gap-4">
                   <Rating
-                    size='14px'
+                    size="14px"
                     averageRatings={product?.averageRatings}
                   />
-                  <span className='text-[14px]'>{product?.sold} Sold</span>
+                  <span className="text-[14px]">{product?.sold} Sold</span>
                 </div>
-                <div className='mt-5 flex items-center gap-1 flex-wrap'>
-                  {product?.price ? (
-                    <span className='mr-3 text-lg text-gray-500 line-through'>
-                      {formatCash(product?.price)}
+                <div className="mt-5 flex items-center gap-1 flex-wrap">
+                  {product?.oldPrice ? (
+                    <span className="mr-3 text-lg text-gray-500 line-through">
+                      {formatCash(product?.oldPrice)}
                     </span>
                   ) : (
                     ''
                   )}
-                  <span className='text-xl font-medium'>
+                  <span className="text-xl font-medium">
                     {formatCash(product?.price)}
                   </span>
                 </div>
-                <div className='mt-7 flex items-center gap-6'>
-                  <span className='text-sm font-medium text-gray-600'>
-                    Variants
-                  </span>
-                  <Variants
-                    variants={product?.variants}
-                    onSelect={handleSelectVariant}
-                  />
-                </div>
-                <div className='mt-7 flex items-center gap-6 w-fit'>
-                  <span className='text-sm font-medium text-gray-600'>
-                    Quantity
-                  </span>
-                  <div className='flex items-center gap-4'>
-                    <QuantityField
-                      max={variant?.quantity}
-                      ref={quantityFieldRef}
-                    />
-                    <span className='text-sm text-gray-600'>
-                      {variant?.quantity} products available
+                <div
+                  className={clsx('mt-7', {
+                    'p-4 -ml-4 bg-red-50': hasError
+                  })}
+                >
+                  <div className="flex items-center gap-6">
+                    <span className="text-sm font-medium text-gray-600">
+                      Variants
                     </span>
+                    <Variants
+                      variants={product?.variants}
+                      defaultVariantId={product?.variants[0]?._id}
+                      onSelect={handleSelectVariant}
+                    />
                   </div>
+                  <div className="mt-7 flex items-center gap-6 w-fit">
+                    <span className="text-sm font-medium text-gray-600">
+                      Quantity
+                    </span>
+                    <div className="flex items-center gap-4">
+                      <QuantityField
+                        max={variant ? variant?.quantity : product?.quantity}
+                        onChange={handleQuantityFieldChange}
+                      />
+                      <span className="text-sm text-gray-600">
+                        {variant ? variant?.quantity : product?.quantity}{' '}
+                        products available
+                      </span>
+                    </div>
+                  </div>
+                  <p className={clsx(
+                    'text-red-500 text-[14px] mt-4',
+                    {
+                      'hidden': !hasError
+                    }
+                  )}>
+                    Please select variant
+                  </p>
                 </div>
-                <div className='mt-8 flex flex-col-reverse md:flex-row gap-4'>
+                <div className="mt-8 flex flex-col-reverse md:flex-row gap-4">
                   <Button
                     icon={<FaCartPlusIcon />}
                     primary
@@ -255,36 +293,36 @@ function ProductDetails() {
                 </div>
               </div>
             </Card>
-            <Card className='p-[26px] bg-white flex flex-col gap-5'>
+            <Card className="p-[26px] bg-white flex flex-col gap-5">
               <div>
-                <h2 className='text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]'>
+                <h2 className="text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]">
                   Specifications
                 </h2>
-                <table className='w-full mt-5 mx-3'>
+                <table className="w-full mt-5 mx-3">
                   <tbody>
                     {product?.specs?.map((spec, index) => (
-                      <tr key={index} className='flex'>
-                        <td className='p-[6px] w-[120px] md:w-[152px] text-[14px] text-[#00000066]'>
+                      <tr key={index} className="flex">
+                        <td className="p-[6px] w-[120px] md:w-[152px] text-[14px] text-[#00000066]">
                           {spec.k}
                         </td>
-                        <td className='p-[6px] flex-1 text-[14px]'>{spec.v}</td>
+                        <td className="p-[6px] flex-1 text-[14px]">{spec.v}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
               <div>
-                <h2 className='text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]'>
+                <h2 className="text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]">
                   Description
                 </h2>
-                <p className='mt-2'>{product?.description}</p>
+                <p className="mt-2">{product?.description}</p>
               </div>
             </Card>
             <section>
-              <h2 className='uppercase font-semibold text-xl border-b-2 border-primary-400 pb-2'>
+              <h2 className="uppercase font-semibold text-xl border-b-2 border-primary-400 pb-2">
                 Similar Products
               </h2>
-              <div className='mt-5 -mx-[10px]'>
+              <div className="mt-5 -mx-[10px]">
                 <Slider {...similarProductSliderSettings}>
                   {similarProducts.map((product) => (
                     <Product

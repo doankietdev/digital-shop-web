@@ -25,7 +25,7 @@ function NavBar({ open }) {
               key={item.ID}
               to={item.PATH}
               className={({ isActive }) => {
-                const baseStyle = ''
+                const baseStyle = 'transition-all duration-200 ease-in-out'
                 return isActive
                   ? `${baseStyle} text-primary-400`
                   : `${baseStyle} hover:text-primary-400`

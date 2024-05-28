@@ -9,11 +9,13 @@ import {
   REGISTER
 } from 'redux-persist'
 import authReducer from '~/pages/Auth/AuthSlice'
+import cartReducer from '~/pages/Cart/CartSlice'
 import appReducer from '~/AppSlice'
 
 const store = configureStore({
   reducer: {
     user: authReducer,
+    cart: cartReducer,
     app: appReducer
   },
   middleware: (getDefaultMiddleware) =>

@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
@@ -20,16 +20,11 @@ import { dispatch } from '~/redux/store'
 import { StorageKeys } from '~/utils/constants'
 import { FaFacebookFIcon, FaGooglePlusGIcon } from '~/utils/icons'
 import { signIn } from '../AuthSlice'
+import { getCart } from '~/pages/Cart/CartSlice'
 
 function SignIn() {
   const navigate = useNavigate()
   const user = useSelector(userSelector)
-
-  useEffect(() => {
-    if (user?.current?._id) {
-      navigate(routesConfig.home)
-    }
-  }, [navigate, user])
 
   useEffect(() => {
     const isResetPasswordSuccess = sessionStorage.getItem(
@@ -48,6 +43,12 @@ function SignIn() {
       })
     }
   }, [])
+
+  useLayoutEffect(() => {
+    if (user?.current?._id) {
+      navigate(routesConfig.home)
+    }
+  }, [navigate, user])
 
   const [disable, setDisable] = useState(false)
 
@@ -75,10 +76,11 @@ function SignIn() {
       try {
         setDisable(true)
         await dispatch(signIn(data)).unwrap()
+        await dispatch(getCart()).unwrap()
         sessionStorage.setItem('signIn', true)
         navigate(routesConfig.home)
       } catch (error) {
-        toast.error(error.messages[0], { autoClose: 5000 })
+        toast.error(error?.messages[0], { autoClose: 5000 })
         form.reset()
       } finally {
         setDisable(false)

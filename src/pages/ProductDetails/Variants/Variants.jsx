@@ -1,8 +1,10 @@
 import clsx from 'clsx'
 import { useState } from 'react'
 
-function Variants({ variants = [], onSelect = () => {} }) {
-  const [selectedVariant, setSelectedVariant] = useState(null)
+function Variants({ variants = [], defaultVariantId, onSelect = () => {} }) {
+  const [selectedVariant, setSelectedVariant] = useState(
+    () => defaultVariantId || null
+  )
 
   const handleClick = (variant) => {
     setSelectedVariant(variant)
@@ -14,9 +16,9 @@ function Variants({ variants = [], onSelect = () => {} }) {
       {variants?.map((variant, index) => (
         <button
           key={index}
-          className={clsx('border-2 rounded-sm py-1 px-2 text-sm', {
+          className={clsx('border-2 rounded-sm py-1 px-2 text-sm bg-white', {
             'border-primary-400':
-            selectedVariant && selectedVariant?._id === variant?._id
+              selectedVariant && selectedVariant?._id === variant?._id
           })}
           onClick={() => handleClick(variant)}
         >

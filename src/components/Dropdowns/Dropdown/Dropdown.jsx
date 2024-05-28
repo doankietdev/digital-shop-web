@@ -7,6 +7,7 @@ function Dropdown({
   className,
   dropdownContainerClassName,
   itemContainerClassName,
+  footer,
   label,
   title,
   children
@@ -20,7 +21,7 @@ function Dropdown({
   return (
     <div className={clsx(className, 'min-w-[32px] relative')}>
       <button
-        className='flex items-center text-sm pe-1 font-medium text-gray-900 md:me-0 px-2'
+        className='flex items-center text-sm pe-1 font-medium text-gray-900 md:me-0 px-2 select-none'
         onClick={handleToggle}
       >
         {label}
@@ -45,6 +46,7 @@ function Dropdown({
           >
             {children}
           </div>
+          {footer}
         </div>
       )}
     </div>
