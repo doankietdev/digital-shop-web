@@ -1,5 +1,11 @@
 import { StatusCodes } from 'http-status-codes'
-import { addToCartApi, deleteFromCartApi, getCartApi, updateProductQuantityApi, updateVariantApi } from '~/apis/cartApis'
+import {
+  addToCartApi,
+  deleteFromCartApi,
+  getCartApi,
+  updateProductQuantityApi,
+  updateVariantApi
+} from '~/apis/cartApis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 
@@ -35,7 +41,12 @@ const updateVariant = async ({ productId, oldVariantId, variantId }) => {
   }
 }
 
-const updateProductQuantity = async ({ productId, variantId, quantity, oldQuantity }) => {
+const updateProductQuantity = async ({
+  productId,
+  variantId,
+  quantity,
+  oldQuantity
+}) => {
   try {
     const { metadata } = await axiosClient.post(updateProductQuantityApi, {
       productId,
@@ -61,11 +72,17 @@ const getCart = async () => {
   }
 }
 
-const deleteFromCart = async ({ productId, variantId }) => {
+/**
+ * @param {[{
+ *   productId: string,
+ *   variantId: string
+ * }]} products
+ * @returns {Promise<object>}
+ */
+const deleteFromCart = async (products) => {
   try {
     const { metadata } = await axiosClient.post(deleteFromCartApi, {
-      productId,
-      variantId
+      products
     })
     return metadata.cart
   } catch (error) {

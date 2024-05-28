@@ -70,6 +70,17 @@ function Cart() {
     fetchApi()
   }, [orderProducts])
 
+  // set paymentInfo back default value when orderProduct is empty
+  useEffect(() => {
+    if (orderProducts.length === 0) {
+      setPaymentInfo({
+        totalPriceApplyDiscount: 0,
+        totalPrice: 0,
+        countProducts: 0
+      })
+    }
+  }, [orderProducts.length])
+
   const handleQuantityFieldChange = useCallback(
     ({ productId, variantId, quantity, oldQuantity }) => {
       if (!quantity) return
@@ -154,7 +165,7 @@ function Cart() {
   const handleDeleteProductFromCart = useCallback(
     ({ productId, variantId }) => {
       toast.promise(
-        dispatch(deleteFromCart({ productId, variantId })).unwrap(),
+        dispatch(deleteFromCart([{ productId, variantId }])).unwrap(),
         {
           pending: {
             render() {
@@ -218,17 +229,55 @@ function Cart() {
     [products]
   )
 
+  const handleDeleteSelectedProducts = useCallback(() => {
+    toast.promise(
+      dispatch(
+        deleteFromCart(
+          orderProducts.map(({ productId, variantId }) => ({
+            productId,
+            variantId
+          }))
+        )
+      ).unwrap(),
+      {
+        pending: {
+          render() {
+            setDisabled(true)
+            return 'Deleting selected products from cart'
+          }
+        },
+        success: {
+          render() {
+            setDisabled(false)
+            setOrderProducts([])
+            return 'Delete selected products from cart successfully'
+          }
+        },
+        error: {
+          render({ data }) {
+            setDisabled(false)
+            updateVariantRef.current.rollback()
+            return data.messages[0]
+          }
+        }
+      }
+    )
+  }, [orderProducts])
+
   return (
     <>
       <DocumentTitle title="Cart" />
       <div className="container">
         <div className="flex flex-col gap-4">
-          <Card className="flex flex-col gap-3">
+          <Card className="flex flex-col gap-3 shadow-card-md">
             <div className="flex items-center gap-1 font-semibold">
               <div className="mr-4">
                 <Checkbox
-                  id="checkbox"
-                  checked={orderProducts.length === products.length}
+                  checked={
+                    orderProducts.length === products.length &&
+                    products.length > 0
+                  }
+                  disabled={products.length === 0}
                   onChange={(e) =>
                     handleSelectAllCheckBoxClick({ checked: e.target.checked })
                   }
@@ -353,6 +402,7 @@ function Cart() {
                   <div className="basis-[12.5%] text-[14px] flex justify-center items-center">
                     <button
                       title="Delete"
+                      className='hover:text-primary-400 transition-all duration-200 ease-in-out'
                       onClick={() =>
                         handleDeleteProductFromCart({
                           productId: product?._id,
@@ -368,24 +418,37 @@ function Cart() {
             )
           })}
 
-          <Card className="flex justify-between sticky bottom-0 bg-white">
+          <Card className="flex justify-between shadow-card-md sticky bottom-0 bg-white">
             <div className="flex gap-5">
               <div className="flex items-center gap-1">
-                <Checkbox id="selectAll" />
+                <Checkbox
+                  id="selectAll"
+                  checked={
+                    orderProducts.length === products.length &&
+                    products.length > 0
+                  }
+                  disabled={products.length === 0}
+                  onChange={(e) =>
+                    handleSelectAllCheckBoxClick({ checked: e.target.checked })
+                  }
+                />
                 <label
                   htmlFor="selectAll"
-                  className="select-none cursor-pointer"
+                  className="select-none cursor-pointer hover:text-primary-400 transition-all duration-200 ease-in-out"
                 >
                   Select All
                 </label>
               </div>
 
-              <button className="flex items-center gap-1">
+              <button
+                className="flex items-center gap-1 hover:text-primary-400 transition-all duration-200 ease-in-out"
+                onClick={handleDeleteSelectedProducts}
+              >
                 <DeleteIcon className="text-[22px]" />
                 Delete
               </button>
 
-              <button className="flex items-center gap-1">
+              <button className="flex items-center gap-1 hover:text-primary-400 transition-all duration-200 ease-in-out">
                 <FaHeart className="text-[18px]" />
                 Add to wishlist
               </button>

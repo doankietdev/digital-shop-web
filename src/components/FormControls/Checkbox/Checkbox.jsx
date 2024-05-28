@@ -1,10 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
+import clsx from 'clsx'
 import { memo } from 'react'
 
 function Checkbox({
   id,
   name,
   checked = false,
+  disabled = false,
   onChange = () => {}
 }) {
   return (
@@ -14,7 +16,10 @@ function Checkbox({
         type="checkbox"
         name={name}
         checked={checked}
-        className="peer cursor-pointer appearance-none relative h-5 w-5 bg-gray-900/25 dark:bg-gray-100/25 border border-gray-900 dark:border-gray-400 transition-all checked:border-primary-400 checked:bg-primary-400 rounded-md"
+        disabled={disabled}
+        className={clsx(
+          'peer cursor-pointer appearance-none relative h-5 w-5 bg-gray-900/25 dark:bg-gray-100/25 border border-gray-900 dark:border-gray-400 transition-all checked:border-primary-400 checked:bg-primary-400 rounded-md'
+        )}
         onChange={onChange}
       />
       <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 transition-opacity peer-checked:opacity-100">
