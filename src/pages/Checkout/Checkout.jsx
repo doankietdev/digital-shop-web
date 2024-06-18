@@ -1,10 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import noImage from '~/assets/no-image.png'
 import { Button, Card, DocumentTitle, Mark, Modal } from '~/components'
 import { reviewOrder } from '~/services/checkoutService'
-import { FaPlusIcon, LocationDotIcon } from '~/utils/icons'
-import noImage from '~/assets/no-image.png'
 import { formatCash } from '~/utils/formatter'
+import { LocationDotIcon } from '~/utils/icons'
+import AddNewAddress from './AddNewAddress'
+import ChangeAddress from './ChangeAddress'
+import { useSelector } from 'react-redux'
+import { userSelector } from '~/redux/selectors'
+import UpdateAddress from './UpdateAddress'
 
 function Checkout() {
   const [paymentInfo, setPaymentInfo] = useState({
@@ -13,7 +18,17 @@ function Checkout() {
     countProducts: 0
   })
   const [orderProducts, setOrderProducts] = useState([])
-  const [openChangeAddressModal, setOpenChangeAddressModal] = useState(false)
+
+  const [openModal, setOpenModal] = useState(false)
+  const [openChangeAddress, setOpenChangeAddress] = useState(false)
+  const [openAddAddress, setOpenAddAddress] = useState(false)
+  const [openUpdateAddress, setOpenUpdateAddress] = useState(false)
+  const [addressIdToUpdate, setAddressIdToUpdate] = useState(null)
+
+  const {
+    current: { defaultAddress }
+  } = useSelector(userSelector)
+
   const location = useLocation()
 
   useEffect(() => {
@@ -37,14 +52,37 @@ function Checkout() {
   }, [location.state?.orderProducts, location.state?.orderProducts?.length])
 
   const handleChangeAddressClick = useCallback(() => {
-    setOpenChangeAddressModal(true)
+    setOpenModal(true)
+    setOpenChangeAddress(true)
   }, [])
 
-  const handleCloseChangeAddressModal = useCallback(() => {
-    setOpenChangeAddressModal(false)
+  const handleCloseModal = useCallback(() => {
+    setOpenModal(false)
+    setOpenChangeAddress(false)
+    setOpenAddAddress(false)
   }, [])
 
-  // console.log(orderProducts)
+  const handleAddNewAddressClick = useCallback(() => {
+    setOpenChangeAddress(false)
+    setOpenAddAddress(true)
+  }, [])
+
+  const handleCloseAddAddress = useCallback(() => {
+    setOpenAddAddress(false)
+    setOpenChangeAddress(true)
+  }, [])
+
+  const handleUpdateAddress = useCallback((addressId) => {
+    setAddressIdToUpdate(addressId)
+    setOpenUpdateAddress(true)
+    setOpenChangeAddress(false)
+  }, [])
+
+  const handleCloseUpdateAddress = useCallback(() => {
+    setAddressIdToUpdate(null)
+    setOpenUpdateAddress(false)
+    setOpenChangeAddress(true)
+  }, [])
 
   return (
     <>
@@ -60,7 +98,16 @@ function Checkout() {
               <div className="flex items-center gap-6">
                 <span className="font-semibold">Đoàn Anh Kiệt</span>
                 <span className="font-semibold">0988437477</span>
-                <span>Thị Trấn An Phú, Huyện An Phú, An Giang</span>
+                <span>
+                  {`${
+                    defaultAddress.streetAddress
+                      ? defaultAddress.streetAddress + ', '
+                      : ''
+                  }
+                  ${defaultAddress.ward.name},
+                  ${defaultAddress.district.name},
+                  ${defaultAddress.province.name}`}
+                </span>
                 <Mark>Default</Mark>
               </div>
               <button
@@ -174,73 +221,26 @@ function Checkout() {
           </Card>
         </div>
       </div>
-      <Modal
-        open={openChangeAddressModal}
-        onClose={handleCloseChangeAddressModal}
-      >
-        <div className="w-[500px] h-[600px] flex flex-col">
-          <h3 className="pb-6 border-b">My Address</h3>
 
-          {/* Address items */}
-          <div className="flex-1 border-b">
-            <div className="py-6 flex flex-col gap-4">
-              <div className="flex">
-                <div className="mr-3">
-                  <div className="cursor-pointer w-[18px] h-[18px] rounded-full border-2 border-primary-400 flex justify-center items-center">
-                    <div className="w-[6px] h-[6px] rounded-full bg-primary-400"></div>
-                  </div>
-                </div>
+      {openModal && (
+        <Modal onClose={handleCloseModal}>
+          {openChangeAddress && (
+            <ChangeAddress
+              handleCloseModal={handleCloseModal}
+              onAddNewAddress={handleAddNewAddressClick}
+              onUpdateAddress={handleUpdateAddress}
+            />
+          )}
 
-                <div className="flex-1">
-                  <div className="flex justify-between mb-1">
-                    <span>Thị Trấn An Phú, Huyện An Phú, An Giang</span>
-                    <button
-                      className="text-[14px] text-purple-500"
-                      // onClick={handle}
-                    >
-                      Update
-                    </button>
-                  </div>
-                  <Mark>Default</Mark>
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="mr-3">
-                  <div className="cursor-pointer w-[18px] h-[18px] rounded-full border-2 border-primary-400 flex justify-center items-center">
-                    <div className="w-[6px] h-[6px] rounded-full bg-primary-400"></div>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <div className="flex justify-between mb-1">
-                    <span>Thị Trấn An Phú, Huyện An Phú, An Giang</span>
-                    <button
-                      className="text-[14px] text-purple-500"
-                      // onClick={handle}
-                    >
-                      Update
-                    </button>
-                  </div>
-                  <Mark>Default</Mark>
-                </div>
-              </div>
-            </div>
-
-            <Button primary outlined rounded icon={<FaPlusIcon />}>
-              Add New Address
-            </Button>
-          </div>
-
-          <div className="flex justify-end gap-3 pt-6">
-            <Button primary outlined rounded onClick={handleCloseChangeAddressModal}>
-              Cancel
-            </Button>
-            <Button primary rounded>
-              Confirm
-            </Button>
-          </div>
-        </div>
-      </Modal>
+          {openAddAddress && <AddNewAddress onClose={handleCloseAddAddress} />}
+          {openUpdateAddress && (
+            <UpdateAddress
+              addressId={addressIdToUpdate}
+              onClose={handleCloseUpdateAddress}
+            />
+          )}
+        </Modal>
+      )}
     </>
   )
 }

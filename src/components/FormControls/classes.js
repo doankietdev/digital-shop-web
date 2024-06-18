@@ -1,5 +1,7 @@
 import clsx from 'clsx'
 
+const errorBorderClasses = () => 'border border-red-500 hover:border-[2px] focus:border-[2px]'
+
 const inputClasses = ({ primary, outlined, rounded, hasError, className }) => {
   return clsx(
     {
@@ -20,7 +22,7 @@ const inputClasses = ({ primary, outlined, rounded, hasError, className }) => {
     },
     {
       // default input error
-      'border border-red-500 hover:border-[2px] focus:border-[2px]':
+      [errorBorderClasses()]:
         hasError
     },
     'border-[#a2a2a2] w-full h-[44px] px-5 outline-none placeholder:capitalize',
@@ -30,4 +32,4 @@ const inputClasses = ({ primary, outlined, rounded, hasError, className }) => {
 
 const errorMessageClasses = () => 'text-[12px] text-red-500'
 
-export { inputClasses, errorMessageClasses }
+export { inputClasses, errorMessageClasses, errorBorderClasses }

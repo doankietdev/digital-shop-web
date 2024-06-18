@@ -13,6 +13,7 @@ function Button({
   onClick
 }) {
   const classes = clsx(
+    'select-none',
     {
       'text-white': !outlined
     },

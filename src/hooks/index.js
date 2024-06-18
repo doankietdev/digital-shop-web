@@ -1,1 +1,1 @@
-export { default as useProgressiveImage } from './useProgressiveImage'
+export { default as useOutsideClick } from './useOutsideClick'
