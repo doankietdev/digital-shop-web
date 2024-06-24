@@ -75,11 +75,18 @@ const RequestHeaderKeys = {
   userId: 'x-user-id'
 }
 
+const PaymentMethodIds = {
+  CASH_ON_DELIVERY_ID: '6673c74e9bbb6d86d503f7ca',
+  PAY_IN_STORE_ID: '6673c74e9bbb6d86d503f7cb',
+  ONLINE_PAYMENT_ID: '6673c74e9bbb6d86d503f7cc'
+}
+
 export {
   NAV_BAR,
   TIME,
   PRODUCT_CONDITIONS_TO_CHECK,
   CATEGORIES,
   StorageKeys,
-  RequestHeaderKeys
+  RequestHeaderKeys,
+  PaymentMethodIds
 }

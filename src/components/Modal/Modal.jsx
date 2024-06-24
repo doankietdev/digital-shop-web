@@ -15,7 +15,7 @@ function Modal({ onClose, children }) {
       )}
     >
       <Card
-        className={clsx('bg-white p-6')}
+        className={clsx('bg-white p-6 mx-2')}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

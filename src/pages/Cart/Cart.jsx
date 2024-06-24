@@ -399,7 +399,7 @@ function Cart() {
                       }
                     />
                   </div>
-                  <div className="basis-[12.5%] text-[14px] flex justify-center items-center text-red-600">
+                  <div className="basis-[12.5%] text-[14px] flex justify-center items-center text-primary-400">
                     {formatCash(product?.price * quantity)}
                   </div>
                   <div className="basis-[12.5%] text-[14px] flex justify-center items-center">
@@ -462,7 +462,7 @@ function Cart() {
                   <span>
                     Total payment ({paymentInfo.countProducts} products):
                   </span>
-                  <span className="text-[24px] text-red-600">
+                  <span className="text-[24px] text-primary-400">
                     {formatCash(paymentInfo.totalPriceApplyDiscount)}
                   </span>
                 </div>
@@ -470,7 +470,7 @@ function Cart() {
                   0 && (
                   <div className="text-[14px] flex items-center justify-end gap-4">
                     <span>Savings</span>
-                    <span className="text-red-600">
+                    <span className="text-primary-400">
                       {formatCash(
                         paymentInfo.totalPrice -
                           paymentInfo.totalPriceApplyDiscount

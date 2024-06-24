@@ -33,8 +33,8 @@ function SelectorOutlined(
     if (defaultId) {
       setSelectedItem(items.find((item) => item.id === defaultId))
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultId])
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [defaultId, items.length])
 
   useImperativeHandle(ref, () => ({
     reset() {

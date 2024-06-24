@@ -108,7 +108,7 @@ function AddNewAddress({ onClose }) {
   )
 
   return (
-    <div className="w-[500px] min-h-[400px] flex flex-col">
+    <div className="w-full min-h-[400px] flex flex-col">
       <h3 className="pb-6 border-b font-semibold">Add New Address</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
