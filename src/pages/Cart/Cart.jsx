@@ -268,7 +268,8 @@ function Cart() {
   }, [orderProducts])
 
   const handleBuyClick = useCallback(() => {
-    navigate(routesConfig.checkout, { state: { orderProducts } })
+    const orderProductsString = encodeURIComponent(JSON.stringify(orderProducts))
+    navigate(`${routesConfig.checkout}?state=${orderProductsString}`)
   }, [navigate, orderProducts])
 
   return (
