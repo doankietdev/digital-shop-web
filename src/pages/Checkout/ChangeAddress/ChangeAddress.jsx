@@ -58,14 +58,14 @@ function ChangeAddress({
   }, [handleCloseModal, selectedAddressId])
 
   return (
-    <div className="w-full h-[600px] flex flex-col">
+    <div className="min-w-[620px] h-[600px] flex flex-col">
       <div className="pb-6 border-b flex items-center justify-between gap-2 md:gap-0">
         <h3 className="font-semibold">My Addresses</h3>
         <Button
           primary
           outlined
           rounded
-          disabled={disabled}
+          disabled={disabled || loading}
           icon={<FaPlusIcon />}
           onClick={onAddNewAddress}
           className='!text-[14px] px-[12px] py-[8px]'

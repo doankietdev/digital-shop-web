@@ -11,7 +11,7 @@ function Modal({ onClose, children }) {
     <div
       onClick={handleCloseModal}
       className={clsx(
-        'fixed z-[100] inset-0 flex justify-center items-center bg-black/30'
+        'fixed z-[100] inset-0 flex justify-center items-center bg-black/40'
       )}
     >
       <Card
