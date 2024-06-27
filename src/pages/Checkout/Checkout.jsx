@@ -1,5 +1,8 @@
+import clsx from 'clsx'
 import { useCallback, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import noImage from '~/assets/no-image.png'
 import {
   Button,
@@ -7,30 +10,32 @@ import {
   DocumentTitle,
   Mark,
   Modal,
+  PayPalPayment,
   SelectorOutlined
 } from '~/components'
-import { reviewOrder } from '~/services/checkoutService'
-import { formatCash } from '~/utils/formatter'
+import { routesConfig } from '~/config'
+import { getCart } from '~/pages/Cart/CartSlice'
+import { dispatch } from '~/redux'
+import { userSelector } from '~/redux/selectors'
+import { order, reviewOrder } from '~/services/checkoutService'
+import { PaymentMethodsEnum } from '~/utils/constants'
+import { convertObjectToArrayValues, formatCash } from '~/utils/formatter'
 import { LocationDotIcon } from '~/utils/icons'
 import AddNewAddress from './AddNewAddress'
 import ChangeAddress from './ChangeAddress'
-import { useSelector } from 'react-redux'
-import { userSelector } from '~/redux/selectors'
 import UpdateAddress from './UpdateAddress'
-import clsx from 'clsx'
-import paymentMethodService from '~/services/paymentMethodService'
-import { PaymentMethodIds } from '~/utils/constants'
-import { routesConfig } from '~/config'
 
 function Checkout() {
   const [paymentInfo, setPaymentInfo] = useState({
+    shippingFee: 0,
     totalPriceApplyDiscount: 0,
-    totalPrice: 0,
+    totalPayment: 0,
     countProducts: 0
   })
   const [orderProducts, setOrderProducts] = useState([])
-  const [paymentMethods, setPaymentMethods] = useState([])
-  const [selectedPaymentMethodId, setSelectedPaymentId] = useState(null)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
+    PaymentMethodsEnum.ONLINE_PAYMENT.value
+  )
 
   const [openModal, setOpenModal] = useState(false)
   const [openChangeAddress, setOpenChangeAddress] = useState(false)
@@ -53,17 +58,17 @@ function Checkout() {
           navigate(routesConfig.cart)
         }
         const {
+          orderProducts,
           shippingFee,
           totalPriceApplyDiscount,
-          totalPrice,
-          orderProducts
+          totalPayment
         } = await reviewOrder(location.state?.orderProducts)
         setOrderProducts(orderProducts)
         setPaymentInfo((prevPaymentInfo) => ({
           ...prevPaymentInfo,
           shippingFee,
           totalPriceApplyDiscount,
-          totalPrice,
+          totalPayment,
           countProducts: orderProducts.length
         }))
       } catch (error) {
@@ -77,21 +82,6 @@ function Checkout() {
     defaultAddress,
     navigate
   ])
-
-  useEffect(() => {
-    const fetchPaymentMethods = async () => {
-      const { items } = await paymentMethodService.getPaymentMethods()
-      setPaymentMethods(items)
-
-      const paymentMethod = items.find(
-        (item) => item === PaymentMethodIds.ONLINE_PAYMENT_ID
-      )
-      if (!paymentMethod)
-        // do something
-        setSelectedPaymentId(paymentMethod?._id)
-    }
-    fetchPaymentMethods()
-  }, [])
 
   const handleChangeAddressClick = useCallback(() => {
     setOpenModal(true)
@@ -126,24 +116,37 @@ function Checkout() {
     setOpenChangeAddress(true)
   }, [])
 
-  const handleSelectPaymentMethod = useCallback((id) => {
-    setSelectedPaymentId(id)
+  const handleSelectPaymentMethod = useCallback((value) => {
+    setSelectedPaymentMethod(value)
   }, [])
+
+  const handleOrderClick = useCallback(async () => {
+    const loadingToast = toast.loading('Ordering')
+    try {
+      await order(location.state?.orderProducts, selectedPaymentMethod)
+      await dispatch(getCart()).unwrap()
+      navigate(routesConfig.cart)
+    } catch (error) {
+      toast.error(error.messages[0])
+    } finally {
+      toast.dismiss(loadingToast)
+    }
+  }, [orderProducts, selectedPaymentMethod])
 
   return (
     <>
-      <DocumentTitle title='Checkout' />
-      <div className='container'>
-        <div className='flex flex-col gap-8'>
-          <Card className='flex flex-col gap-3 shadow-card-md p-6'>
-            <p className='md:text-[18px] text-primary-400 font-medium'>
-              <LocationDotIcon className='inline-block mr-1.5' />
+      <DocumentTitle title="Checkout" />
+      <div className="container">
+        <div className="flex flex-col gap-8">
+          <Card className="flex flex-col gap-3 shadow-card-md p-6">
+            <p className="md:text-[18px] text-primary-400 font-medium">
+              <LocationDotIcon className="inline-block mr-1.5" />
               Shipping Address
             </p>
-            <div className='flex flex-col md:flex-row gap-3 text-[14px] md:text-[16px]'>
-              <div className='flex md:items-center gap-2 md:gap-6 flex-col md:flex-row'>
-                <span className='font-semibold'>{`${firstName} ${lastName}`}</span>
-                <span className='font-semibold'>{mobile}</span>
+            <div className="flex flex-col md:flex-row gap-3 text-[14px] md:text-[16px]">
+              <div className="flex md:items-center gap-2 md:gap-6 flex-col md:flex-row">
+                <span className="font-semibold">{`${firstName} ${lastName}`}</span>
+                <span className="font-semibold">{mobile}</span>
                 <span
                   className={clsx({
                     'text-red-600': !defaultAddress
@@ -168,14 +171,14 @@ function Checkout() {
               </div>
               {defaultAddress ? (
                 <button
-                  className='md:ml-9 text-[14px] text-purple-500'
+                  className="md:ml-9 text-[14px] text-purple-500"
                   onClick={handleChangeAddressClick}
                 >
                   Change address
                 </button>
               ) : (
                 <button
-                  className='md:ml-9 text-[14px] text-purple-500'
+                  className="md:ml-9 text-[14px] text-purple-500"
                   onClick={handleChangeAddressClick}
                 >
                   Add address
@@ -184,18 +187,18 @@ function Checkout() {
             </div>
           </Card>
 
-          <div className='flex flex-col gap-4'>
-            <Card className='hidden md:flex md:flex-col p-6'>
-              <div className='flex items-center gap-1 font-semibold'>
-                <div className='basis-2/6 text-[14px]'>Product</div>
-                <div className='basis-1/6 text-[14px] text-center'>Variant</div>
-                <div className='basis-1/6 text-[14px] text-center'>
+          <div className="flex flex-col gap-4">
+            <Card className="hidden md:flex md:flex-col p-6">
+              <div className="flex items-center gap-1 font-semibold">
+                <div className="basis-2/6 text-[14px]">Product</div>
+                <div className="basis-1/6 text-[14px] text-center">Variant</div>
+                <div className="basis-1/6 text-[14px] text-center">
                   Unit Price
                 </div>
-                <div className='basis-1/6 text-[14px] text-center'>
+                <div className="basis-1/6 text-[14px] text-center">
                   Quantity
                 </div>
-                <div className='basis-1/6 text-[14px] text-center'>
+                <div className="basis-1/6 text-[14px] text-center">
                   Total Price
                 </div>
               </div>
@@ -205,62 +208,62 @@ function Checkout() {
                 const variant = product?.variant
                 return (
                   <div key={index}>
-                    <Card className='p-6 hidden md:flex flex-col overflow-visible'>
-                      <div className='flex items-center gap-1'>
-                        <div className='basis-2/6 text-[14px] flex items-center gap-3'>
+                    <Card className="p-6 hidden md:flex flex-col overflow-visible">
+                      <div className="flex items-center gap-1">
+                        <div className="basis-2/6 text-[14px] flex items-center gap-3">
                           <img
                             src={variant?.images[0] || product.thumb || noImage}
-                            className='w-[80px] h-[80px] object-contain'
+                            className="w-[80px] h-[80px] object-contain"
                           />
-                          <p className='text-[14px] line-clamp-2'>
+                          <p className="text-[14px] line-clamp-2">
                             {product?.title}
                           </p>
                         </div>
-                        <div className='basis-1/6 text-[14px] flex justify-center items-center'>
+                        <div className="basis-1/6 text-[14px] flex justify-center items-center">
                           <p>{variant?.name}</p>
                         </div>
-                        <div className='basis-1/6 text-[14px] text-center'>
+                        <div className="basis-1/6 text-[14px] text-center">
                           {product?.oldPrice && (
-                            <p className='text-[14px] text-gray-500 line-through'>
+                            <p className="text-[14px] text-gray-500 line-through">
                               {formatCash(product?.oldPrice)}
                             </p>
                           )}
-                          <p className='text-[14px]'>
+                          <p className="text-[14px]">
                             {formatCash(product?.price)}
                           </p>
                         </div>
-                        <div className='basis-1/6 text-[14px] text-center'>
+                        <div className="basis-1/6 text-[14px] text-center">
                           {quantity}
                         </div>
-                        <div className='basis-1/6 text-[14px] text-center text-primary-400'>
+                        <div className="basis-1/6 text-[14px] text-center text-primary-400">
                           {formatCash(totalPriceApplyDiscount)}
                         </div>
                       </div>
                     </Card>
 
-                    <Card className='p-6 flex md:hidden flex-col overflow-visible'>
-                      <div className='flex gap-1'>
+                    <Card className="p-6 flex md:hidden flex-col overflow-visible">
+                      <div className="flex gap-1">
                         <img
                           src={variant?.images[0] || product.thumb || noImage}
-                          className='w-[80px] h-[80px] object-contain'
+                          className="w-[80px] h-[80px] object-contain"
                         />
-                        <div className='flex-1 flex flex-col gap-[6px] text-[14px]'>
-                          <p className='font-medium line-clamp-2'>
+                        <div className="flex-1 flex flex-col gap-[6px]">
+                          <p className="font-medium line-clamp-2">
                             {product?.title}
                           </p>
                           <p>Variant: {variant?.name}</p>
                           <div>
                             {product?.oldPrice && (
-                              <p className='text-gray-500 line-through'>
+                              <p className="text-gray-500 line-through">
                                 {formatCash(product?.oldPrice)}
                               </p>
                             )}
-                            <p className='flex justify-between'>
+                            <p className="flex justify-between">
                               {formatCash(product?.price)}
-                              <span className='text-[13px]'>x {quantity}</span>
+                              <span className="">x {quantity}</span>
                             </p>
                           </div>
-                          <div className='text-primary-400 text-[16px] font-medium'>
+                          <div className="text-primary-400 text-[16px] font-medium">
                             {formatCash(totalPriceApplyDiscount)}
                           </div>
                         </div>
@@ -272,57 +275,77 @@ function Checkout() {
             )}
           </div>
 
-          <Card className='p-6'>
-            <div className='flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-0 pb-6 border-b'>
-              <h3 className='md:text-[18px] text-primary-400 font-medium'>
+          <Card className="p-6">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-0 pb-6 border-b">
+              <h3 className="md:text-[18px] text-primary-400 font-medium">
                 Payment methods
               </h3>
-              <div className='flex items-center gap-5'>
+              <div className="flex items-center gap-5 w-[200px]">
                 <SelectorOutlined
-                  items={paymentMethods.map((paymentMethod) => ({
-                    id: paymentMethod._id,
-                    name: paymentMethod.name
-                  }))}
-                  defaultId={PaymentMethodIds.ONLINE_PAYMENT_ID}
+                  items={convertObjectToArrayValues(PaymentMethodsEnum).map(
+                    (paymentMethod) => ({
+                      id: paymentMethod.value,
+                      name: paymentMethod.name
+                    })
+                  )}
+                  defaultId={PaymentMethodsEnum.ONLINE_PAYMENT.value}
                   onSelect={handleSelectPaymentMethod}
                 />
               </div>
             </div>
-            <div className='md:flex md:items-center md:justify-end py-6 border-b text-[14px] md:text-[16px]'>
-              <table className='w-full md:w-auto'>
+            <div className="md:flex md:items-center md:justify-end py-6 border-b">
+              <table className="w-full md:w-auto text-[14px] md:text-[16px]">
                 <tbody>
                   <tr>
-                    <td className='pr-2 md:pr-10 font-medium'>Total Price</td>
-                    <td className='text-end'>
+                    <td className="pr-2 md:pr-10 font-medium">Total Price</td>
+                    <td className="text-end">
                       {formatCash(paymentInfo?.totalPriceApplyDiscount)}
                     </td>
                   </tr>
+                  {selectedPaymentMethod !==
+                    PaymentMethodsEnum.PAY_IN_STORE.value && (
+                    <tr>
+                      <td className="pr-2 md:pr-10 font-medium">
+                        Shipping Fee
+                      </td>
+                      <td className="text-end">
+                        {formatCash(paymentInfo?.shippingFee)}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
-                    <td className='pr-2 md:pr-10 font-medium'>Shipping Fee</td>
-                    <td className='text-end'>
-                      {formatCash(paymentInfo?.shippingFee)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='pr-2 md:pr-10 font-medium'>Total Payment</td>
-                    <td className='text-[18px] font-medium text-primary-400 text-end'>
-                      {formatCash(paymentInfo?.totalPriceApplyDiscount)}
+                    <td className="pr-2 md:pr-10 font-medium">Total Payment</td>
+                    <td className="text-[18px] font-medium text-primary-400 text-end">
+                      {formatCash(paymentInfo?.totalPayment)}
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div className='flex items-center justify-end pt-6'>
-              <Button
-                primary
-                rounded
-                disabled={
-                  !defaultAddress &&
-                  selectedPaymentMethodId !== PaymentMethodIds.PAY_IN_STORE_ID
-                }
-              >
-                Order
-              </Button>
+            <div className="md:flex md:items-center md:justify-end w-full pt-6">
+              {selectedPaymentMethod ===
+                PaymentMethodsEnum.ONLINE_PAYMENT.value ||
+              selectedPaymentMethod ===
+                PaymentMethodsEnum.CASH_ON_DELIVERY.value ? (
+                <div className="w-full md:w-[200px]">
+                  <PayPalPayment
+                    orderProducts={location.state?.orderProducts}
+                  />
+                </div>
+              ) : (
+                <Button
+                  primary
+                  rounded
+                  disabled={
+                    !defaultAddress &&
+                    selectedPaymentMethod !== PaymentMethodsEnum.PAY_IN_STORE_ID
+                  }
+                  onClick={handleOrderClick}
+                  className="w-full md:w-[200px]"
+                >
+                  Order
+                </Button>
+              )}
             </div>
           </Card>
         </div>

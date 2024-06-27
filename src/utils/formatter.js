@@ -33,4 +33,14 @@ const removeDiacritics = (str) => {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
-export { formatCash, parseResponseMessage, parsePlaceHolderUrl, removeDiacritics }
+const convertObjectToArrayValues = (obj) => {
+  return Object.keys(obj).map((key) => obj[key])
+}
+
+export {
+  formatCash,
+  parseResponseMessage,
+  parsePlaceHolderUrl,
+  removeDiacritics,
+  convertObjectToArrayValues
+}

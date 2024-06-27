@@ -68,7 +68,6 @@ const getCurrentUser = createAsyncThunk(
   }
 )
 
-
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -88,9 +87,15 @@ const authSlice = createSlice({
       localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken)
     })
 
+    builder.addCase(signOut.rejected, (state) => {
+      state.current = {}
+      state.settings = {}
+      localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
+    })
     builder.addCase(signOut.fulfilled, (state) => {
       state.current = {}
       state.settings = {}
+      localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
     })
 
     builder.addCase(getCurrentUser.fulfilled, (state, action) => {

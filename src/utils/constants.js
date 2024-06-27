@@ -75,10 +75,19 @@ const RequestHeaderKeys = {
   userId: 'x-user-id'
 }
 
-const PaymentMethodIds = {
-  CASH_ON_DELIVERY_ID: '6673c74e9bbb6d86d503f7ca',
-  PAY_IN_STORE_ID: '6673c74e9bbb6d86d503f7cb',
-  ONLINE_PAYMENT_ID: '6673c74e9bbb6d86d503f7cc'
+const PaymentMethodsEnum = {
+  CASH_ON_DELIVERY: {
+    name: 'Cash on delivery',
+    value: 'CASH_ON_DELIVERY'
+  },
+  PAY_IN_STORE: {
+    name: 'Pay in store',
+    value: 'PAY_IN_STORE'
+  },
+  ONLINE_PAYMENT: {
+    name: 'Online payment',
+    value: 'ONLINE_PAYMENT'
+  }
 }
 
 export {
@@ -88,5 +97,5 @@ export {
   CATEGORIES,
   StorageKeys,
   RequestHeaderKeys,
-  PaymentMethodIds
+  PaymentMethodsEnum
 }

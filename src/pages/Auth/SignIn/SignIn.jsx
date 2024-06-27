@@ -67,23 +67,20 @@ function SignIn() {
     resolver: yupResolver(schema)
   })
 
-  const {
-    formState: { isSubmitting }
-  } = form
-
   const handleSubmit = useCallback(
     async (data) => {
+      const loadingToast = toast.loading('Signing in...')
       try {
         setDisable(true)
         await dispatch(signIn(data)).unwrap()
         await dispatch(getCart()).unwrap()
-        sessionStorage.setItem('signIn', true)
         navigate(routesConfig.home)
       } catch (error) {
         toast.error(error?.messages[0], { autoClose: 5000 })
         form.reset()
       } finally {
         setDisable(false)
+        toast.dismiss(loadingToast)
       }
     },
     [form, navigate]
@@ -141,16 +138,16 @@ function SignIn() {
               >
                 Forgot Password?
               </Link>
-              <Button className='w-full mt-6 !bg-success-400 hover:!bg-success-200' type='submit' rounded>
+              <Button
+                className='w-full mt-6 !bg-success-400 hover:!bg-success-200'
+                type='submit'
+                rounded
+                disabled={disable}
+              >
                 Sign In
               </Button>
             </div>
           </form>
-          {isSubmitting && (
-            <div className='absolute top-[24px]'>
-              <Loading white />
-            </div>
-          )}
           <div className='w-full'>
             <div className='relative flex flex-col items-center justify-center'>
               <span className='h-[1px] border border-[rgba(53,69,133,0.4)] w-full absolute top-1/2 -translate-y-1/2'></span>
@@ -176,12 +173,20 @@ function SignIn() {
             </div>
             <div className='flex justify-center items-center gap-2.5'>
               <p>Don&apos;t have an account?</p>
-              <Link to={routesConfig.signUp} className='text-secondary-200 font-semibold underline-run'>Sign up</Link>
+              <Link
+                to={routesConfig.signUp}
+                className='text-secondary-200 font-semibold underline-run'
+              >
+                Sign up
+              </Link>
             </div>
           </div>
         </div>
       </div>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer
+        position='bottom-left'
+        autoClose={3000}
+      />
     </>
   )
 }

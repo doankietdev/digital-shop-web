@@ -39,10 +39,14 @@ function Header() {
   }, [])
 
   const handleSignOut = async () => {
+    const loadingToast = toast.loading('Signing out...')
     try {
       await dispatch(signOut()).unwrap()
+      toast.success('Sign out successfully')
     } catch (error) {
       toast.error(error.messages[0])
+    } finally {
+      toast.dismiss(loadingToast)
     }
   }
 
@@ -60,11 +64,17 @@ function Header() {
           <div className='container py-2 md:py-3 lg:py-4 flex items-center gap-2 md:gap-10 lg:gap-20 text-[13px] relative z-50'>
             <div className='flex items-center gap-1 -ml-2'>
               <div className='lg:hidden'>
-                <span onClick={handleOpenExpandedNavBar} className='p-2'>
+                <span
+                  onClick={handleOpenExpandedNavBar}
+                  className='p-2'
+                >
                   <IoMenuIcon className='icon !text-4xl' />
                 </span>
               </div>
-              <Link to={routesConfig.home} className=''>
+              <Link
+                to={routesConfig.home}
+                className=''
+              >
                 <img
                   src={logo}
                   alt='logo'
