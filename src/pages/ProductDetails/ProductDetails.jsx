@@ -156,7 +156,7 @@ function ProductDetails() {
   }, [])
 
   const handleQuantityFieldChange = useCallback(value => {
-    setQuantity(value)
+    setQuantity(value.quantity)
   }, [])
 
   const handleAddToCart = useCallback(async () => {

@@ -1,6 +1,7 @@
 import { routesConfig } from '~/config'
 import {
   Cart,
+  Checkout,
   EmailVerificationError,
   EmailVerificationSuccess,
   ForgotPassword,
@@ -49,6 +50,10 @@ const publicRoutes = [
   {
     path: routesConfig.cart,
     component: Cart
+  },
+  {
+    path: routesConfig.checkout,
+    component: Checkout
   }
 ]
 

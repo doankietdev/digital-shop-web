@@ -29,4 +29,18 @@ const parsePlaceHolderUrl = (originalUrl, data = {}) => {
   })
 }
 
-export { formatCash, parseResponseMessage, parsePlaceHolderUrl }
+const removeDiacritics = (str) => {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
+const convertObjectToArrayValues = (obj) => {
+  return Object.keys(obj).map((key) => obj[key])
+}
+
+export {
+  formatCash,
+  parseResponseMessage,
+  parsePlaceHolderUrl,
+  removeDiacritics,
+  convertObjectToArrayValues
+}

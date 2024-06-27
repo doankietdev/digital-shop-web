@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import noImage from '~/assets/no-image.png'
 import {
@@ -39,7 +40,9 @@ function Cart() {
     countProducts: 0
   })
 
-  // process payment info when click check product
+  const navigate = useNavigate()
+
+  // process payment info when click check box product
   useEffect(() => {
     const fetchApi = async () => {
       let toastId = null
@@ -264,6 +267,10 @@ function Cart() {
     )
   }, [orderProducts])
 
+  const handleBuyClick = useCallback(() => {
+    navigate(routesConfig.checkout, { state: { orderProducts } })
+  }, [navigate, orderProducts])
+
   return (
     <>
       <DocumentTitle title="Cart" />
@@ -348,9 +355,9 @@ function Cart() {
                         slug: product?.slug
                       })}
                     >
-                      <span className="text-[14px] line-clamp-2 hover:text-primary-400 transition-all duration-300 ease-in-out">
+                      <p className="text-[14px] line-clamp-2 hover:text-primary-400 transition-all duration-300 ease-in-out">
                         {product?.title}
-                      </span>
+                      </p>
                     </Link>
                   </div>
                   <div className="basis-2/12 text-[14px] flex justify-center items-center">
@@ -369,17 +376,13 @@ function Cart() {
                       ref={updateVariantRef}
                     />
                   </div>
-                  <div className="basis-[12.5%] text-[14px] flex flex-wrap justify-center items-center">
-                    {product?.oldPrice ? (
-                      <span className="mr-2 text-[14px] text-gray-500 line-through">
+                  <div className="basis-[12.5%] text-[14px] text-center">
+                    {product?.oldPrice && (
+                      <p className="text-[14px] text-gray-500 line-through">
                         {formatCash(product?.oldPrice)}
-                      </span>
-                    ) : (
-                      ''
+                      </p>
                     )}
-                    <span className="text-[14px]">
-                      {formatCash(product?.price)}
-                    </span>
+                    <p className="text-[14px]">{formatCash(product?.price)}</p>
                   </div>
                   <div className="basis-[12.5%] text-[14px] flex justify-center items-center">
                     <QuantityField
@@ -396,13 +399,13 @@ function Cart() {
                       }
                     />
                   </div>
-                  <div className="basis-[12.5%] text-[14px] flex justify-center items-center text-red-600">
+                  <div className="basis-[12.5%] text-[14px] flex justify-center items-center text-primary-400">
                     {formatCash(product?.price * quantity)}
                   </div>
                   <div className="basis-[12.5%] text-[14px] flex justify-center items-center">
                     <button
                       title="Delete"
-                      className='hover:text-primary-400 transition-all duration-200 ease-in-out'
+                      className="hover:text-primary-400 transition-all duration-200 ease-in-out"
                       onClick={() =>
                         handleDeleteProductFromCart({
                           productId: product?._id,
@@ -459,7 +462,7 @@ function Cart() {
                   <span>
                     Total payment ({paymentInfo.countProducts} products):
                   </span>
-                  <span className="text-[24px] text-red-600">
+                  <span className="text-[24px] text-primary-400">
                     {formatCash(paymentInfo.totalPriceApplyDiscount)}
                   </span>
                 </div>
@@ -467,7 +470,7 @@ function Cart() {
                   0 && (
                   <div className="text-[14px] flex items-center justify-end gap-4">
                     <span>Savings</span>
-                    <span className="text-red-600">
+                    <span className="text-primary-400">
                       {formatCash(
                         paymentInfo.totalPrice -
                           paymentInfo.totalPriceApplyDiscount
@@ -477,7 +480,12 @@ function Cart() {
                 )}
               </div>
               <div>
-                <Button primary rounded>
+                <Button
+                  primary
+                  rounded
+                  disabled={!orderProducts.length}
+                  onClick={handleBuyClick}
+                >
                   Buy
                 </Button>
               </div>

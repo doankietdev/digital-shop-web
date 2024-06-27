@@ -75,11 +75,27 @@ const RequestHeaderKeys = {
   userId: 'x-user-id'
 }
 
+const PaymentMethodsEnum = {
+  CASH_ON_DELIVERY: {
+    name: 'Cash on delivery',
+    value: 'CASH_ON_DELIVERY'
+  },
+  PAY_IN_STORE: {
+    name: 'Pay in store',
+    value: 'PAY_IN_STORE'
+  },
+  ONLINE_PAYMENT: {
+    name: 'Online payment',
+    value: 'ONLINE_PAYMENT'
+  }
+}
+
 export {
   NAV_BAR,
   TIME,
   PRODUCT_CONDITIONS_TO_CHECK,
   CATEGORIES,
   StorageKeys,
-  RequestHeaderKeys
+  RequestHeaderKeys,
+  PaymentMethodsEnum
 }

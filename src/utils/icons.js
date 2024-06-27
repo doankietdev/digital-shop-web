@@ -19,7 +19,8 @@ import {
   FaCartShopping as FaCartShoppingIcon,
   FaCircleInfo as FaCircleInfoIcon,
   FaMinus as FaMinusIcon,
-  FaPlus as FaPlusIcon
+  FaPlus as FaPlusIcon,
+  FaLocationDot as LocationDotIcon
 } from 'react-icons/fa6'
 import { GrSend as GrSendIcon } from 'react-icons/gr'
 import {
@@ -69,5 +70,6 @@ export {
   SortDescIcon,
   SortAscIcon,
   BuyIcon,
-  DeleteIcon
+  DeleteIcon,
+  LocationDotIcon
 }

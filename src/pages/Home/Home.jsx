@@ -1,7 +1,5 @@
 import clsx from 'clsx'
-import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
 import { DocumentTitle, GlobalLoading } from '~/components'
 import { appSelector } from '~/redux/selectors'
 import Banner from './Banner'
@@ -20,14 +18,6 @@ import Slider from './Slider'
 
 function Home() {
   const { loading } = useSelector(appSelector)
-
-  useEffect(() => {
-    const signIn = sessionStorage.getItem('signIn')
-    if (signIn) {
-      toast.success('Sign in successfully! 🎉')
-      sessionStorage.removeItem('signIn')
-    }
-  }, [])
 
   return (
     <>

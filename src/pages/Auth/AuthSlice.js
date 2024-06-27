@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import authService from '~/services/authService'
+import userService from '~/services/userService'
 import { StorageKeys } from '~/utils/constants'
 
 const signUp = createAsyncThunk(
@@ -56,6 +57,17 @@ const verifyEmail = createAsyncThunk(
   }
 )
 
+const getCurrentUser = createAsyncThunk(
+  'auth/verifyEmail',
+  async (payload, { rejectWithValue }) => {
+    try {
+      return await userService.getCurrentUser()
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -75,8 +87,19 @@ const authSlice = createSlice({
       localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken)
     })
 
+    builder.addCase(signOut.rejected, (state) => {
+      state.current = {}
+      state.settings = {}
+      localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
+    })
     builder.addCase(signOut.fulfilled, (state) => {
       state.current = {}
+      state.settings = {}
+      localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
+    })
+
+    builder.addCase(getCurrentUser.fulfilled, (state, action) => {
+      state.current = action.payload
       state.settings = {}
     })
   }
@@ -85,6 +108,6 @@ const authSlice = createSlice({
 const { reducer, actions } = authSlice
 const { clear } = actions
 
-export { signUp, signIn, signOut, verifyEmail, clear }
+export { signUp, signIn, signOut, verifyEmail, getCurrentUser, clear }
 
 export default persistReducer({ key: 'user', storage }, reducer)
