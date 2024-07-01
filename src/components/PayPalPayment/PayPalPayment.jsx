@@ -8,9 +8,9 @@ function PayPalPayment({ orderProducts }) {
       style={{
         label: 'pay',
         layout: 'horizontal',
-        height: 40,
+        height: 40
       }}
-      createOrder={async (data, actions) => {
+      createOrder={async () => {
         const loadingToast = toast.loading('Initialing PayPal...')
         try {
           const { id } = await paymentService.createPayPalOrder(orderProducts)
@@ -21,7 +21,7 @@ function PayPalPayment({ orderProducts }) {
           toast.dismiss(loadingToast)
         }
       }}
-      onApprove={async (data, actions) => {
+      onApprove={async (data) => {
         try {
           const { status } = await paymentService.capturePayPalOrder({
             paypalOrderId: data.orderID,
@@ -34,9 +34,6 @@ function PayPalPayment({ orderProducts }) {
         } catch (error) {
           toast.error(error.messages[0])
         }
-      }}
-      onClick={(data, actions) => {
-        console.log({ data, actions })
       }}
     />
   )

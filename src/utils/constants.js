@@ -3,13 +3,13 @@ import { routesConfig } from '~/config'
 const NAV_BAR = [
   {
     ID: 1,
-    VALUE: 'home',
+    VALUE: 'Home',
     PATH: routesConfig.home
   },
   {
     ID: 2,
-    VALUE: 'My Orders',
-    PATH: routesConfig.myOrders
+    VALUE: 'Orders',
+    PATH: routesConfig.orders
   },
   {
     ID: 3,
@@ -90,6 +90,33 @@ const PaymentMethodsEnum = {
   }
 }
 
+const OrderStatusesEnum = {
+  PENDING: {
+    name: 'Pending',
+    value: 'PENDING'
+  },
+  PAID: {
+    name: 'Paid',
+    value: 'PAID'
+  },
+  CONFIRMED: {
+    name: 'Confirmed',
+    value: 'CONFIRMED'
+  },
+  SHIPPING: {
+    name: 'Shipping',
+    value: 'SHIPPING'
+  },
+  COMPLETED: {
+    name: 'Completed',
+    value: 'COMPLETED'
+  },
+  CANCELED: {
+    name: 'Canceled',
+    value: 'CANCELED'
+  }
+}
+
 export {
   NAV_BAR,
   TIME,
@@ -97,5 +124,6 @@ export {
   CATEGORIES,
   StorageKeys,
   RequestHeaderKeys,
-  PaymentMethodsEnum
+  PaymentMethodsEnum,
+  OrderStatusesEnum
 }

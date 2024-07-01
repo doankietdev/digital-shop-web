@@ -1,23 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import noImage from '~/assets/no-image.png'
-import {
-  Button,
-  Card,
-  Checkbox,
-  DocumentTitle,
-  QuantityField
-} from '~/components'
+import { Button, Card, Checkbox, DocumentTitle, QuantityField } from '~/components'
 import { dispatch } from '~/redux'
 import { cartSelector } from '~/redux/selectors'
 import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
-import {
-  deleteFromCart,
-  updateProductQuantity,
-  updateVariant
-} from './CartSlice'
+import { deleteFromCart, updateProductQuantity, updateVariant } from './CartSlice'
 import UpdateVariant from './UpdateVariant'
 import { Link } from 'react-router-dom'
 import { routesConfig } from '~/config'
@@ -28,12 +18,37 @@ import { reviewOrder } from '~/services/checkoutService'
 const TIME_UPDATE_QUANTITY = 700 // ms
 
 function Cart() {
+  const location = useLocation()
   const updateVariantRef = useRef()
   const { products } = useSelector(cartSelector)
   const timer = useRef(null)
   const oldestQuantity = useRef(null)
   const [disabled, setDisabled] = useState(false)
-  const [orderProducts, setOrderProducts] = useState([])
+  const [orderProducts, setOrderProducts] = useState(() => {
+    if (!location.state?.orderProducts) return []
+
+    let orderProductsInit = []
+    for (const { productId, variantId } of location.state.orderProducts) {
+      const foundOrderProductFromCart = products.find(
+        ({ product, variantId: variantIdFromCart }) =>
+          product._id === productId && variantIdFromCart === variantId
+      )
+      if (foundOrderProductFromCart) {
+        orderProductsInit = [
+          ...orderProductsInit,
+          {
+            productId,
+            variantId,
+            oldPrice: foundOrderProductFromCart.product.oldPrice,
+            price: foundOrderProductFromCart.product.price,
+            quantity: foundOrderProductFromCart.quantity
+          }
+        ]
+      }
+    }
+
+    return orderProductsInit
+  })
   const [paymentInfo, setPaymentInfo] = useState({
     totalPriceApplyDiscount: 0,
     totalPrice: 0,
@@ -54,7 +69,7 @@ function Cart() {
           totalPrice,
           orderProducts: responseOrderProducts
         } = await reviewOrder(orderProducts)
-        setPaymentInfo((prevPaymentInfo) => ({
+        setPaymentInfo(prevPaymentInfo => ({
           ...prevPaymentInfo,
           totalPriceApplyDiscount,
           totalPrice,
@@ -133,80 +148,62 @@ function Cart() {
     []
   )
 
-  const handleUpdateVariant = useCallback(
-    ({ productId, oldVariantId, variantId }) => {
-      toast.promise(
-        dispatch(
-          updateVariant({ productId, oldVariantId, variantId })
-        ).unwrap(),
-        {
-          pending: {
-            render() {
-              setDisabled(true)
-              return 'Updating variant'
-            }
-          },
-          success: {
-            render() {
-              setDisabled(false)
-              return 'Update variant successfully'
-            }
-          },
-          error: {
-            render({ data }) {
-              setDisabled(false)
-              updateVariantRef.current.rollback()
-              return data.messages[0]
-            }
-          }
+  const handleUpdateVariant = useCallback(({ productId, oldVariantId, variantId }) => {
+    toast.promise(dispatch(updateVariant({ productId, oldVariantId, variantId })).unwrap(), {
+      pending: {
+        render() {
+          setDisabled(true)
+          return 'Updating variant'
         }
-      )
-    },
-    []
-  )
+      },
+      success: {
+        render() {
+          setDisabled(false)
+          return 'Update variant successfully'
+        }
+      },
+      error: {
+        render({ data }) {
+          setDisabled(false)
+          updateVariantRef.current.rollback()
+          return data.messages[0]
+        }
+      }
+    })
+  }, [])
 
-  const handleDeleteProductFromCart = useCallback(
-    ({ productId, variantId }) => {
-      toast.promise(
-        dispatch(deleteFromCart([{ productId, variantId }])).unwrap(),
-        {
-          pending: {
-            render() {
-              setDisabled(true)
-              return 'Deleting product from cart'
-            }
-          },
-          success: {
-            render() {
-              setDisabled(false)
-              return 'Delete product from cart successfully'
-            }
-          },
-          error: {
-            render({ data }) {
-              setDisabled(false)
-              updateVariantRef.current.rollback()
-              return data.messages[0]
-            }
-          }
+  const handleDeleteProductFromCart = useCallback(({ productId, variantId }) => {
+    toast.promise(dispatch(deleteFromCart([{ productId, variantId }])).unwrap(), {
+      pending: {
+        render() {
+          setDisabled(true)
+          return 'Deleting product from cart'
         }
-      )
-    },
-    []
-  )
+      },
+      success: {
+        render() {
+          setDisabled(false)
+          return 'Delete product from cart successfully'
+        }
+      },
+      error: {
+        render({ data }) {
+          setDisabled(false)
+          updateVariantRef.current.rollback()
+          return data.messages[0]
+        }
+      }
+    })
+  }, [])
 
   const handleItemCheckBoxClick = useCallback(
     ({ productId, variantId, oldPrice, price, quantity, checked }) => {
-      setOrderProducts((prevOrderProducts) => {
+      setOrderProducts(prevOrderProducts => {
         if (checked)
-          return [
-            ...prevOrderProducts,
-            { productId, variantId, oldPrice, price, quantity }
-          ]
+          return [...prevOrderProducts, { productId, variantId, oldPrice, price, quantity }]
         return prevOrderProducts.filter(
-          (orderProduct) =>
-            orderProduct.productId !== productId ||
-            orderProduct.variantId !== variantId
+          orderProduct =>
+            orderProduct.productId !== productId || orderProduct.variantId !== variantId
         )
       })
     },
@@ -281,54 +278,36 @@ function Cart() {
             <div className="flex items-center gap-1 font-semibold">
               <div className="mr-4">
                 <Checkbox
-                  checked={
-                    orderProducts.length === products.length &&
-                    products.length > 0
-                  }
+                  checked={orderProducts.length === products.length && products.length > 0}
                   disabled={products.length === 0}
-                  onChange={(e) =>
-                    handleSelectAllCheckBoxClick({ checked: e.target.checked })
-                  }
+                  onChange={e => handleSelectAllCheckBoxClick({ checked: e.target.checked })}
                 />
               </div>
               <div className="basis-4/12 text-[14px]">Product</div>
               <div className="basis-2/12 text-[14px] text-center">Variant</div>
-              <div className="basis-[12.5%] text-[14px] text-center">
-                Unit Price
-              </div>
-              <div className="basis-[12.5%] text-[14px] text-center">
-                Quantity
-              </div>
-              <div className="basis-[12.5%] text-[14px] text-center">
-                Total Price
-              </div>
-              <div className="basis-[12.5%] text-[14px] text-center">
-                Action
-              </div>
+              <div className="basis-[12.5%] text-[14px] text-center">Unit Price</div>
+              <div className="basis-[12.5%] text-[14px] text-center">Quantity</div>
+              <div className="basis-[12.5%] text-[14px] text-center">Total Price</div>
+              <div className="basis-[12.5%] text-[14px] text-center">Action</div>
             </div>
           </Card>
 
           {products.map(({ product, variantId, quantity }, index) => {
-            const variant = product?.variants?.find(
-              (variant) => variant._id === variantId
-            )
+            const variant = product?.variants?.find(variant => variant._id === variantId)
             return (
-              <Card
-                key={index}
-                className="flex flex-col gap-3 overflow-visible"
-              >
+              <Card key={index} className="flex flex-col gap-3 overflow-visible">
                 <div className="flex items-center gap-1">
                   <div className="mr-4">
                     <Checkbox
                       id="checkbox"
                       checked={
                         !!orderProducts.find(
-                          (orderProduct) =>
+                          orderProduct =>
                             orderProduct.productId === product?._id &&
                             orderProduct.variantId === variantId
                         )
                       }
-                      onChange={(e) => {
+                      onChange={e => {
                         handleItemCheckBoxClick({
                           productId: product?._id,
                           variantId,
@@ -356,7 +335,10 @@ function Cart() {
                         slug: product?.slug
                       })}
                     >
-                      <p className="text-[14px] line-clamp-2 hover:text-primary-400 transition-all duration-300 ease-in-out">
+                      <p
+                        className="text-[14px]line-clamp-2 hover:text-primary-400
+                          transition-all duration-300 ease-in-out"
+                      >
                         {product?.title}
                       </p>
                     </Link>
@@ -366,7 +348,7 @@ function Cart() {
                       title={variant?.name}
                       variants={product?.variants}
                       defaultVariantId={variant?._id}
-                      onChange={(value) =>
+                      onChange={value =>
                         handleUpdateVariant({
                           productId: product?._id,
                           oldVariantId: variant?._id,
@@ -427,14 +409,9 @@ function Cart() {
               <div className="flex items-center gap-1">
                 <Checkbox
                   id="selectAll"
-                  checked={
-                    orderProducts.length === products.length &&
-                    products.length > 0
-                  }
+                  checked={orderProducts.length === products.length && products.length > 0}
                   disabled={products.length === 0}
-                  onChange={(e) =>
-                    handleSelectAllCheckBoxClick({ checked: e.target.checked })
-                  }
+                  onChange={e => handleSelectAllCheckBoxClick({ checked: e.target.checked })}
                 />
                 <label
                   htmlFor="selectAll"
@@ -452,7 +429,10 @@ function Cart() {
                 Delete
               </button>
 
-              <button className="flex items-center gap-1 hover:text-primary-400 transition-all duration-200 ease-in-out">
+              <button
+                className="flex items-center gap-1 hover:text-primary-400 transition-all duration-200
+                 ease-in-out"
+              >
                 <FaHeart className="text-[18px]" />
                 Add to wishlist
               </button>
@@ -460,33 +440,22 @@ function Cart() {
             <div className="flex gap-7 items-center">
               <div>
                 <div className="flex items-center justify-center gap-2">
-                  <span>
-                    Total payment ({paymentInfo.countProducts} products):
-                  </span>
+                  <span>Total payment ({paymentInfo.countProducts} products):</span>
                   <span className="text-[24px] text-primary-400">
                     {formatCash(paymentInfo.totalPriceApplyDiscount)}
                   </span>
                 </div>
-                {paymentInfo.totalPrice - paymentInfo.totalPriceApplyDiscount >
-                  0 && (
+                {paymentInfo.totalPrice - paymentInfo.totalPriceApplyDiscount > 0 && (
                   <div className="text-[14px] flex items-center justify-end gap-4">
                     <span>Savings</span>
                     <span className="text-primary-400">
-                      {formatCash(
-                        paymentInfo.totalPrice -
-                          paymentInfo.totalPriceApplyDiscount
-                      )}
+                      {formatCash(paymentInfo.totalPrice - paymentInfo.totalPriceApplyDiscount)}
                     </span>
                   </div>
                 )}
               </div>
               <div>
-                <Button
-                  primary
-                  rounded
-                  disabled={!orderProducts.length}
-                  onClick={handleBuyClick}
-                >
+                <Button primary rounded disabled={!orderProducts.length} onClick={handleBuyClick}>
                   Buy
                 </Button>
               </div>

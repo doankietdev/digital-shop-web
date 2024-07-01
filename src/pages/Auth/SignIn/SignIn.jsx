@@ -10,17 +10,16 @@ import logo from '~/assets/logo.png'
 import {
   Button,
   DocumentTitle,
-  Loading,
   PasswordField,
   TextField
 } from '~/components'
 import { routesConfig } from '~/config'
+import { getCart } from '~/pages/Cart/CartSlice'
 import { userSelector } from '~/redux/selectors'
 import { dispatch } from '~/redux/store'
 import { StorageKeys } from '~/utils/constants'
 import { FaFacebookFIcon, FaGooglePlusGIcon } from '~/utils/icons'
 import { signIn } from '../AuthSlice'
-import { getCart } from '~/pages/Cart/CartSlice'
 
 function SignIn() {
   const navigate = useNavigate()
@@ -90,7 +89,9 @@ function SignIn() {
     <>
       <DocumentTitle title='Sign In' />
       <div className='w-full min-h-screen grid lg:grid-cols-2 text-white'>
-        <div className='bg-secondary-400 p-[60px] hidden lg:flex lg:flex-col lg:justify-center lg:items-center lg:gap-5'>
+        <div className='bg-secondary-400 p-[60px] hidden lg:flex lg:flex-col
+          lg:justify-center lg:items-center lg:gap-5'
+        >
           <Link to={routesConfig.home}>
             <img src={logo} />
           </Link>
@@ -102,7 +103,9 @@ function SignIn() {
             className='h-[440px] object-contain'
           />
         </div>
-        <div className='bg-secondary-600 px-[16px] md:px-[155px] lg:p-[60px] xl:px-[155px] py-[60px] flex flex-col justify-center items-center'>
+        <div className='bg-secondary-600 px-[16px] md:px-[155px] lg:p-[60px]
+          xl:px-[155px] py-[60px] flex flex-col justify-center items-center'
+        >
           <div className='text-center'>
             <h1 className='text-[38px] font-semibold'>Welcome back!</h1>
             <p className='mt-2.5'>
@@ -150,7 +153,10 @@ function SignIn() {
           </form>
           <div className='w-full'>
             <div className='relative flex flex-col items-center justify-center'>
-              <span className='h-[1px] border border-[rgba(53,69,133,0.4)] w-full absolute top-1/2 -translate-y-1/2'></span>
+              <span className='h-[1px] border border-[rgba(53,69,133,0.4)]
+                w-full absolute top-1/2 -translate-y-1/2'
+              >
+              </span>
               <span className='bg-secondary-600 relative z-10 px-3'>or</span>
             </div>
             <div className='mt-[30px] mb-[36px] grid grid-cols-2 gap-[30px]'>

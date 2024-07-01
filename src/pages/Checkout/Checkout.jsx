@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -30,16 +30,6 @@ function Checkout() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const [orderProductsFromCartPage, setOrderProductsFromCartPage] = useState(
-    () => {
-      const query = new URLSearchParams(location.search)
-      const orderProductsString = query.get('state')
-      if (!orderProductsString) {
-        navigate(routesConfig.cart)
-      }
-      return JSON.parse(decodeURIComponent(orderProductsString))
-    }
-  )
   const [paymentInfo, setPaymentInfo] = useState({
     shippingFee: 0,
     totalPriceApplyDiscount: 0,
@@ -58,6 +48,15 @@ function Checkout() {
   const [addressIdToUpdate, setAddressIdToUpdate] = useState(null)
   const [orderLoading, setOrderLoading] = useState(false)
   const [globalLoading, setGlobalLoading] = useState(false)
+
+  const orderProductsFromCartPage = useMemo(() => {
+    const query = new URLSearchParams(location.search)
+    const orderProductsString = query.get('state')
+    if (!orderProductsString) {
+      navigate(routesConfig.cart)
+    }
+    return JSON.parse(decodeURIComponent(orderProductsString))
+  }, [location.search, navigate])
 
   const {
     current: { firstName, lastName, mobile, defaultAddress }
@@ -139,14 +138,14 @@ function Checkout() {
       setOrderLoading(true)
       await order(orderProductsFromCartPage, selectedPaymentMethod)
       await dispatch(getCart()).unwrap()
-      navigate(routesConfig.cart)
+      navigate(routesConfig.orders)
     } catch (error) {
       toast.error(error.messages[0])
     } finally {
       setOrderLoading(false)
       toast.dismiss(loadingToast)
     }
-  }, [orderProducts, selectedPaymentMethod])
+  }, [navigate, orderProductsFromCartPage, selectedPaymentMethod])
 
   return (
     <>
@@ -169,10 +168,10 @@ function Checkout() {
                 >
                   {defaultAddress
                     ? `${
-                        defaultAddress.streetAddress
-                          ? defaultAddress.streetAddress + ', '
-                          : ''
-                      }
+                      defaultAddress.streetAddress
+                        ? defaultAddress.streetAddress + ', '
+                        : ''
+                    }
                     ${defaultAddress.ward.name},
                     ${defaultAddress.district.name},
                     ${defaultAddress.province.name}`
@@ -353,25 +352,25 @@ function Checkout() {
                 PaymentMethodsEnum.ONLINE_PAYMENT.value ||
               selectedPaymentMethod ===
                 PaymentMethodsEnum.CASH_ON_DELIVERY.value ? (
-                <div className="w-full lg:w-[200px]">
-                  <PayPalPayment orderProducts={orderProductsFromCartPage} />
-                </div>
-              ) : (
-                <Button
-                  primary
-                  rounded
-                  disabled={
-                    (!defaultAddress &&
+                  <div className="w-full lg:w-[200px]">
+                    <PayPalPayment orderProducts={orderProductsFromCartPage} />
+                  </div>
+                ) : (
+                  <Button
+                    primary
+                    rounded
+                    disabled={
+                      (!defaultAddress &&
                       selectedPaymentMethod !==
                         PaymentMethodsEnum.PAY_IN_STORE) ||
                     orderLoading
-                  }
-                  onClick={handleOrderClick}
-                  className="w-full lg:w-[200px]"
-                >
+                    }
+                    onClick={handleOrderClick}
+                    className="w-full lg:w-[200px]"
+                  >
                   Order
-                </Button>
-              )}
+                  </Button>
+                )}
             </div>
           </Card>
         </div>
@@ -398,7 +397,7 @@ function Checkout() {
       )}
 
       {globalLoading && (
-        <div className='fixed z-[100] inset-0 flex justify-center items-center bg-black/50'>
+        <div className="fixed z-[100] inset-0 flex justify-center items-center bg-black/50">
           <Loading />
         </div>
       )}

@@ -34,7 +34,9 @@ function Brand() {
               to={parsePlaceHolderUrl(routesConfig.productsOfBrands, {
                 slug: brand.slug
               })}
-              className='inline-block px-4 py-3 bg-[#e9ebee] text-sm font-medium rounded-lg hover:bg-black hover:text-white transition-all duration-300 ease-in-out'
+              className='inline-block px-4 py-3 bg-[#e9ebee] text-sm font-medium
+                rounded-lg hover:bg-black hover:text-white transition-all
+                duration-300 ease-in-out'
             >
               {brand.name}
             </Link>

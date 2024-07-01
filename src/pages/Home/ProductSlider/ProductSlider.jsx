@@ -126,7 +126,10 @@ function ProductSlider() {
   return (
     <div className='md:col-span-3 h-full flex flex-col'>
       <div className='flex-1 flex flex-col'>
-        <div className='text-base md:text-xl font-semibold text-gray-400 pb-2 lg:pb-4 border-b-2 border-primary-400 flex'>
+        <div
+          className='text-base md:text-xl font-semibold text-gray-400 pb-2
+            lg:pb-4 border-b-2 border-primary-400 flex'
+        >
           {Object.keys(tabs).map((key, index, tabKeys) => {
             const tab = tabs[key]
             return (
@@ -182,8 +185,8 @@ function ProductSlider() {
           <div className='banner'>
             <img
               src={
-                'https://digital-world-2.myshopify.com/cdn/shop/files/banner2-home2_2000x_crop_center.png?v=1613166657' ||
-                noImage
+                'https://digital-world-2.myshopify.com/cdn/shop/files/banner2-home2_2000x_crop_center.png?v=1613166657'
+                  || noImage
               }
               alt='banner'
               className='w-full lg:h-[140px] object-contain rounded'
@@ -198,8 +201,8 @@ function ProductSlider() {
           <div className='banner'>
             <img
               src={
-                'https://digital-world-2.myshopify.com/cdn/shop/files/banner1-home2_2000x_crop_center.png?v=1613166657' ||
-                noImage
+                'https://digital-world-2.myshopify.com/cdn/shop/files/banner1-home2_2000x_crop_center.png?v=1613166657'
+                  || noImage
               }
               alt='banner'
               className='w-full lg:h-[140px] object-contain rounded'
