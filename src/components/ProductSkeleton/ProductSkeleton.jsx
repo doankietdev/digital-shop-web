@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
 
 function ProductSkeleton({ horizontal, className }) {
   return (

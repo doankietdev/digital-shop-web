@@ -6,6 +6,7 @@ import {
   EmailVerificationSuccess,
   ForgotPassword,
   Home,
+  Orders,
   ProductsOfCategory,
   ResetPassword,
   SignIn,
@@ -54,6 +55,10 @@ const publicRoutes = [
   {
     path: routesConfig.checkout,
     component: Checkout
+  },
+  {
+    path: routesConfig.orders,
+    component: Orders
   }
 ]
 

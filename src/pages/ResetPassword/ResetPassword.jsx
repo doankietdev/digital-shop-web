@@ -30,7 +30,8 @@ function ResetPassword() {
       .matches(/\d/, 'Password must contain at least 1 digit')
       .matches(
         /[@$!%*?&_.]/,
-        'Password must contain at least 1 special character from the following list: `@`, `$`, `!`, `%`, `*`, `?`, `&`, `_`, `. `'
+        `Password must contain at least 1 special character from the following list:
+          \`@\`, \`$\`, \`!\`, \`%\`, \`*\`, \`?\`, \`&\`, \`_\`, \`.\``
       )
       .required('Please enter your password'),
     confirmNewPassword: yup
@@ -122,7 +123,10 @@ function ResetPassword() {
 
             <div className='mt-6 text-[14px] font-semibold'>
               <span className='mr-1'>Remember password?</span>
-              <Link className='p-3 lg:p-1 text-[#885CEE] underline-run hover:after:bg-[#885CEE]' to={routesConfig.signIn}>
+              <Link
+                className='p-3 lg:p-1 text-[#885CEE] underline-run hover:after:bg-[#885CEE]'
+                to={routesConfig.signIn}
+              >
                 Sign in
               </Link>
             </div>

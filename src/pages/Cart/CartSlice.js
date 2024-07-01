@@ -14,6 +14,17 @@ const addToCart = createAsyncThunk(
   }
 )
 
+const addProductsToCart = createAsyncThunk(
+  'cart/addProductsToCart',
+  async (payload, { rejectWithValue }) => {
+    try {
+      return await cartService.addProductsToCart(payload)
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 const updateVariant = createAsyncThunk(
   'cart/updateVariant',
   async (payload, { rejectWithValue }) => {
@@ -78,6 +89,12 @@ const cartSlice = createSlice({
       state.countProducts = countProducts
     })
 
+    builder.addCase(addProductsToCart.fulfilled, (state, action) => {
+      const { products, countProducts } = action.payload
+      state.products = products
+      state.countProducts = countProducts
+    })
+
     builder.addCase(updateVariant.fulfilled, (state, action) => {
       const { products, countProducts } = action.payload
       state.products = products
@@ -110,6 +127,7 @@ const { clear } = actions
 
 export {
   addToCart,
+  addProductsToCart,
   clear,
   getCart,
   updateProductQuantity,

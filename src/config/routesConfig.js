@@ -16,7 +16,8 @@ const routesConfig = {
   faqs: '/faqs',
   productsOfCategory: '/categories/:slug',
   productDetails: '/products/:slug',
-  productsOfBrands: '/brands/:slug'
+  productsOfBrands: '/brands/:slug',
+  orders: '/user/purchase'
 }
 
 export default routesConfig

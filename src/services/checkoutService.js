@@ -1,4 +1,4 @@
-import { orderApi, reviewOrderApi } from '~/apis/checkoutApis'
+import { cancelOrderApi, orderApi, reviewOrderApi } from '~/apis/checkoutApis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 
@@ -46,4 +46,16 @@ const order = async (orderProducts, paymentMethod) => {
   }
 }
 
-export { reviewOrder, order }
+const cancelOrder = async (orderId) => {
+  try {
+    await axiosClient.patch(cancelOrderApi, {}, {
+      params: {
+        orderId
+      }
+    })
+  } catch (error) {
+    return Promise.reject(new UIError(['Something went wrong']))
+  }
+}
+
+export { reviewOrder, order, cancelOrder }

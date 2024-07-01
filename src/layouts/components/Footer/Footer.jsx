@@ -44,22 +44,29 @@ function Footer() {
 
               <div className='flex gap-2'>
                 <a href='/'>
-                  <span className='flex justify-center items-center w-[40px] h-[40px] bg-[#303030] hover:bg-[#3d3d3d] border-white rounded'>
+                  <span className='flex justify-center items-center w-[40px] h-[40px]
+                    bg-[#303030] hover:bg-[#3d3d3d] border-white rounded'
+                  >
                     <FaFacebookFIcon />
                   </span>
                 </a>
                 <a href='/'>
-                  <span className='flex justify-center items-center w-[40px] h-[40px] bg-[#303030] hover:bg-[#3d3d3d] border-white rounded'>
+                  <span className='flex justify-center items-center w-[40px] h-[40px]
+                    bg-[#303030] hover:bg-[#3d3d3d] border-white rounded'
+                  >
                     <FaTwitterIcon />
                   </span>
                 </a>
                 <a href='/'>
-                  <span className='flex justify-center items-center w-[40px] h-[40px] bg-[#303030] hover:bg-[#3d3d3d] border-white rounded'>
+                  <span className='flex justify-center items-center w-[40px] h-[40px]
+                    bg-[#303030] hover:bg-[#3d3d3d] border-white rounded'
+                  >
                     <FaGooglePlusGIcon />
                   </span>
                 </a>
                 <a href='/'>
-                  <span className='flex justify-center items-center w-[40px] h-[40px] bg-[#303030] hover:bg-[#3d3d3d] border-white rounded'>
+                  <span className='flex justify-center items-center w-[40px] h-[40px]
+                    bg-[#303030] hover:bg-[#3d3d3d] border-white rounded'>
                     <FaLinkedinInIcon />
                   </span>
                 </a>

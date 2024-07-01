@@ -13,7 +13,9 @@ function EmailVerificationSuccess() {
           'bg-[#01463B] flex justify-center items-center h-screen bg-cover bg-no-repeat p-5'
         )}
       >
-        <Card className='!bg-[#005445] animate-fadeIn flex flex-col items-center justify-center max-w-[860px] w-full max-h-[520px] p-10'>
+        <Card className='!bg-[#005445] animate-fadeIn flex flex-col items-center
+          justify-center max-w-[860px] w-full max-h-[520px] p-10'
+        >
           <TbMailCheckIcon className='w-[200px] h-[200px] text-white' />
           <h2 className='mb-3 font-semibold text-2xl tracking-[2px] text-white text-center'>
             Email verified successfully! 🎉
