@@ -196,7 +196,7 @@ function Orders() {
                   {orders.map(order => (
                     <li key={order._id} className="shadow-card-md">
                       <div className="pt-[24px] px-[12px] pb-[12px]">
-                        <div className="pb-[12px] flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0">
+                        <div className="pb-[12px] flex flex-col-reverse md:flex-row justify-between md:items-center gap-1 md:gap-0">
                           <p>
                             <span className="font-medium">Order ID:</span> {order._id}
                           </p>
@@ -245,7 +245,7 @@ function Orders() {
                       <div className="pt-[24px] px-[12px] pb-[12px]">
                         <div className="flex items-center md:justify-end">
                           <span className="mr-[10px]">Total amount:</span>
-                          <span className="text-[24px] font-medium text-primary-400">
+                          <span className="text-[20px] md:text-[24px] font-medium text-primary-400">
                             {formatCash(order.totalPayment)}
                           </span>
                         </div>
