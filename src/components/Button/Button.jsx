@@ -13,7 +13,7 @@ function Button({
   onClick
 }) {
   const classes = clsx(
-    'select-none',
+    'select-none text-[14px] md:text-[16px]',
     {
       'text-white': !outlined
     },
@@ -40,7 +40,7 @@ function Button({
     },
     className,
     'px-[15px]',
-    'text-[16px] font-medium',
+    'font-medium',
     'min-w-[140px] h-[40px]',
     'py-[11px]',
     'flex justify-center items-center gap-2',
@@ -57,11 +57,7 @@ function Button({
       disabled={disabled}
       onClick={onClick}
     >
-      {startIcon && (
-        <div className='absolute top-1/2 left-4 translate-y-[-50%]'>
-          {startIcon}
-        </div>
-      )}
+      {startIcon && <div className="absolute top-1/2 left-4 translate-y-[-50%]">{startIcon}</div>}
       {icon}
       {children}
     </button>
