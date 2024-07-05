@@ -3,8 +3,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { Button, Loading, Mark } from '~/components'
 import CheckboxDot from '~/components/FormControls/CheckboxDot'
-import { getCurrentUser } from '~/pages/Auth/AuthSlice'
-import { dispatch } from '~/redux'
 import addressService from '~/services/addressService'
 import orderService from '~/services/orderService'
 import { FaPlusIcon } from '~/utils/icons'
@@ -61,7 +59,7 @@ function ChangeShippingAddress({
       setDisabled(false)
       toast.dismiss(loadingToast)
     }
-  }, [handleCloseModal, selectedAddressId])
+  }, [handleCloseModal, orderId, selectedAddressId, setOrder])
 
   return (
     <div className="min-w-[620px] h-[600px] flex flex-col">
