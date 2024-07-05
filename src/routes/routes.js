@@ -14,6 +14,7 @@ import {
   VerifyEmail,
   VerifyPasswordResetOTP
 } from '~/pages'
+import OrderDetails from '~/pages/OrderDetails'
 import ProductDetails from '~/pages/ProductDetails'
 
 const publicRoutes = [
@@ -59,10 +60,13 @@ const publicRoutes = [
   {
     path: routesConfig.orders,
     component: Orders
+  },
+  {
+    path: routesConfig.orderDetails,
+    component: OrderDetails
   }
 ]
 
 const privateRoutes = []
 
 export { privateRoutes, publicRoutes }
-

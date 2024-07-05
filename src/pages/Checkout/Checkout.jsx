@@ -5,14 +5,17 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import noImage from '~/assets/no-image.png'
 import {
+  AddNewAddress,
   Button,
   Card,
+  ChangeAddress,
   DocumentTitle,
-  Loading,
   Mark,
   Modal,
   PayPalPayment,
-  SelectorOutlined
+  SelectorOutlined,
+  UpdateAddress,
+  ModalLoading
 } from '~/components'
 import { routesConfig } from '~/config'
 import { getCart } from '~/pages/Cart/CartSlice'
@@ -22,9 +25,6 @@ import { order, reviewOrder } from '~/services/checkoutService'
 import { PaymentMethodsEnum } from '~/utils/constants'
 import { convertObjectToArrayValues, formatCash } from '~/utils/formatter'
 import { LocationDotIcon } from '~/utils/icons'
-import AddNewAddress from './AddNewAddress'
-import ChangeAddress from './ChangeAddress'
-import UpdateAddress from './UpdateAddress'
 
 function Checkout() {
   const location = useLocation()
@@ -397,9 +397,7 @@ function Checkout() {
       )}
 
       {globalLoading && (
-        <div className="fixed z-[100] inset-0 flex justify-center items-center bg-black/50">
-          <Loading />
-        </div>
+        <ModalLoading />
       )}
     </>
   )
