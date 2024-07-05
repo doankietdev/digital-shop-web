@@ -9,7 +9,7 @@ import { dispatch } from '~/redux'
 import { cancelOrder } from '~/services/checkoutService'
 import orderService from '~/services/orderService'
 import { OrderStatusesEnum } from '~/utils/constants'
-import { formatCash } from '~/utils/formatter'
+import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
 import { addProductsToCart } from '../Cart/CartSlice'
 
 const LIMIT = 10
@@ -159,6 +159,17 @@ function Orders() {
     [navigate]
   )
 
+  const handleSeeOrderDetails = useCallback(
+    orderId => {
+      navigate(
+        parsePlaceHolderUrl(routesConfig.orderDetails, {
+          orderId
+        })
+      )
+    },
+    [navigate]
+  )
+
   return (
     <>
       <DocumentTitle title="Orders" />
@@ -185,8 +196,8 @@ function Orders() {
         </ul>
 
         {loading ? (
-          <div className="mt-10 flex justify-center">
-            <BouceLoading className="w-[8px] h-[8px] !mx-[3px] bg-primary-400" />
+          <div className="mt-8 flex justify-center">
+            <BouceLoading className="w-[8px] h-[8px] !mx-[5px] bg-primary-400" />
           </div>
         ) : (
           <>
@@ -268,7 +279,12 @@ function Orders() {
                             </Button>
                           )}
 
-                          <Button rounded outlined disabled={disabled}>
+                          <Button
+                            rounded
+                            outlined
+                            disabled={disabled}
+                            onClick={() => handleSeeOrderDetails(order._id)}
+                          >
                             See Order Details
                           </Button>
 
