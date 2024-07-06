@@ -1,1 +1,1 @@
-export { default, DropdownDivider, DropdownItem } from './Dropdown'
+export { default, DropdownItem } from './Dropdown'

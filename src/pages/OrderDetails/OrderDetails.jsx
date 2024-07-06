@@ -185,7 +185,7 @@ function OrderDetails() {
 
               <div className='px-[24px] py-[20px]'>
                 <h3 className='md:text-[18px] text-primary-400 font-medium'>Order Products</h3>
-                <ul className=''>
+                <ul>
                   {order?.products?.map(({ product, variant, quantity, price }, index) => (
                     <li key={index} className="flex items-center gap-3 pt-[16px]">
                       <img
