@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -7,26 +7,30 @@ import noAvatarImage from '~/assets/no-avatar-image.png'
 import {
   AvatarDropdown,
   Button,
-  DropdownDivider,
+  Divider,
+  Dropdown,
   DropdownItem,
   Search
 } from '~/components'
 import { routesConfig } from '~/config'
 import { signOut } from '~/pages/Auth/AuthSlice'
 import { dispatch } from '~/redux'
-import { userSelector } from '~/redux/selectors'
+import { cartSelector, userSelector } from '~/redux/selectors'
+import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
 import {
   FaCartShoppingIcon,
   FaSearchIcon,
   FaUserIcon,
   IoMenuIcon
 } from '~/utils/icons'
-import NavBar from './NavBar'
 import styles from './Header.module.css'
+import NavBar from './NavBar'
 
 function Header() {
   const [openExpandedNavBar, setOpenExpandedNavBar] = useState(false)
   const { current: user } = useSelector(userSelector)
+  const cart = useSelector(cartSelector)
+
   const mainHeaderRef = useRef(null)
 
   useEffect(() => {
@@ -50,9 +54,9 @@ function Header() {
     }
   }
 
-  const handleOpenExpandedNavBar = () => {
+  const handleOpenExpandedNavBar = useCallback(() => {
     setOpenExpandedNavBar((prev) => !prev)
-  }
+  }, [])
 
   return (
     <>
@@ -101,15 +105,77 @@ function Header() {
                 </div>
               </div>
               <div className='flex items-center gap-2 md:gap-4 lg:gap-7'>
-                <div className='p-2 relative'>
-                  <FaCartShoppingIcon className='icon' />
-                  <span className='absolute bottom-[calc(100%-20px)] left-[calc(100%-20px)]
-                    min-w-[26px] h-[22px] rounded-full flex justify-center items-center px-[6px]
-                    bg-white text-primary-400 border-2 border-primary-400 text-[10px]'
-                  >
-                    99+
-                  </span>
-                </div>
+                <Dropdown
+                  label={(
+                    <Link to={routesConfig.cart} className='py-2 flex'>
+                      <FaCartShoppingIcon className='icon text-white !text-[24px]' />
+                      <span className='relative -top-[10px] -left-[10px]
+                      min-w-[26px] h-[22px] rounded-full flex justify-center items-center px-[6px]
+                      bg-white text-primary-400 border-2 border-primary-400 text-[10px]'
+                      >
+                        {cart.products.length >= 99 ? '99+' : cart.products.length}
+                      </span>
+                    </Link>
+                  )}
+                  footer={(
+                    <>
+                      <Divider />
+                      <div className='flex items-center justify-between p-3'>
+                        <div className='text-black/60 text-[12px]'>
+                          {cart.products.length - 5 && `There are ${cart.products.length - 5} more products added`}
+                        </div>
+                        <Link to={routesConfig.cart}>
+                          <Button
+                            primary
+                            rounded
+                            className='!text-[14px] !px-[12px] !py-[8px] min-w-[120px]'
+                          >
+                          View Cart
+                          </Button>
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                  title='New Products Added'
+                  titleClassName='font-medium text-black/45'
+                  dropdownContainerClassName='w-[600px] origin-[calc(100%-36px)_-10px]'
+                  arrowClassName='right-[28px]'
+                  bridgeClassName='!w-[64px]'
+                >
+                  {cart.products.slice(0, 5).map(({ product, variantId }, index) => {
+                    const variant = product.variants?.find(variant => variant._id === variantId)
+                    if (!variant) {
+                      // navigate error page
+                      return
+                    }
+
+                    return (
+                      <DropdownItem
+                        key={index}
+                        link={parsePlaceHolderUrl(routesConfig.productDetails, {
+                          slug: product.slug
+                        })}
+                        className="flex items-center gap-1 !px-3 !py-2"
+                      >
+                        <img
+                          src={variant.images[0]}
+                          className="w-[50px] h-[50px] object-cover"
+                        />
+                        <div className="flex-1 flex flex-col md:flex-row gap-[6px] md:gap-0">
+                          <div className="flex-1 flex flex-col gap-[6px]">
+                            <p className="line-clamp-1 font-medium text-[14px]">{product.title}</p>
+                            <p className="text-gray-500 text-[12px]">
+                              Variant: {variant.name}
+                            </p>
+                          </div>
+                          <div>
+                            {formatCash(product.price)}
+                          </div>
+                        </div>
+                      </DropdownItem>
+                    )
+                  })}
+                </Dropdown>
                 {user._id ? (
                   <AvatarDropdown
                     avatarSrc={user.image?.url || noAvatarImage}
@@ -122,7 +188,7 @@ function Header() {
                     <DropdownItem link={routesConfig.myOrders}>
                       My Orders
                     </DropdownItem>
-                    <DropdownDivider />
+                    <Divider />
                     <DropdownItem onClick={handleSignOut}>
                       Sign Out
                     </DropdownItem>
