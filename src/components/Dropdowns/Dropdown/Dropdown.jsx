@@ -1,8 +1,9 @@
 import clsx from 'clsx'
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Divider } from '~/components'
 import styles from './Dropdown.module.css'
+import { useOutsideClick } from '~/hooks'
 
 function Dropdown({
   className,
@@ -14,10 +15,18 @@ function Dropdown({
   footer,
   label,
   title,
-  hover = true,
+  hover = false,
   children
 }) {
   const [open, setOpen] = useState(false)
+
+  const containerRef = useRef()
+
+  useOutsideClick(containerRef, () => {
+    if (!hover) {
+      setOpen(false)
+    }
+  })
 
   const handleButtonClick = useCallback(() => {
     if (!hover) {
@@ -57,6 +66,7 @@ function Dropdown({
         className,
         'min-w-[32px] relative'
       )}
+      ref={containerRef}
     >
       <button
         className='flex items-center text-sm pe-1 font-medium text-gray-900 md:me-0 px-2 py-1 select-none'

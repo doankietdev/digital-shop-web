@@ -1,6 +1,6 @@
 import { Dropdown } from '~/components'
 
-function AvatarDropDown({ className, children, fullName, email, avatarSrc }) {
+function AvatarDropDown({ className, children, fullName, email, avatarSrc, hover = false }) {
   if (!avatarSrc) throw new Error('`avatarSrc` is missing')
   return (
     <Dropdown
@@ -28,6 +28,7 @@ function AvatarDropDown({ className, children, fullName, email, avatarSrc }) {
           </div>
         )
       }
+      hover={hover}
     >
       {children}
     </Dropdown>
