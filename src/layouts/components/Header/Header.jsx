@@ -184,10 +184,10 @@ function Header() {
                     email={user.email}
                     hover
                   >
-                    <DropdownItem link={routesConfig.signIn}>
+                    <DropdownItem link={routesConfig.profile}>
                       My Account
                     </DropdownItem>
-                    <DropdownItem link={routesConfig.myOrders}>
+                    <DropdownItem link={routesConfig.orders}>
                       My Orders
                     </DropdownItem>
                     <Divider />
