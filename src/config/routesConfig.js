@@ -8,7 +8,6 @@ const routesConfig = {
   forgotPassword: '/auth/forgot-password',
   verifyPasswordResetOTP: '/auth/verify-password-reset-otp',
   resetPassword: '/auth/reset-password',
-  myOrders: '/orders',
   cart: '/cart',
   checkout: '/checkout',
   blogs: '/blogs',
@@ -18,7 +17,8 @@ const routesConfig = {
   productDetails: '/products/:slug',
   productsOfBrands: '/brands/:slug',
   orders: '/user/purchase',
-  orderDetails: '/user/purchase/:orderId'
+  orderDetails: '/user/purchase/orders/:orderId',
+  profile: '/user/account/profile'
 }
 
 export default routesConfig
