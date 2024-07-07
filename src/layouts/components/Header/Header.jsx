@@ -141,6 +141,7 @@ function Header() {
                   dropdownContainerClassName='w-[600px] origin-[calc(100%-36px)_-10px]'
                   arrowClassName='right-[28px]'
                   bridgeClassName='!w-[64px]'
+                  hover
                 >
                   {cart.products.slice(0, 5).map(({ product, variantId }, index) => {
                     const variant = product.variants?.find(variant => variant._id === variantId)
@@ -181,6 +182,7 @@ function Header() {
                     avatarSrc={user.image?.url || noAvatarImage}
                     fullName={`${user.firstName} ${user.lastName}`}
                     email={user.email}
+                    hover
                   >
                     <DropdownItem link={routesConfig.signIn}>
                       My Account
