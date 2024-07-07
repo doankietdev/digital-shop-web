@@ -12,7 +12,12 @@ import { FaPlusIcon } from '~/utils/icons'
 function ChangeAddress({
   handleCloseModal = () => {},
   onAddNewAddress = () => {},
-  onUpdateAddress = () => {}
+  onUpdateAddress = () => {},
+  hideCancel = false,
+  confirmText = 'Confirm',
+  cancelText = 'Cancel',
+  successChangeAddressText = 'Change address successfully',
+  loadingChangeAddressText = 'Changing address'
 }) {
   const [addresses, setAddresses] = useState([])
   const [loading, setLoading] = useState(false)
@@ -42,20 +47,21 @@ function ChangeAddress({
   }, [])
 
   const handleConfirmButtonClick = useCallback(async () => {
-    const loadingToast = toast.loading('Changing address')
+    const loadingToast = toast.loading(loadingChangeAddressText)
     try {
       setDisabled(true)
       await userService.setDefaultAddress(selectedAddressId)
       await dispatch(getCurrentUser()).unwrap()
+      setAddresses(await addressService.getUserAddresses())
       handleCloseModal()
-      toast.success('Change address successfully')
+      toast.success(successChangeAddressText)
     } catch (error) {
       toast.error(error.messages[0])
     } finally {
       setDisabled(false)
       toast.dismiss(loadingToast)
     }
-  }, [handleCloseModal, selectedAddressId])
+  }, [handleCloseModal, loadingChangeAddressText, selectedAddressId, successChangeAddressText])
 
   return (
     <div className="min-w-[620px] h-[600px] flex flex-col">
@@ -130,16 +136,25 @@ function ChangeAddress({
       </div>
 
       <div className="flex justify-end gap-3 pt-6">
-        <Button primary outlined rounded onClick={handleCloseModal}>
-          Cancel
-        </Button>
+        {!hideCancel && (
+          <Button
+            primary
+            outlined
+            rounded
+            onClick={handleCloseModal}
+            className='capitalize'
+          >
+            {cancelText}
+          </Button>
+        )}
         <Button
           primary
           rounded
           disabled={disabled || !selectedAddressId}
           onClick={handleConfirmButtonClick}
+          className='capitalize'
         >
-          Confirm
+          {confirmText}
         </Button>
       </div>
     </div>
