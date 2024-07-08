@@ -17,7 +17,7 @@ function AccountBar() {
           src={user.image.url || noAvatarImage}
         />
         <div>
-          <p className='font-semibold'>Kiet Doan Anh</p>
+          <p className='font-semibold'>{`${user.firstName} ${user.lastName}`}</p>
           <Link to={routesConfig.profile} className='font-medium text-black/60 flex items-center gap-1'>
             <EditIcon className='icon' />
             Edit Profile

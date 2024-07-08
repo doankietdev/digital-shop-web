@@ -68,6 +68,28 @@ const getCurrentUser = createAsyncThunk(
   }
 )
 
+const uploadAvatar = createAsyncThunk(
+  'auth/uploadAvatar',
+  async (payload, { rejectWithValue }) => {
+    try {
+      return await userService.uploadAvatar(payload)
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+const updateCurrentUser = createAsyncThunk(
+  'auth/updateCurrentUser',
+  async (payload, { rejectWithValue }) => {
+    try {
+      return await userService.updateCurrentUser(payload)
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -102,12 +124,31 @@ const authSlice = createSlice({
       state.current = action.payload
       state.settings = {}
     })
+
+    builder.addCase(uploadAvatar.fulfilled, (state, action) => {
+      state.current = action.payload
+      state.settings = {}
+    })
+
+    builder.addCase(updateCurrentUser.fulfilled, (state, action) => {
+      state.current = action.payload
+      state.settings = {}
+    })
   }
 })
 
 const { reducer, actions } = authSlice
 const { clear } = actions
 
-export { signUp, signIn, signOut, verifyEmail, getCurrentUser, clear }
+export {
+  signUp,
+  signIn,
+  signOut,
+  verifyEmail,
+  getCurrentUser,
+  uploadAvatar,
+  updateCurrentUser,
+  clear
+}
 
 export default persistReducer({ key: 'user', storage }, reducer)

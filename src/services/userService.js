@@ -1,4 +1,4 @@
-import { getCurrentUserApi, setDefaultAddressApi } from '~/apis/userApis'
+import { getCurrentUserApi, setDefaultAddressApi, updateCurrentUserApi, uploadAvatarApi } from '~/apis/userApis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 
@@ -24,7 +24,27 @@ const setDefaultAddress = async (addressId) => {
   }
 }
 
+const uploadAvatar = async (formData) => {
+  try {
+    const { metadata } = await axiosClient.patch(uploadAvatarApi, formData)
+    return metadata.user
+  } catch (error) {
+    return Promise.reject(new UIError(['Something went wrong']))
+  }
+}
+
+const updateCurrentUser = async (data = {}) => {
+  try {
+    const { metadata } = await axiosClient.patch(updateCurrentUserApi, data)
+    return metadata.user
+  } catch (error) {
+    return Promise.reject(new UIError(['Something went wrong']))
+  }
+}
+
 export default {
   getCurrentUser,
-  setDefaultAddress
+  setDefaultAddress,
+  uploadAvatar,
+  updateCurrentUser
 }
