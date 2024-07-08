@@ -14,7 +14,7 @@ function AccountBar() {
       <div className='flex gap-[15px] items-center'>
         <img
           className='w-[48px] h-[48px] rounded-full object-cover'
-          src={user.image || noAvatarImage}
+          src={user.image.url || noAvatarImage}
         />
         <div>
           <p className='font-semibold'>Kiet Doan Anh</p>

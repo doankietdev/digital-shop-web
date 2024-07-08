@@ -25,7 +25,7 @@ function Profile() {
         <div className="basis-1/3 flex flex-col justify-center items-center gap-6">
           <img
             className='w-[100px] h-[100px] rounded-full object-cover'
-            src={user.image || noAvatarImage}
+            src={user.image.url || noAvatarImage}
           />
           <Button
             primary
