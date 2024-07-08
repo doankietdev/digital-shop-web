@@ -103,6 +103,8 @@ const authSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
+    builder.addCase(signIn.rejected, () => {})
+
     builder.addCase(signIn.fulfilled, (state, action) => {
       const { user, accessToken } = action.payload
       state.current = user
@@ -120,16 +122,19 @@ const authSlice = createSlice({
       localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
     })
 
+    builder.addCase(getCurrentUser.rejected, () => {})
     builder.addCase(getCurrentUser.fulfilled, (state, action) => {
       state.current = action.payload
       state.settings = {}
     })
 
+    builder.addCase(uploadAvatar.rejected, () => {})
     builder.addCase(uploadAvatar.fulfilled, (state, action) => {
       state.current = action.payload
       state.settings = {}
     })
 
+    builder.addCase(updateCurrentUser.rejected, () => {})
     builder.addCase(updateCurrentUser.fulfilled, (state, action) => {
       state.current = action.payload
       state.settings = {}
@@ -141,14 +146,8 @@ const { reducer, actions } = authSlice
 const { clear } = actions
 
 export {
-  signUp,
-  signIn,
-  signOut,
-  verifyEmail,
-  getCurrentUser,
-  uploadAvatar,
-  updateCurrentUser,
-  clear
+  clear, getCurrentUser, signIn,
+  signOut, signUp, updateCurrentUser, uploadAvatar, verifyEmail
 }
 
 export default persistReducer({ key: 'user', storage }, reducer)

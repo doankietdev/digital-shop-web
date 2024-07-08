@@ -34,8 +34,14 @@ function Profile() {
 
 
   const schema = yup.object({
-    firstName: yup.string().min(1),
-    lastName: yup.string().min(2)
+    firstName: yup
+      .string()
+      .min(1, 'First name must have at least 1 characters')
+      .required('Please enter your first name'),
+    lastName: yup
+      .string()
+      .min(2, 'Last name must have at least 2 characters')
+      .required('Please enter your last name')
   })
   const {
     register,
@@ -86,8 +92,8 @@ function Profile() {
       <h2 className='font-medium text-[18px] text-center'>My Profile</h2>
       <div className="mt-7 flex">
         <div className="basis-2/3">
-          <form className='flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
-            <div className='flex gap-4'>
+          <form className='flex flex-col gap-5' onSubmit={handleSubmit(onSubmit)}>
+            <div className='flex gap-5'>
               <TextFieldOutlined
                 label='First Name'
                 {...register('firstName')}

@@ -1,4 +1,5 @@
-import { getCurrentUserApi, setDefaultAddressApi, updateCurrentUserApi, uploadAvatarApi } from '~/apis/userApis'
+import { StatusCodes } from 'http-status-codes'
+import { changePasswordApi, getCurrentUserApi, setDefaultAddressApi, updateCurrentUserApi, uploadAvatarApi } from '~/apis/userApis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 
@@ -42,9 +43,24 @@ const updateCurrentUser = async (data = {}) => {
   }
 }
 
+const changePassword = async (data = {}) => {
+  try {
+    await axiosClient.patch(changePasswordApi, data)
+  } catch (error) {
+    if (
+      error.statusCode === StatusCodes.BAD_REQUEST
+      || error.statusCode === StatusCodes.CONFLICT
+    ) {
+      return Promise.reject(new UIError([error.message]))
+    }
+    return Promise.reject(new UIError(['Something went wrong']))
+  }
+}
+
 export default {
   getCurrentUser,
   setDefaultAddress,
   uploadAvatar,
-  updateCurrentUser
+  updateCurrentUser,
+  changePassword
 }

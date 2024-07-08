@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import logo from '~/assets/logo.png'
 import noAvatarImage from '~/assets/no-avatar-image.png'
@@ -33,6 +33,8 @@ function Header() {
 
   const mainHeaderRef = useRef(null)
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     window.addEventListener('scroll', function () {
       mainHeaderRef.current?.classList?.toggle(
@@ -46,6 +48,7 @@ function Header() {
     const loadingToast = toast.loading('Signing out...')
     try {
       await dispatch(signOut()).unwrap()
+      navigate(routesConfig.home)
       toast.success('Sign out successfully')
     } catch (error) {
       toast.error(error.messages[0])

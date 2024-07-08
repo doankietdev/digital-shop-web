@@ -1,4 +1,3 @@
-import { ToastContainer } from 'react-toastify'
 import { Footer, Header } from '~/layouts/components'
 
 function DefaultLayout({ children }) {
@@ -7,7 +6,6 @@ function DefaultLayout({ children }) {
       <Header />
       <main className='pt-2 pb-10 md:pt-6 md:pb-14 flex-1 relative min-h-screen'>{children}</main>
       {<Footer />}
-      <ToastContainer position='bottom-left' autoClose={3000} />
     </div>
   )
 }

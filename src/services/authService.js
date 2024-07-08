@@ -44,6 +44,9 @@ const signOut = async () => {
     const { metadata } = await axios.post(signOutApi)
     return metadata
   } catch (error) {
+    if (error.statusCode === StatusCodes.UNAUTHORIZED) {
+      return
+    }
     return Promise.reject(new UIError(['Something went wrong']))
   }
 }

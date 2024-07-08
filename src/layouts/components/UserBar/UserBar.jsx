@@ -14,7 +14,7 @@ function AccountBar() {
       <div className='flex gap-[15px] items-center'>
         <img
           className='w-[48px] h-[48px] rounded-full object-cover'
-          src={user.image.url || noAvatarImage}
+          src={user?.image?.url || noAvatarImage}
         />
         <div>
           <p className='font-semibold'>{`${user.firstName} ${user.lastName}`}</p>
@@ -42,20 +42,20 @@ function AccountBar() {
             </li>
             <li>
               <NavLink
-                to={routesConfig.addresses}
-                className={({ isActive }) => isActive ? 'text-primary-400 block'
-                  : 'block text-black/80 hover:text-primary-400 transition-all ease-in-out duration-300'}
-              >
-                Address
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
                 to={routesConfig.changePassword}
                 className={({ isActive }) => isActive ? 'block text-primary-400'
                   : 'block text-black/80 hover:text-primary-400 transition-all ease-in-out duration-300'}
               >
                 Change Password
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={routesConfig.addresses}
+                className={({ isActive }) => isActive ? 'text-primary-400 block'
+                  : 'block text-black/80 hover:text-primary-400 transition-all ease-in-out duration-300'}
+              >
+                Address
               </NavLink>
             </li>
           </ul>

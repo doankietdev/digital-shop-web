@@ -45,6 +45,7 @@ import {
 } from 'react-icons/md'
 import { TbMailCheck as TbMailCheckIcon } from 'react-icons/tb'
 import { GiBuyCard as BuyIcon } from 'react-icons/gi'
+import { RiErrorWarningLine as ErrorWarningIcon } from 'react-icons/ri'
 
 export {
   FaCartShoppingIcon,
@@ -83,5 +84,6 @@ export {
   NotificationsIcon,
   UploadIcon,
   EyeIcon,
-  EyeSlashIcon
+  EyeSlashIcon,
+  ErrorWarningIcon
 }
