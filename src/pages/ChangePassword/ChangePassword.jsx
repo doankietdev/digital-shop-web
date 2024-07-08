@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
-import { Button, PasswordFieldOutlined } from '~/components'
+import { Button, DocumentTitle, PasswordFieldOutlined } from '~/components'
 import { dispatch } from '~/redux'
 import userService from '~/services/userService'
 import { signOut } from '../Auth/AuthSlice'
@@ -15,19 +15,19 @@ function ChangePassword() {
     currentPassword: yup.string().required('Please enter current password'),
     newPassword: yup
       .string()
-      .min(6, 'Password must have at least 6 characters')
+      .min(6, 'New password must have at least 6 characters')
       .matches(/[a-zA-Z]/, 'Password must contain at least 1 letter')
-      .matches(/\d/, 'Password must contain at least 1 digit')
+      .matches(/\d/, 'New password must contain at least 1 digit')
       .matches(
         /[@$!%*?&_.]/,
-        `Password must contain at least 1 special character from the following list:
+        `New password must contain at least 1 special character from the following list:
           \`@\`, \`$\`, \`!\`, \`%\`, \`*\`, \`?\`, \`&\`, \`_\`, \`.\``
       )
       .required('Please enter your password'),
     newPasswordConfirmation: yup
       .string()
       .oneOf([yup.ref('newPassword')], 'New Password confirmation does not match')
-      .required('Please re-enter your password')
+      .required('Please re-enter new password')
   })
   const {
     register,
@@ -60,29 +60,32 @@ function ChangePassword() {
   }, [navigate])
 
   return (
-    <div>
-      <h2 className='font-medium text-[18px] text-center'>Change Password</h2>
-      <div className="mt-7 flex justify-center">
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5 w-[350px]'>
-          <PasswordFieldOutlined
-            label='Current Password'
-            {...register('currentPassword')}
-            errorMessage={errors.currentPassword?.message}
-          />
-          <PasswordFieldOutlined
-            label='New Password'
-            {...register('newPassword')}
-            errorMessage={errors.newPassword?.message}
-          />
-          <PasswordFieldOutlined
-            label='New Password Confirmation'
-            {...register('newPasswordConfirmation')}
-            errorMessage={errors.newPasswordConfirmation?.message}
-          />
-          <Button type='submit' primary rounded disabled={isSubmitting || !isDirty}>Change</Button>
-        </form>
+    <>
+      <DocumentTitle title='Change Password' />
+      <div>
+        <h2 className='font-medium text-[18px] text-center'>Change Password</h2>
+        <div className="mt-7 flex justify-center">
+          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5 w-[350px]'>
+            <PasswordFieldOutlined
+              label='Current Password'
+              {...register('currentPassword')}
+              errorMessage={errors.currentPassword?.message}
+            />
+            <PasswordFieldOutlined
+              label='New Password'
+              {...register('newPassword')}
+              errorMessage={errors.newPassword?.message}
+            />
+            <PasswordFieldOutlined
+              label='New Password Confirmation'
+              {...register('newPasswordConfirmation')}
+              errorMessage={errors.newPasswordConfirmation?.message}
+            />
+            <Button type='submit' primary rounded disabled={isSubmitting || !isDirty}>Change</Button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
 import noAvatarImage from '~/assets/no-avatar-image.png'
-import { Button, FileField, TextFieldOutlined } from '~/components'
+import { Button, DocumentTitle, FileField, TextFieldOutlined } from '~/components'
 import { dispatch } from '~/redux'
 import { userSelector } from '~/redux/selectors'
 import { UploadIcon } from '~/utils/icons'
@@ -88,48 +88,51 @@ function Profile() {
   }, [isDirty, touchedFields])
 
   return (
-    <div>
-      <h2 className='font-medium text-[18px] text-center'>My Profile</h2>
-      <div className="mt-7 flex">
-        <div className="basis-2/3">
-          <form className='flex flex-col gap-5' onSubmit={handleSubmit(onSubmit)}>
-            <div className='flex gap-5'>
-              <TextFieldOutlined
-                label='First Name'
-                {...register('firstName')}
-                defaultValue={user.firstName}
-                errorMessage={errors.firstName?.message}
-              />
-              <TextFieldOutlined
-                label='Last Name'
-                {...register('lastName')}
-                defaultValue={user.lastName}
-                errorMessage={errors.lastName?.message}
-              />
-            </div>
-            <TextFieldOutlined label='Email' defaultValue={user.email} disabled />
-            <TextFieldOutlined label='Phone Number' defaultValue={user.mobile} disabled />
-            <Button type='submit' primary rounded disabled={disabled || isSubmitting || !isDirty}>Update</Button>
-          </form>
-        </div>
-        <div className="basis-1/3 flex flex-col justify-between items-center gap-6">
-          <img
-            className='w-[140px] h-[140px] rounded-full object-cover'
-            src={user.image.url || noAvatarImage}
-          />
-          <FileField
-            primary
-            rounded
-            icon={<UploadIcon className='icon !text-[24px]' />}
-            accept='.jpeg,.jpg,.png'
-            disabled={disabled}
-            onFileChange={handleFileChange}
-          >
+    <>
+      <DocumentTitle title='Profile' />
+      <div>
+        <h2 className='font-medium text-[18px] text-center'>My Profile</h2>
+        <div className="mt-7 flex">
+          <div className="basis-2/3">
+            <form className='flex flex-col gap-5' onSubmit={handleSubmit(onSubmit)}>
+              <div className='flex gap-5'>
+                <TextFieldOutlined
+                  label='First Name'
+                  {...register('firstName')}
+                  defaultValue={user.firstName}
+                  errorMessage={errors.firstName?.message}
+                />
+                <TextFieldOutlined
+                  label='Last Name'
+                  {...register('lastName')}
+                  defaultValue={user.lastName}
+                  errorMessage={errors.lastName?.message}
+                />
+              </div>
+              <TextFieldOutlined label='Email' defaultValue={user.email} disabled />
+              <TextFieldOutlined label='Phone Number' defaultValue={user.mobile} disabled />
+              <Button type='submit' primary rounded disabled={disabled || isSubmitting || !isDirty}>Update</Button>
+            </form>
+          </div>
+          <div className="basis-1/3 flex flex-col justify-between items-center gap-6">
+            <img
+              className='w-[140px] h-[140px] rounded-full object-cover'
+              src={user.image.url || noAvatarImage}
+            />
+            <FileField
+              primary
+              rounded
+              icon={<UploadIcon className='icon !text-[24px]' />}
+              accept='.jpeg,.jpg,.png'
+              disabled={disabled}
+              onFileChange={handleFileChange}
+            >
             Upload
-          </FileField>
+            </FileField>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { memo, useCallback, useState } from 'react'
-import { AddNewAddress, ChangeAddress, Modal, UpdateAddress } from '~/components'
+import { AddNewAddress, ChangeAddress, DocumentTitle, Modal, UpdateAddress } from '~/components'
 
 function Addresses() {
   const [openModal, setOpenModal] = useState(false)
@@ -37,6 +37,7 @@ function Addresses() {
 
   return (
     <>
+      <DocumentTitle title='Addresses' />
       <ChangeAddress
         confirmText='Set To Default'
         successChangeAddressText='Set to default successfully'
