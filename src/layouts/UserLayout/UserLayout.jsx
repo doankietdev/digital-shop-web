@@ -6,9 +6,9 @@ function UserLayout({ children }) {
   return (
     <DefaultLayout>
       <div className="container">
-        <div className="flex gap-10">
+        <div className="flex items-start gap-10">
           <Card className='p-[20px] basis-[260px]'><UserBar /></Card>
-          <Card className='p-[20px] flex-1'>{children}</Card>
+          <div className='flex-1'>{children}</div>
         </div>
       </div>
     </DefaultLayout>

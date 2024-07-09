@@ -55,7 +55,7 @@ function AccountBar() {
                 className={({ isActive }) => isActive ? 'text-primary-400 block'
                   : 'block text-black/80 hover:text-primary-400 transition-all ease-in-out duration-300'}
               >
-                Address
+                Addresses
               </NavLink>
             </li>
           </ul>
