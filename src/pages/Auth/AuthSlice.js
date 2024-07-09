@@ -68,6 +68,28 @@ const getCurrentUser = createAsyncThunk(
   }
 )
 
+const uploadAvatar = createAsyncThunk(
+  'auth/uploadAvatar',
+  async (payload, { rejectWithValue }) => {
+    try {
+      return await userService.uploadAvatar(payload)
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+const updateCurrentUser = createAsyncThunk(
+  'auth/updateCurrentUser',
+  async (payload, { rejectWithValue }) => {
+    try {
+      return await userService.updateCurrentUser(payload)
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -81,6 +103,8 @@ const authSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
+    builder.addCase(signIn.rejected, () => {})
+
     builder.addCase(signIn.fulfilled, (state, action) => {
       const { user, accessToken } = action.payload
       state.current = user
@@ -98,7 +122,20 @@ const authSlice = createSlice({
       localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
     })
 
+    builder.addCase(getCurrentUser.rejected, () => {})
     builder.addCase(getCurrentUser.fulfilled, (state, action) => {
+      state.current = action.payload
+      state.settings = {}
+    })
+
+    builder.addCase(uploadAvatar.rejected, () => {})
+    builder.addCase(uploadAvatar.fulfilled, (state, action) => {
+      state.current = action.payload
+      state.settings = {}
+    })
+
+    builder.addCase(updateCurrentUser.rejected, () => {})
+    builder.addCase(updateCurrentUser.fulfilled, (state, action) => {
       state.current = action.payload
       state.settings = {}
     })
@@ -108,6 +145,9 @@ const authSlice = createSlice({
 const { reducer, actions } = authSlice
 const { clear } = actions
 
-export { signUp, signIn, signOut, verifyEmail, getCurrentUser, clear }
+export {
+  clear, getCurrentUser, signIn,
+  signOut, signUp, updateCurrentUser, uploadAvatar, verifyEmail
+}
 
 export default persistReducer({ key: 'user', storage }, reducer)

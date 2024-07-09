@@ -18,7 +18,7 @@ import {
   getWards
 } from '~/services/locationService'
 
-function AddNewAddress({ onClose }) {
+function AddNewAddress({ onClose = () => {}, onSuccess = async () => {} }) {
   const [provinces, setProvinces] = useState([])
   const [districts, setDistricts] = useState([])
   const [wards, setWards] = useState([])
@@ -72,6 +72,7 @@ function AddNewAddress({ onClose }) {
       await addressService.createNewAddress(data)
       await dispatch(getCurrentUser()).unwrap()
       onClose()
+      await onSuccess()
       toast.success('Add new address successfully')
     } catch (error) {
       toast.error(error.messages[0])

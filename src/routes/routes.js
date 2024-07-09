@@ -1,6 +1,9 @@
 import { routesConfig } from '~/config'
+import { UserLayout } from '~/layouts'
 import {
+  Addresses,
   Cart,
+  ChangePassword,
   Checkout,
   EmailVerificationError,
   EmailVerificationSuccess,
@@ -8,6 +11,7 @@ import {
   Home,
   Orders,
   ProductsOfCategory,
+  Profile,
   ResetPassword,
   SignIn,
   SignUp,
@@ -59,11 +63,27 @@ const publicRoutes = [
   },
   {
     path: routesConfig.orders,
-    component: Orders
+    component: Orders,
+    layout: UserLayout
   },
   {
     path: routesConfig.orderDetails,
     component: OrderDetails
+  },
+  {
+    path: routesConfig.profile,
+    component: Profile,
+    layout: UserLayout
+  },
+  {
+    path: routesConfig.changePassword,
+    component: ChangePassword,
+    layout: UserLayout
+  },
+  {
+    path: routesConfig.addresses,
+    component: Addresses,
+    layout: UserLayout
   }
 ]
 

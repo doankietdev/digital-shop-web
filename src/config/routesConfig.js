@@ -18,7 +18,10 @@ const routesConfig = {
   productsOfBrands: '/brands/:slug',
   orders: '/user/purchase',
   orderDetails: '/user/purchase/orders/:orderId',
-  profile: '/user/account/profile'
+  profile: '/user/account/profile',
+  changePassword: '/user/account/password',
+  addresses: '/user/account/addresses',
+  notifications: '/user/notifications'
 }
 
 export default routesConfig

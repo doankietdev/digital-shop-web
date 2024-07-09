@@ -5,6 +5,7 @@ import { DefaultLayout } from './layouts'
 import GlobalStyles from './components/GlobalStyles'
 import { ScrollToTop } from './components'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                 )
               })}
             </Routes>
+            <ToastContainer position='bottom-left' autoClose={3000} />
           </Router>
         </div>
       </PayPalScriptProvider>

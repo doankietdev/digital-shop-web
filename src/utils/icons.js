@@ -5,7 +5,7 @@ import {
   FaLinkedinIn as FaLinkedinInIcon,
   FaPhoneAlt as FaPhoneAltIcon,
   FaTwitter as FaTwitterIcon,
-  FaUser as FaUserIcon,
+  FaRegUser as FaUserIcon,
   FaCartPlus as FaCartPlusIcon,
   FaSearch as FaSearchIcon,
   FaShippingFast as ShippingFastIcon,
@@ -13,7 +13,11 @@ import {
   FaShieldAlt as ShieldIcon,
   FaHeadset as HeadsetIcon,
   FaSortAmountDown as SortDescIcon,
-  FaSortAmountDownAlt as SortAscIcon
+  FaSortAmountDownAlt as SortAscIcon,
+  FaEdit as EditIcon,
+  FaCloudUploadAlt as UploadIcon,
+  FaEye as EyeIcon,
+  FaEyeSlash as EyeSlashIcon
 } from 'react-icons/fa'
 import {
   FaCartShopping as FaCartShoppingIcon,
@@ -25,11 +29,13 @@ import {
 import { GrSend as GrSendIcon } from 'react-icons/gr'
 import {
   IoMdCheckmarkCircleOutline as IoMdCheckmarkCircleOutlineIcon,
-  IoMdMail as IoMdMailIcon
+  IoMdMail as IoMdMailIcon,
+  IoMdNotificationsOutline as NotificationsIcon
 } from 'react-icons/io'
 import {
   IoCloseSharp as IoCloseSharpIcon,
-  IoMenu as IoMenuIcon
+  IoMenu as IoMenuIcon,
+  IoNewspaperOutline as PaperIcon
 } from 'react-icons/io5'
 import {
   MdErrorOutline as MdErrorOutlineIcon,
@@ -39,6 +45,7 @@ import {
 } from 'react-icons/md'
 import { TbMailCheck as TbMailCheckIcon } from 'react-icons/tb'
 import { GiBuyCard as BuyIcon } from 'react-icons/gi'
+import { RiErrorWarningLine as ErrorWarningIcon } from 'react-icons/ri'
 
 export {
   FaCartShoppingIcon,
@@ -71,5 +78,12 @@ export {
   SortAscIcon,
   BuyIcon,
   DeleteIcon,
-  LocationDotIcon
+  LocationDotIcon,
+  EditIcon,
+  PaperIcon,
+  NotificationsIcon,
+  UploadIcon,
+  EyeIcon,
+  EyeSlashIcon,
+  ErrorWarningIcon
 }

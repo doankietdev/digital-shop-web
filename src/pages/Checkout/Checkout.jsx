@@ -59,8 +59,12 @@ function Checkout() {
   }, [location.search, navigate])
 
   const {
-    current: { firstName, lastName, mobile, defaultAddress }
+    current: { firstName, lastName, mobile, addresses }
   } = useSelector(userSelector)
+
+  const defaultAddress = useMemo(
+    () => addresses.find(address => address.default), [addresses]
+  )
 
   useEffect(() => {
     const fetchPaymentInfo = async () => {
@@ -88,12 +92,7 @@ function Checkout() {
       }
     }
     fetchPaymentInfo()
-  }, [
-    orderProductsFromCartPage,
-    orderProductsFromCartPage?.length,
-    defaultAddress,
-    navigate
-  ])
+  }, [orderProductsFromCartPage, orderProductsFromCartPage.length, navigate])
 
   const handleChangeAddressClick = useCallback(() => {
     setOpenModal(true)

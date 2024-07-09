@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import orderImage from '~/assets/order.png'
-import { BouceLoading, Button, Divider, DocumentTitle, Pagination } from '~/components'
+import { BouceLoading, Button, Card, Divider, DocumentTitle, Pagination } from '~/components'
 import { routesConfig } from '~/config'
 import { dispatch } from '~/redux'
 import { cancelOrder } from '~/services/checkoutService'
@@ -174,26 +174,28 @@ function Orders() {
     <>
       <DocumentTitle title="Orders" />
       <div className="container text-[14px] md:text-[16px]">
-        <ul
-          className="flex items-center shadow-card absolute top-0 left-0 right-0 lg:static
+        <Card>
+          <ul
+            className="flex items-center top-0 left-0 right-0 lg:static
             overflow-auto no-scrollbar"
-        >
-          {tabs.map((tab, index) => (
-            <li
-              key={index}
-              className={clsx(
-                `py-[8px] md:py-[16px] px-[16px] cursor-pointer select-none
+          >
+            {tabs.map((tab, index) => (
+              <li
+                key={index}
+                className={clsx(
+                  `py-[8px] md:py-[16px] px-[16px] cursor-pointer select-none
                   hover:text-primary-400 transition-colors duration-300 ease-in-out`,
-                {
-                  'text-primary-400 border-b-2 border-primary-400': selectedTabValue === tab.value
-                }
-              )}
-              onClick={() => handleSelectTab(tab.value)}
-            >
-              {tab.name}
-            </li>
-          ))}
-        </ul>
+                  {
+                    'text-primary-400 border-b-2 border-primary-400': selectedTabValue === tab.value
+                  }
+                )}
+                onClick={() => handleSelectTab(tab.value)}
+              >
+                {tab.name}
+              </li>
+            ))}
+          </ul>
+        </Card>
 
         {loading ? (
           <div className="mt-8 flex justify-center">
@@ -321,10 +323,10 @@ function Orders() {
                 )}
               </>
             ) : (
-              <div className="mt-5 h-[600px] shadow-card flex flex-col justify-center items-center">
+              <Card className="mt-5 h-[500px] flex flex-col justify-center items-center">
                 <img src={orderImage} className="w-[100px] h-[100px] object-contain" />
                 <span className="mt-[20px] text-[18px] text-gray-700">No Orders Yet</span>
-              </div>
+              </Card>
             )}
           </>
         )}

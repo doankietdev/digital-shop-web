@@ -25,7 +25,10 @@ function SignUpForm({ onSubmit, errors }, ref) {
   const [disable, setDisable] = useState(false)
 
   const schema = yup.object({
-    firstName: yup.string().required('Please enter your first name'),
+    firstName: yup
+      .string()
+      .min(1, 'First name must have at least 1 characters')
+      .required('Please enter your first name'),
     lastName: yup
       .string()
       .min(2, 'Last name must have at least 2 characters')

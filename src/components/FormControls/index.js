@@ -1,5 +1,6 @@
 export { default as TextField } from './TextField'
 export { default as TextFieldOutlined } from './TextFieldOutlined'
+export { default as PasswordFieldOutlined } from './PasswordFieldOutlined'
 export { default as PasswordField } from './PasswordField'
 export { default as NumberField } from './NumberField'
 export { default as OTPField } from './OTPField'
