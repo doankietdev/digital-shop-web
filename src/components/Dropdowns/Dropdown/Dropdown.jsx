@@ -69,7 +69,7 @@ function Dropdown({
       ref={containerRef}
     >
       <button
-        className='flex items-center text-sm pe-1 font-medium text-gray-900 md:me-0 px-2 py-1 select-none'
+        className='flex items-center text-sm font-medium text-gray-900 px-2 py-1 select-none'
         onClick={handleButtonClick}
         onMouseOver={handleButtonMouseOver}
         onMouseOut={handleButtonMouseOut}
@@ -79,9 +79,9 @@ function Dropdown({
       {open && (
         <div
           className={clsx(
-            'z-10 bg-white rounded shadow-2xl absolute right-0 top-[calc(100%+10px)] min-w-[200px]',
-            dropdownContainerClassName,
-            styles.dropdownList
+            'origin-[calc(100%-18px)_-10px] z-10 bg-white rounded shadow-2xl absolute right-0 top-[calc(100%+10px)] min-w-[200px]',
+            styles.dropdownList,
+            dropdownContainerClassName
           )}
           onMouseOver={handleDropdownContainerMouseOver}
           onMouseOut={handleDropdownContainerMouseOut}

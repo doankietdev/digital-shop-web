@@ -162,11 +162,14 @@ function Product({
             slug: product.slug
           })}
         >
-          <h3 className='hover:text-primary-400 transition-all duration-300 ease-in-out mb-[10px] line-clamp-1 font-medium'>
+          <h3
+            className='hover:text-primary-400 transition-all duration-300 ease-in-out mb-[10px]
+              line-clamp-2 font-medium'
+          >
             {product.title}
           </h3>
         </Link>
-        <div className='flex items-center gap-4'>
+        <div className='flex flex-col md:flex-row md:items-center gap-[10px] md:gap-4'>
           <Rating
             size={ratingStarSize}
             averageRatings={product.averageRatings}
