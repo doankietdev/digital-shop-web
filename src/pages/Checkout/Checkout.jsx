@@ -137,11 +137,7 @@ function Checkout() {
       setOrderLoading(true)
       await order(orderProductsFromCartPage, selectedPaymentMethod)
       await dispatch(getCart()).unwrap()
-      if (selectedPaymentMethod === PaymentMethodsEnum.ONLINE_PAYMENT) {
-        navigate(`${routesConfig.orders}?status=${OrderStatusesEnum.PAID.value}`)
-      } else {
-        navigate(`${routesConfig.orders}?status=${OrderStatusesEnum.PENDING.value}`)
-      }
+      navigate(`${routesConfig.orders}?status=${OrderStatusesEnum.PENDING.value}`)
     } catch (error) {
       toast.error(error.messages[0])
     } finally {
