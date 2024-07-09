@@ -101,7 +101,7 @@ function UpdateAddress({ addressId, onClose }) {
         {
           pending: {
             render() {
-              return 'Updating address'
+              return 'Updating address...'
             }
           },
           success: {

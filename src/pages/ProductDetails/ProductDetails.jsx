@@ -32,7 +32,7 @@ const imageSliderSettings = {
   dots: false,
   infinite: false,
   speed: 500,
-  // autoplay: true,
+  autoplay: true,
   autoplaySpeed: 2000,
   slidesToShow: 5,
   slidesToScroll: 1,
@@ -160,6 +160,7 @@ function ProductDetails() {
   }, [])
 
   const handleAddToCart = useCallback(async () => {
+    const loadingToast = toast.loading('Adding product to cart...')
     try {
       if (!variant) {
         return setHasError(true)
@@ -171,6 +172,8 @@ function ProductDetails() {
       toast.success('Product has been added to cart')
     } catch (error) {
       toast.error(error.messages[0])
+    } finally {
+      toast.dismiss(loadingToast)
     }
   }, [product?._id, quantity, variant])
 
