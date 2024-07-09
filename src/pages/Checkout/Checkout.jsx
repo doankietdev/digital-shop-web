@@ -22,7 +22,7 @@ import { getCart } from '~/pages/Cart/CartSlice'
 import { dispatch } from '~/redux'
 import { userSelector } from '~/redux/selectors'
 import { order, reviewOrder } from '~/services/checkoutService'
-import { PaymentMethodsEnum } from '~/utils/constants'
+import { OrderStatusesEnum, PaymentMethodsEnum } from '~/utils/constants'
 import { convertObjectToArrayValues, formatCash } from '~/utils/formatter'
 import { LocationDotIcon } from '~/utils/icons'
 
@@ -132,12 +132,16 @@ function Checkout() {
   }, [])
 
   const handleOrderClick = useCallback(async () => {
-    const loadingToast = toast.loading('Ordering')
+    const loadingToast = toast.loading('Ordering...')
     try {
       setOrderLoading(true)
       await order(orderProductsFromCartPage, selectedPaymentMethod)
       await dispatch(getCart()).unwrap()
-      navigate(routesConfig.orders)
+      if (selectedPaymentMethod === PaymentMethodsEnum.ONLINE_PAYMENT) {
+        navigate(`${routesConfig.orders}?status=${OrderStatusesEnum.PAID.value}`)
+      } else {
+        navigate(`${routesConfig.orders}?status=${OrderStatusesEnum.PENDING.value}`)
+      }
     } catch (error) {
       toast.error(error.messages[0])
     } finally {

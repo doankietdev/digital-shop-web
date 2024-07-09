@@ -67,7 +67,7 @@ function AddNewAddress({ onClose = () => {}, onSuccess = async () => {} }) {
   })
 
   const onSubmit = async (data) => {
-    const loadingToast = toast.loading('Adding new address')
+    const loadingToast = toast.loading('Adding new address...')
     try {
       await addressService.createNewAddress(data)
       await dispatch(getCurrentUser()).unwrap()
