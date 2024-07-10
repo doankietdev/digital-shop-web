@@ -4,7 +4,7 @@ function Card({ children, className, onClick }) {
   return (
     <div
       className={clsx(
-        'md:p-3 rounded shadow-card',
+        'p-2 md:p-3 rounded shadow-card',
         className
       )}
       onClick={onClick}

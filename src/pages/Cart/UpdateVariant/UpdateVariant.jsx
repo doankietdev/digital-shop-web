@@ -48,6 +48,7 @@ function UpdateVariant(
   return (
     <Dropdown
       label={title}
+      labelClassName='!text-[13px] md:!text-[14px]'
       className="px-2 py-1 w-fit bg-[#F3F4F6] border rounded-lg"
       dropdownContainerClassName="left-0 bg-white p-4 w-[360px]"
       itemContainerClassName="flex gap-2 items-center flex-wrap"

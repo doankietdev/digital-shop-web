@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import noImage from '~/assets/no-image.png'
-import { Button, Card, Checkbox, DocumentTitle, QuantityField } from '~/components'
+import { Button, Card, Checkbox, Divider, DocumentTitle, QuantityField } from '~/components'
 import { dispatch } from '~/redux'
 import { cartSelector } from '~/redux/selectors'
 import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
@@ -274,7 +274,7 @@ function Cart() {
       <DocumentTitle title="Cart" />
       <div className="container">
         <div className="flex flex-col gap-4">
-          <Card className="flex flex-col gap-3 shadow-card-md">
+          <Card className="hidden lg:flex lg:flex-col lg:gap-3 shadow-card-md">
             <div className="flex items-center gap-1 font-semibold">
               <div className="mr-4">
                 <Checkbox
@@ -296,7 +296,8 @@ function Cart() {
             const variant = product?.variants?.find(variant => variant._id === variantId)
             return (
               <Card key={index} className="flex flex-col gap-3 overflow-visible">
-                <div className="flex items-center gap-1">
+                {/* large screen */}
+                <div className="hidden lg:flex lg:items-center lg:gap-1">
                   <div className="mr-4">
                     <Checkbox
                       id="checkbox"
@@ -400,13 +401,117 @@ function Cart() {
                     </button>
                   </div>
                 </div>
+
+                {/* small and middle screen */}
+                <div className="flex items-center gap-1 lg:hidden">
+                  <Checkbox
+                    id="checkbox"
+                    checked={
+                      !!orderProducts.find(
+                        orderProduct =>
+                          orderProduct.productId === product?._id &&
+                            orderProduct.variantId === variantId
+                      )
+                    }
+                    onChange={e => {
+                      handleItemCheckBoxClick({
+                        productId: product?._id,
+                        variantId,
+                        oldPrice: product.oldPrice,
+                        price: product.price,
+                        quantity,
+                        checked: e.target.checked
+                      })
+                    }}
+                  />
+                  <div className='flex-1 flex items-center gap-1 md:gap-2'>
+                    <div className='w-[100px] h-[100px]'>
+                      <Link
+                        to={parsePlaceHolderUrl(routesConfig.productDetails, {
+                          slug: product?.slug
+                        })}
+                      >
+                        <img
+                          src={variant?.images[0] || noImage}
+                        />
+                      </Link>
+                    </div>
+                    <div className='flex-1 flex flex-col gap-1'>
+                      <div className='flex justify-between gap-2'>
+                        <Link
+                          to={parsePlaceHolderUrl(routesConfig.productDetails, {
+                            slug: product?.slug
+                          })}
+                        >
+                          <span
+                            className="font-medium text-[13px] md:text-[14px] line-clamp-1 hover:text-primary-400
+                          transition-all duration-300 ease-in-out"
+                          >
+                            {product?.title}
+                          </span>
+                        </Link>
+                        <button
+                          title="Delete"
+                          className="hover:text-primary-400 transition-all duration-200 ease-in-out"
+                          onClick={() =>
+                            handleDeleteProductFromCart({
+                              productId: product?._id,
+                              variantId
+                            })
+                          }
+                        >
+                          <DeleteIcon className="text-[22px]" />
+                        </button>
+                      </div>
+                      <UpdateVariant
+                        title={variant?.name}
+                        variants={product?.variants}
+                        defaultVariantId={variant?._id}
+                        onChange={value =>
+                          handleUpdateVariant({
+                            productId: product?._id,
+                            oldVariantId: variant?._id,
+                            variantId: value
+                          })
+                        }
+                        disabled={disabled}
+                        ref={updateVariantRef}
+                      />
+                      <div className='flex justify-between items-center'>
+                        <div className='flex flex-col-reverse md:flex-row items-center md:gap-2'>
+                          <span className="text-[12px] md:text-[14px]">{formatCash(product?.price)}</span>
+                          {product?.oldPrice && (
+                            <span className="text-[10px] md:text-[12px] text-gray-500 line-through">
+                              {formatCash(product?.oldPrice)}
+                            </span>
+                          )}
+                        </div>
+                        <div>
+                          <QuantityField
+                            defaultValue={quantity}
+                            max={variant ? variant?.quantity : product?.quantity}
+                            disabled={disabled}
+                            onChange={({ quantity, oldQuantity }) =>
+                              handleQuantityFieldChange({
+                                productId: product._id,
+                                variantId: variant._id,
+                                quantity,
+                                oldQuantity
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </Card>
             )
           })}
 
-          <Card className="flex justify-between shadow-card-md sticky bottom-0 bg-white">
-            <div className="flex gap-5">
-              <div className="flex items-center gap-1">
+          <Card className="flex flex-col md:flex-row justify-between shadow-card-md sticky bottom-0 bg-white">
+            <div className="-mx-2 md:mx-0 flex justify-between md:justify-stretch gap-1 md:gap-3 lg:gap-5 text-[12px] md:text-[14px] lg:text-[16px]">
+              <div className="flex items-center gap-1 p-2 md:p-0">
                 <Checkbox
                   id="selectAll"
                   checked={orderProducts.length === products.length && products.length > 0}
@@ -415,14 +520,15 @@ function Cart() {
                 />
                 <label
                   htmlFor="selectAll"
-                  className="select-none cursor-pointer hover:text-primary-400 transition-all duration-200 ease-in-out"
+                  className="select-none cursor-pointer hover:text-primary-400 transition-all
+                    duration-200 ease-in-out"
                 >
                   Select All
                 </label>
               </div>
 
               <button
-                className="flex items-center gap-1 hover:text-primary-400 transition-all duration-200 ease-in-out"
+                className="p-2 md:p-0 flex items-center gap-1 hover:text-primary-400 transition-all duration-200 ease-in-out"
                 onClick={handleDeleteSelectedProducts}
               >
                 <DeleteIcon className="text-[22px]" />
@@ -430,18 +536,19 @@ function Cart() {
               </button>
 
               <button
-                className="flex items-center gap-1 hover:text-primary-400 transition-all duration-200
+                className="p-2 md:p-0 flex items-center gap-1 hover:text-primary-400 transition-all duration-200
                  ease-in-out"
               >
                 <FaHeart className="text-[18px]" />
                 Add to wishlist
               </button>
             </div>
-            <div className="flex gap-7 items-center">
+            <Divider />
+            <div className="mt-3 md:mt-0 flex gap-1 md:gap-3 lg:gap-7 justify-between md:justify-stretch items-center">
               <div>
                 <div className="flex items-center justify-center gap-2">
-                  <span>Total payment ({paymentInfo.countProducts} products):</span>
-                  <span className="text-[24px] text-primary-400">
+                  <span>Total payment</span>
+                  <span className="text-[18px] md:text-[20px] lg:text-[24px] text-primary-400">
                     {formatCash(paymentInfo.totalPriceApplyDiscount)}
                   </span>
                 </div>

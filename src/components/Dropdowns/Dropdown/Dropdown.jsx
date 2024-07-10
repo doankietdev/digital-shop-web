@@ -7,11 +7,12 @@ import { useOutsideClick } from '~/hooks'
 
 function Dropdown({
   className,
-  titleClassName,
-  dropdownContainerClassName,
-  itemContainerClassName,
-  arrowClassName,
-  bridgeClassName,
+  labelClassName = '',
+  titleClassName = '',
+  dropdownContainerClassName = '',
+  itemContainerClassName = '',
+  arrowClassName = '',
+  bridgeClassName = '',
   footer,
   label,
   title,
@@ -69,7 +70,10 @@ function Dropdown({
       ref={containerRef}
     >
       <button
-        className='flex items-center text-sm font-medium text-gray-900 px-2 py-1 select-none'
+        className={clsx(
+          'flex items-center text-sm font-medium text-gray-900 px-2 py-1 select-none',
+          labelClassName
+        )}
         onClick={handleButtonClick}
         onMouseOver={handleButtonMouseOver}
         onMouseOut={handleButtonMouseOut}
