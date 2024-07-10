@@ -52,7 +52,7 @@ function DailyDeals() {
     <Card className='relative p-[20px] md:col-span-1 h-full flex flex-col bg-white'>
       <h2 className='flex items-center font-semibold'>
         <FaStar className='text-[22px] text-primary-400' />
-        <span className='text-xl text-[#505050] capitalize absolute left-[50%] translate-x-[-50%]'>
+        <span className='text-[18px] md:text-[20px] text-[#505050] capitalize absolute left-[50%] translate-x-[-50%]'>
           Daily Deals
         </span>
       </h2>
@@ -80,7 +80,7 @@ function DailyDeals() {
                 })}
               >
                 <h3
-                  className='mt-4 lg:mt-0 hover:text-primary-400 line-clamp-1
+                  className='text-[16px] mt-4 lg:mt-0 hover:text-primary-400 line-clamp-1
                     md:line-clamp-2 lg:line-clamp-1 text-center transition-all
                     duration-300 ease-in-out font-medium'
                 >

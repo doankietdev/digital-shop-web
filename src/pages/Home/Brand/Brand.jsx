@@ -23,7 +23,7 @@ function Brand() {
 
   return (
     <>
-      <h2 className='capitalize font-semibold text-xl border-b-2 border-primary-400 pb-2 lg:pb-4 flex gap-2'>
+      <h2 className='capitalize font-semibold text-[18px] md:text-[20px] border-b-2 border-primary-400 pb-2 lg:pb-4 flex items-center gap-2'>
         <img src={brandImage} className='h-7' />
         Brands
       </h2>
@@ -34,7 +34,7 @@ function Brand() {
               to={parsePlaceHolderUrl(routesConfig.productsOfBrands, {
                 slug: brand.slug
               })}
-              className='inline-block px-4 py-3 bg-[#e9ebee] text-sm font-medium
+              className='inline-block px-4 py-3 bg-[#e9ebee] font-medium
                 rounded-lg hover:bg-black hover:text-white transition-all
                 duration-300 ease-in-out'
             >
