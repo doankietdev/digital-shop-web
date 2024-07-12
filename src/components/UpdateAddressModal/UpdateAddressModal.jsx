@@ -10,7 +10,8 @@ import { dispatch } from '~/redux'
 import addressService from '~/services/addressService'
 import { getDistricts, getProvinces, getWards } from '~/services/locationService'
 
-function AddNewAddressModal({
+function UpdateAddressModal({
+  address = {},
   onSuccess = () => {},
   onClose = () => {}
 }, ref) {
@@ -28,9 +29,9 @@ function AddNewAddressModal({
   const [districtsLoading, setDistrictsLoading] = useState(false)
   const [wardsLoading, setWardsLoading] = useState(false)
 
-  const provincesSelectorRef = useRef(null)
-  const districtsSelectorRef = useRef(null)
-  const wardsSelectorRef = useRef(null)
+  const provincesSelectorRef = useRef()
+  const districtsSelectorRef = useRef()
+  const wardsSelectorRef = useRef()
 
   const schema = yup.object({
     provinceId: yup.number().required('Please select province'),
@@ -47,6 +48,7 @@ function AddNewAddressModal({
       ).nullable(),
     setAsDefault: yup.boolean().required()
   })
+
   const {
     handleSubmit,
     register,
@@ -66,47 +68,60 @@ function AddNewAddressModal({
   })
 
   useEffect(() => {
-    const fetchProvinces = async () => {
+    if (!address) return
+    setValue('provinceId', address.province?.id)
+    setValue('districtId', address.district?.id)
+    setValue('wardCode', address.ward?.code)
+    setValue('streetAddress', address.streetAddress)
+    setValue('setAsDefault', address.default)
+  }, [address, setValue])
+
+  useEffect(() => {
+    const fetchLocations = async () => {
       try {
         setProvincesLoading(true)
-        setProvinces(await getProvinces())
+        setDistrictsLoading(true)
+        setWardsLoading(true)
+        const provinces = await getProvinces()
+        const districts = await getDistricts(address.province.id)
+        const wards = await getWards(address.district.id)
+
+        setProvinces(provinces)
+        setDistricts(districts)
+        setWards(wards)
       } catch (error) {
         modalRef.current.hide()
-        toast.error(error.messages[0])
+        // toast.error(error.messages[0])
       } finally {
         setProvincesLoading(false)
+        setDistrictsLoading(false)
+        setWardsLoading(false)
       }
     }
-    fetchProvinces()
-  }, [reset, setValue])
+    fetchLocations()
+  }, [address.district?.id, address.province?.id])
 
   const onSubmit = useCallback(async (data) => {
-    const loadingToast = toast.loading('Adding new address...')
+    const loadingToast = toast.loading('Updating address...')
     try {
-      await addressService.createNewAddress(data)
+      await addressService.updateAddressForCurrentUser(address._id, data)
       await dispatch(getCurrentUser()).unwrap()
-
-      setProvinces([])
-      setDistricts([])
-      setWards([])
-
       onSuccess()
-      toast.success('Add new address successfully')
+      modalRef.current.hide()
+      toast.success('Update address successfully')
     } catch (error) {
       toast.error(error.messages[0])
     } finally {
       toast.dismiss(loadingToast)
     }
-  }, [onSuccess])
+  }, [address._id, onSuccess])
 
   const handleSelectProvince = useCallback(
     async (id) => {
       try {
         setDistrictsLoading(true)
-
         setDistricts(await getDistricts(id))
         setWards([])
-
         districtsSelectorRef.current?.reset()
         wardsSelectorRef.current?.reset()
 
@@ -127,7 +142,6 @@ function AddNewAddressModal({
     async (id) => {
       try {
         setWardsLoading(true)
-
         setWards(await getWards(id))
         wardsSelectorRef.current?.reset()
 
@@ -152,6 +166,9 @@ function AddNewAddressModal({
   }, [])
 
   const handleModalClose = useCallback(() => {
+    setProvinces([])
+    setDistricts([])
+    setWards([])
     provincesSelectorRef.current?.reset()
     districtsSelectorRef.current?.reset()
     wardsSelectorRef.current?.reset()
@@ -169,7 +186,7 @@ function AddNewAddressModal({
     <Modal
       ref={modalRef}
       headerClassName='flex justify-between items-center'
-      headerTitle='Add New Address'
+      headerTitle='Update Address'
       closeButtonText='Back'
       bodyContent={(
         <form
@@ -179,16 +196,17 @@ function AddNewAddressModal({
           <div className="flex flex-col md:flex-row justify-between gap-5">
             <SelectorOutlined
               ref={provincesSelectorRef}
-              disabled={isSubmitting}
               label="Province"
               items={provinces.map((province) => ({
                 id: province.id,
                 name: province.name
               }))}
+              defaultId={address.province?.id}
               loading={provincesLoading}
               errorMessage={errors.provinceId?.message}
               {...register('province')}
               onSelect={handleSelectProvince}
+              disabled={isSubmitting}
             />
             <SelectorOutlined
               label="District"
@@ -197,6 +215,7 @@ function AddNewAddressModal({
                 id: district.id,
                 name: district.name
               }))}
+              defaultId={address.district?.id}
               loading={districtsLoading}
               ref={districtsSelectorRef}
               errorMessage={errors.districtId?.message}
@@ -210,6 +229,7 @@ function AddNewAddressModal({
                 id: ward.code,
                 name: ward.name
               }))}
+              defaultId={address.ward?.code}
               loading={wardsLoading}
               ref={wardsSelectorRef}
               errorMessage={errors.wardCode?.message}
@@ -219,16 +239,18 @@ function AddNewAddressModal({
           </div>
           <TextFieldOutlined
             label="Specific Address"
-            disabled={isSubmitting}
             errorMessage={errors?.streetAddress?.message}
             {...register('streetAddress', {
               setValueAs: (value) => (value === '' ? null : value)
             })}
+            defaultValue={address.streetAddress}
+            disabled={isSubmitting}
           />
           <div className="flex items-center gap-1">
             <CheckboxV2
               id="setAsDefaultCheckbox"
               {...register('setAsDefault')}
+              defaultChecked={address.default}
               disabled={isSubmitting}
             />
             <label
@@ -250,4 +272,4 @@ function AddNewAddressModal({
   )
 }
 
-export default memo(forwardRef(AddNewAddressModal))
+export default memo(forwardRef(UpdateAddressModal))

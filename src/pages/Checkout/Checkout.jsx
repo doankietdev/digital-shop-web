@@ -13,6 +13,8 @@ import {
   PayPalPayment,
   SelectorOutlined
 } from '~/components'
+import AddNewAddressModal from '~/components/AddNewAddressModal'
+import UpdateAddressModal from '~/components/UpdateAddressModal'
 import { routesConfig } from '~/config'
 import { getCart } from '~/pages/Cart/CartSlice'
 import { dispatch } from '~/redux'
@@ -21,9 +23,7 @@ import { order, reviewOrder } from '~/services/checkoutService'
 import { OrderStatusesEnum, PaymentMethodsEnum } from '~/utils/constants'
 import { convertObjectToArrayValues, formatCash } from '~/utils/formatter'
 import { LocationDotIcon } from '~/utils/icons'
-import AddNewAddressModal from './AddNewAddressModal'
 import ChangeAddressModal from './ChangeAddressModal'
-import UpdateAddressModal from './UpdateAddressModal'
 
 function Checkout() {
   const location = useLocation()

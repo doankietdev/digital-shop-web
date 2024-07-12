@@ -2,10 +2,10 @@ import clsx from 'clsx'
 
 function Button({
   children,
-  className,
-  primary,
-  outlined,
-  rounded,
+  className = '',
+  primary = false,
+  outlined = false,
+  rounded = false,
   icon,
   startIcon,
   type = 'button',
@@ -13,7 +13,7 @@ function Button({
   onClick
 }) {
   const classes = clsx(
-    'select-none text-[14px] md:text-[16px]',
+    'flex items-center justify-center leading-4 select-none text-[12px] md:text-[14px] px-[36px] py-[8px] font-medium outline-none',
     {
       'text-white': !outlined
     },
@@ -38,13 +38,7 @@ function Button({
     {
       'rounded-lg': rounded
     },
-    className,
-    'px-[15px]',
-    'font-medium',
-    'min-w-[140px] h-[40px]',
-    'py-[11px]',
-    'flex justify-center items-center gap-2',
-    'outline-none'
+    className
   )
 
   return (
@@ -57,8 +51,8 @@ function Button({
       disabled={disabled}
       onClick={onClick}
     >
-      {startIcon && <div className="absolute top-1/2 left-4 translate-y-[-50%]">{startIcon}</div>}
-      {icon}
+      {startIcon && <span className="absolute top-1/2 left-4 translate-y-[-50%]">{startIcon}</span>}
+      {icon && <span className='mr-[8px]'>{icon}</span>}
       {children}
     </button>
   )
