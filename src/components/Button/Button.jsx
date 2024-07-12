@@ -13,7 +13,7 @@ function Button({
   onClick
 }) {
   const classes = clsx(
-    'flex items-center justify-center leading-4 select-none text-[12px] md:text-[14px] px-[36px] py-[8px] font-medium outline-none',
+    'flex items-center justify-center leading-4 select-none text-[12px] md:text-[14px] px-[36px] py-[10px] font-medium outline-none',
     {
       'text-white': !outlined
     },
