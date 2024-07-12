@@ -47,40 +47,40 @@ function Addresses() {
     <>
       <DocumentTitle title='Addresses' />
       <div className="flex justify-center">
-        <div className='w-[800px]'>
-          <div className='flex justify-between items-center'>
+        <div className='max-w-[800px] w-full'>
+          <div className='flex justify-between items-center gap-[8px]'>
             <h2 className='font-medium text-[18px] text-center'>My Addresses</h2>
             <Button
               primary
               rounded
               disabled={disabled}
               icon={<FaPlusIcon className='icon' />}
-              className='!text-[14px] px-[12px] py-[8px]'
+              className='!text-[14px] !px-[16px] !py-[8px]'
               onClick={handleAddNewAddressButtonClick}
             >
               Add New Address
             </Button>
           </div>
-          <ul className={clsx('mt-7 flex-1 flex flex-col gap-4')}>
+          <ul className={clsx('mt-7 flex-1')}>
             {user.addresses.map((address, index) => {
               const { streetAddress, ward, district, province } = address
               return (
                 <li
                   key={address._id}
-                  className="flex-1 flex justify-between items-center gap-[8px]"
+                  className="py-[20px] border-t flex flex-col md:flex-row md:justify-between md:items-center gap-[12px]"
                 >
-                  <div className="flex flex-col items-start gap-2 mb-1">
+                  <div className="flex flex-col items-start gap-2">
                     <span>
                       {`${streetAddress ? streetAddress + ', ' : ''}${ward.name}, ${district.name}, ${province.name}`}
                     </span>
                     {address.default && <Mark>Default</Mark>}
                   </div>
 
-                  <div className='flex gap-[8px]'>
+                  <div className='flex flex-col md:flex-row gap-[14px] md:gap-[8px]'>
                     <Button
                       outlined
                       rounded
-                      className='!px-[20px] !py-[4px] !text-[10px] md:!text-[12px]'
+                      className='!px-[22px] !py-[8px] !text-[12px]'
                       onClick={() => handleSetAsDefault(index)}
                       disabled={disabled || address.default}
                     >
@@ -90,7 +90,7 @@ function Addresses() {
                     <Button
                       outlined
                       rounded
-                      className='!px-[20px] !py-[4px] !text-[10px] md:!text-[12px]'
+                      className='!px-[22px] !py-[8px] !text-[12px]'
                       onClick={() => handleUpdateAddressClick(index)}
                       disabled={disabled}
                     >
