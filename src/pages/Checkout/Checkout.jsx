@@ -5,16 +5,16 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import noImage from '~/assets/no-image.png'
 import {
+  AddNewAddressModal,
   Button,
   Card,
   DocumentTitle,
   Mark,
   ModalLoading,
   PayPalPayment,
-  SelectorOutlined
+  SelectorOutlined,
+  UpdateAddressModal
 } from '~/components'
-import AddNewAddressModal from '~/components/AddNewAddressModal'
-import UpdateAddressModal from '~/components/UpdateAddressModal'
 import { routesConfig } from '~/config'
 import { getCart } from '~/pages/Cart/CartSlice'
 import { dispatch } from '~/redux'

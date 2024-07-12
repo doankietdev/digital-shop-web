@@ -2,27 +2,21 @@ import clsx from 'clsx'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AddNewAddress, Button, Card, Divider, DocumentTitle, Modal, ModalLoading, UpdateAddress } from '~/components'
+import { toast } from 'react-toastify'
+import { Button, Card, Divider, DocumentTitle, ModalLoading } from '~/components'
+import { routesConfig } from '~/config'
+import { dispatch } from '~/redux'
 import { userSelector } from '~/redux/selectors'
+import { cancelOrder } from '~/services/checkoutService'
 import orderService from '~/services/orderService'
 import { OrderStatusesEnum, PaymentMethodsEnum } from '~/utils/constants'
 import { formatCash } from '~/utils/formatter'
 import { LocationDotIcon } from '~/utils/icons'
-import ChangeShippingAddress from './ChangeShippingAddress'
-import { toast } from 'react-toastify'
-import { cancelOrder } from '~/services/checkoutService'
-import { routesConfig } from '~/config'
-import { dispatch } from '~/redux'
 import { addProductsToCart } from '../Cart/CartSlice'
 
 function OrderDetails() {
   const params = useParams()
   const [order, setOrder] = useState(null)
-  const [openModal, setOpenModal] = useState(false)
-  const [openChangeShippingAddress, setOpenChangeShippingAddress] = useState(false)
-  const [openAddAddress, setOpenAddAddress] = useState(false)
-  const [openUpdateAddress, setOpenUpdateAddress] = useState(false)
-  const [addressIdToUpdate, setAddressIdToUpdate] = useState(null)
   const [disabled, setDisabled] = useState(false)
 
   const {
@@ -41,39 +35,6 @@ function OrderDetails() {
     }
     fetchOrder()
   }, [params.orderId])
-
-  const handleChangeShippingAddressClick = useCallback(() => {
-    setOpenModal(true)
-    setOpenChangeShippingAddress(true)
-  }, [])
-
-  const handleCloseModal = useCallback(() => {
-    setOpenModal(false)
-    setOpenChangeShippingAddress(false)
-    setOpenAddAddress(false)
-  }, [])
-
-  const handleAddNewAddressClick = useCallback(() => {
-    setOpenChangeShippingAddress(false)
-    setOpenAddAddress(true)
-  }, [])
-
-  const handleCloseAddAddress = useCallback(() => {
-    setOpenAddAddress(false)
-    setOpenChangeShippingAddress(true)
-  }, [])
-
-  const handleUpdateAddress = useCallback((addressId) => {
-    setAddressIdToUpdate(addressId)
-    setOpenUpdateAddress(true)
-    setOpenChangeShippingAddress(false)
-  }, [])
-
-  const handleCloseUpdateAddress = useCallback(() => {
-    setAddressIdToUpdate(null)
-    setOpenUpdateAddress(false)
-    setOpenChangeShippingAddress(true)
-  }, [])
 
   const handleCancelOrder = useCallback(
     async orderId => {
@@ -165,7 +126,6 @@ function OrderDetails() {
                   </div>
                   <button
                     className="hidden lg:block lg:ml-9 text-[14px] text-blue-500 hover:text-red-500"
-                    onClick={handleChangeShippingAddressClick}
                   >
                     Change address
                   </button>
@@ -174,7 +134,6 @@ function OrderDetails() {
                     primary
                     rounded
                     outlined
-                    onClick={handleChangeShippingAddressClick}
                   >
                     Change address
                   </Button>
@@ -288,28 +247,6 @@ function OrderDetails() {
               </div>
             </Card>
           </div>
-          {openModal && (
-            <Modal onClose={handleCloseModal}>
-              {openChangeShippingAddress && (
-                <ChangeShippingAddress
-                  orderId={order._id}
-                  currentAddressId={order.shippingAddress._id}
-                  setOrder={setOrder}
-                  handleCloseModal={handleCloseModal}
-                  onAddNewAddress={handleAddNewAddressClick}
-                  onUpdateAddress={handleUpdateAddress}
-                />
-              )}
-
-              {openAddAddress && <AddNewAddress onClose={handleCloseAddAddress} />}
-              {openUpdateAddress && (
-                <UpdateAddress
-                  addressId={addressIdToUpdate}
-                  onClose={handleCloseUpdateAddress}
-                />
-              )}
-            </Modal>
-          )}
         </>
       ) : (
         <ModalLoading />
