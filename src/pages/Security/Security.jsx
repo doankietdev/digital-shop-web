@@ -10,7 +10,7 @@ import { signOut } from '../Auth/AuthSlice'
 import { useNavigate } from 'react-router-dom'
 import { routesConfig } from '~/config'
 
-function ChangePassword() {
+function Security() {
   const schema = yup.object({
     currentPassword: yup.string().required('Please enter current password'),
     newPassword: yup
@@ -61,9 +61,9 @@ function ChangePassword() {
 
   return (
     <>
-      <DocumentTitle title='Change Password' />
+      <DocumentTitle title='Security' />
       <div>
-        <h2 className='font-medium text-[18px] text-center'>Change Password</h2>
+        <h2 className='font-medium text-[18px] text-center'>Security Dashboard</h2>
         <div className="mt-7 flex justify-center">
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5 w-[350px]'>
             <PasswordFieldOutlined
@@ -89,4 +89,4 @@ function ChangePassword() {
   )
 }
 
-export default ChangePassword
+export default Security

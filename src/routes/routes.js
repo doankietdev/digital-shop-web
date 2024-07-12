@@ -3,7 +3,6 @@ import { UserLayout } from '~/layouts'
 import {
   Addresses,
   Cart,
-  ChangePassword,
   Checkout,
   EmailVerificationError,
   EmailVerificationSuccess,
@@ -13,6 +12,7 @@ import {
   ProductsOfCategory,
   Profile,
   ResetPassword,
+  Security,
   SignIn,
   SignUp,
   VerifyEmail,
@@ -76,8 +76,8 @@ const publicRoutes = [
     layout: UserLayout
   },
   {
-    path: routesConfig.changePassword,
-    component: ChangePassword,
+    path: routesConfig.security,
+    component: Security,
     layout: UserLayout
   },
   {
