@@ -1,21 +1,17 @@
 import clsx from 'clsx'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import noImage from '~/assets/no-image.png'
 import {
-  AddNewAddress,
   Button,
   Card,
-  ChangeAddress,
   DocumentTitle,
   Mark,
-  Modal,
+  ModalLoading,
   PayPalPayment,
-  SelectorOutlined,
-  UpdateAddress,
-  ModalLoading
+  SelectorOutlined
 } from '~/components'
 import { routesConfig } from '~/config'
 import { getCart } from '~/pages/Cart/CartSlice'
@@ -25,6 +21,9 @@ import { order, reviewOrder } from '~/services/checkoutService'
 import { OrderStatusesEnum, PaymentMethodsEnum } from '~/utils/constants'
 import { convertObjectToArrayValues, formatCash } from '~/utils/formatter'
 import { LocationDotIcon } from '~/utils/icons'
+import AddNewAddressModal from './AddNewAddressModal'
+import ChangeAddressModal from './ChangeAddressModal'
+import UpdateAddressModal from './UpdateAddressModal'
 
 function Checkout() {
   const location = useLocation()
@@ -41,11 +40,7 @@ function Checkout() {
     PaymentMethodsEnum.ONLINE_PAYMENT.value
   )
 
-  const [openModal, setOpenModal] = useState(false)
-  const [openChangeAddress, setOpenChangeAddress] = useState(false)
-  const [openAddAddress, setOpenAddAddress] = useState(false)
-  const [openUpdateAddress, setOpenUpdateAddress] = useState(false)
-  const [addressIdToUpdate, setAddressIdToUpdate] = useState(null)
+  const [addressIndexToUpdate, setAddressIndexToUpdate] = useState(null)
   const [orderLoading, setOrderLoading] = useState(false)
   const [globalLoading, setGlobalLoading] = useState(false)
 
@@ -57,6 +52,11 @@ function Checkout() {
     }
     return JSON.parse(decodeURIComponent(orderProductsString))
   }, [location.search, navigate])
+
+
+  const changeAddressModalRef = useRef()
+  const addNewAddressModalRef = useRef()
+  const updateAddressModalRef = useRef()
 
   const {
     current: { firstName, lastName, mobile, addresses }
@@ -95,36 +95,7 @@ function Checkout() {
   }, [orderProductsFromCartPage, orderProductsFromCartPage.length, navigate])
 
   const handleChangeAddressClick = useCallback(() => {
-    setOpenModal(true)
-    setOpenChangeAddress(true)
-  }, [])
-
-  const handleCloseModal = useCallback(() => {
-    setOpenModal(false)
-    setOpenChangeAddress(false)
-    setOpenAddAddress(false)
-  }, [])
-
-  const handleAddNewAddressClick = useCallback(() => {
-    setOpenChangeAddress(false)
-    setOpenAddAddress(true)
-  }, [])
-
-  const handleCloseAddAddress = useCallback(() => {
-    setOpenAddAddress(false)
-    setOpenChangeAddress(true)
-  }, [])
-
-  const handleUpdateAddress = useCallback((addressId) => {
-    setAddressIdToUpdate(addressId)
-    setOpenUpdateAddress(true)
-    setOpenChangeAddress(false)
-  }, [])
-
-  const handleCloseUpdateAddress = useCallback(() => {
-    setAddressIdToUpdate(null)
-    setOpenUpdateAddress(false)
-    setOpenChangeAddress(true)
+    changeAddressModalRef.current.show()
   }, [])
 
   const handleSelectPaymentMethod = useCallback((value) => {
@@ -146,12 +117,41 @@ function Checkout() {
     }
   }, [navigate, orderProductsFromCartPage, selectedPaymentMethod])
 
+  const handleAddNewAddressButtonClick = useCallback(() => {
+    changeAddressModalRef.current.hide()
+    addNewAddressModalRef.current.show()
+  }, [])
+
+  const handleAddNewAddressSuccess = useCallback(() => {
+    addNewAddressModalRef.current.hide()
+    changeAddressModalRef.current.show()
+  }, [])
+
+  const handleAddNewAddressModalClose = useCallback(() => {
+    changeAddressModalRef.current.show()
+  }, [])
+
+  const handleUpdateAddressButtonClick = useCallback((index) => {
+    setAddressIndexToUpdate(index)
+    changeAddressModalRef.current.hide()
+    updateAddressModalRef.current.show()
+  }, [])
+
+  const handleUpdateAddressSuccess = useCallback(() => {
+    updateAddressModalRef.current.hide()
+    changeAddressModalRef.current.show()
+  }, [])
+
+  const handleUpdateAddressModalClose = useCallback(() => {
+    changeAddressModalRef.current.show()
+  }, [])
+
   return (
     <>
       <DocumentTitle title="Checkout" />
       <div className="container">
         <div className="flex flex-col gap-8">
-          <Card className="flex flex-col gap-3 shadow-card-md p-6">
+          <Card className="flex flex-col gap-3 shadow-card-md p-[20px] md:p-[24px]">
             <p className="md:text-[18px] text-primary-400 font-medium">
               <LocationDotIcon className="inline-block mr-1.5" />
               Shipping Address
@@ -223,7 +223,7 @@ function Checkout() {
           </Card>
 
           <div className="flex flex-col gap-4">
-            <Card className="hidden md:flex md:flex-col p-6">
+            <Card className="hidden md:flex md:flex-col p-[20px] md:p-[24px]">
               <div className="flex items-center gap-1 font-semibold">
                 <div className="basis-2/6">Product</div>
                 <div className="basis-1/6 text-center">Variant</div>
@@ -298,12 +298,12 @@ function Checkout() {
             )}
           </div>
 
-          <Card className="p-6">
+          <Card className="p-[20px] md:p-[24px]">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-0 pb-6 border-b">
               <h3 className="md:text-[18px] text-primary-400 font-medium">
                 Payment methods
               </h3>
-              <div className="flex items-center gap-5 w-[200px]">
+              <div className="flex items-center gap-5 w-full md:w-[200px]">
                 <SelectorOutlined
                   items={convertObjectToArrayValues(PaymentMethodsEnum).map(
                     (paymentMethod) => ({
@@ -375,25 +375,22 @@ function Checkout() {
         </div>
       </div>
 
-      {openModal && (
-        <Modal onClose={handleCloseModal}>
-          {openChangeAddress && (
-            <ChangeAddress
-              handleCloseModal={handleCloseModal}
-              onAddNewAddress={handleAddNewAddressClick}
-              onUpdateAddress={handleUpdateAddress}
-            />
-          )}
-
-          {openAddAddress && <AddNewAddress onClose={handleCloseAddAddress} />}
-          {openUpdateAddress && (
-            <UpdateAddress
-              addressId={addressIdToUpdate}
-              onClose={handleCloseUpdateAddress}
-            />
-          )}
-        </Modal>
-      )}
+      <ChangeAddressModal
+        ref={changeAddressModalRef}
+        onAddNewAddressButtonClick={handleAddNewAddressButtonClick}
+        onUpdateAddressButtonClick={handleUpdateAddressButtonClick}
+      />
+      <AddNewAddressModal
+        ref={addNewAddressModalRef}
+        onSuccess={handleAddNewAddressSuccess}
+        onClose={handleAddNewAddressModalClose}
+      />
+      <UpdateAddressModal
+        address={addresses[addressIndexToUpdate]}
+        ref={updateAddressModalRef}
+        onSuccess={handleUpdateAddressSuccess}
+        onClose={handleUpdateAddressModalClose}
+      />
 
       {globalLoading && (
         <ModalLoading />

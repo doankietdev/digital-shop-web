@@ -33,9 +33,20 @@ module.exports = {
       },
       animation: {
         slideDown: 'slideDown .3s ease-in-out',
-        fadeIn: 'fadeIn .3s ease-in-out'
+        fadeIn: 'fadeIn .3s ease-in-out',
+        growthCenter: 'growth .2s ease-in-out'
       },
       keyframes: {
+        growth: {
+          '0%': {
+            opacity: 0,
+            transform: 'scale(0)'
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'scale(1)'
+          }
+        },
         slideDown: {
           '0%': {
             opacity: 0,
