@@ -235,7 +235,7 @@ function ProductsOfCategory() {
         <div className='container'>
           <div
             className={clsx({
-              'grid grid-cols-5 gap-5': products === null || products.length
+              'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5': products === null || products.length
             })}
           >
             {loading ? (

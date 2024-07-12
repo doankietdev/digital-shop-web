@@ -48,7 +48,7 @@ const settings = {
     {
       breakpoint: 480,
       settings: {
-        slidesToShow: 1,
+        slidesToShow: 2,
         slidesToScroll: 1
       }
     }
@@ -80,7 +80,7 @@ function BestSellingAccessory() {
 
   return (
     <div className='col-span-9 flex flex-col'>
-      <h2 className='capitalize font-semibold text-xl flex gap-2 mb-5 pb-2 lg:pb-4 border-b-2 border-primary-400'>
+      <h2 className='capitalize font-semibold text-[18px] md:text-[20px] flex gap-2 mb-5 pb-2 lg:pb-4 border-b-2 border-primary-400'>
         <img src={bestSellingImage} className='h-7' />
         Best Selling Accessory
       </h2>

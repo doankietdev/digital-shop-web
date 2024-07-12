@@ -90,45 +90,48 @@ function Profile() {
   return (
     <>
       <DocumentTitle title='Profile' />
-      <div>
-        <h2 className='font-medium text-[18px] text-center'>My Profile</h2>
-        <div className="mt-7 flex">
-          <div className="basis-2/3">
-            <form className='flex flex-col gap-5' onSubmit={handleSubmit(onSubmit)}>
-              <div className='flex gap-5'>
-                <TextFieldOutlined
-                  label='First Name'
-                  {...register('firstName')}
-                  defaultValue={user.firstName}
-                  errorMessage={errors.firstName?.message}
-                />
-                <TextFieldOutlined
-                  label='Last Name'
-                  {...register('lastName')}
-                  defaultValue={user.lastName}
-                  errorMessage={errors.lastName?.message}
-                />
-              </div>
-              <TextFieldOutlined label='Email' defaultValue={user.email} disabled />
-              <TextFieldOutlined label='Phone Number' defaultValue={user.mobile} disabled />
-              <Button type='submit' primary rounded disabled={disabled || isSubmitting || !isDirty}>Update</Button>
-            </form>
-          </div>
-          <div className="basis-1/3 flex flex-col justify-between items-center gap-6">
-            <img
-              className='w-[140px] h-[140px] rounded-full object-cover'
-              src={user.image.url || noAvatarImage}
-            />
-            <FileField
-              primary
-              rounded
-              icon={<UploadIcon className='icon !text-[24px]' />}
-              accept='.jpeg,.jpg,.png'
-              disabled={disabled}
-              onFileChange={handleFileChange}
-            >
-            Upload
-            </FileField>
+      <div className='flex justify-center'>
+        <div className='max-w-[400px] w-full'>
+          <h2 className='font-medium text-[18px] text-center'>Profile</h2>
+          <div className="mt-7">
+            <div className="flex justify-center items-center gap-6">
+              <img
+                className='w-[140px] h-[140px] rounded-full object-cover'
+                src={user.image.url || noAvatarImage}
+              />
+              <FileField
+                primary
+                rounded
+                icon={<UploadIcon className='icon !text-[24px]' />}
+                accept='.jpeg,.jpg,.png'
+                disabled={disabled}
+                onFileChange={handleFileChange}
+              >
+                Upload
+              </FileField>
+            </div>
+
+            <div className="mt-7">
+              <form className='flex flex-col gap-5' onSubmit={handleSubmit(onSubmit)}>
+                <div className='flex gap-5'>
+                  <TextFieldOutlined
+                    label='First Name'
+                    {...register('firstName')}
+                    defaultValue={user.firstName}
+                    errorMessage={errors.firstName?.message}
+                  />
+                  <TextFieldOutlined
+                    label='Last Name'
+                    {...register('lastName')}
+                    defaultValue={user.lastName}
+                    errorMessage={errors.lastName?.message}
+                  />
+                </div>
+                <TextFieldOutlined label='Email' defaultValue={user.email} disabled />
+                <TextFieldOutlined label='Phone Number' defaultValue={user.mobile} disabled />
+                <Button type='submit' primary rounded disabled={disabled || isSubmitting || !isDirty}>Update</Button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

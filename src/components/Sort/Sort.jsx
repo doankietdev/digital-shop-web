@@ -19,12 +19,13 @@ function Sort({ items, onChange }) {
   }, [items, onChange])
 
   return (
-    <>
+    <div className='flex gap-3'>
       {items.map((item, index) => (
         <button
           key={index}
           className={clsx(
-            'flex items-center text-sm font-medium text-gray-900 md:me-0 min-w-[32px] px-2 py-1 w-fit bg-[#F3F4F6] border rounded-lg',
+            `flex items-center basis-1/3 md:basis-auto text-[12px] md:text-[14px] font-medium
+              text-gray-900 md:me-0 min-w-[32px] px-[8px] py-[4px] w-fit bg-[#F3F4F6] border rounded-lg`,
             {
               '!border-primary-400 !bg-primary-400 !bg-opacity-10':
                 index === selectedIndex
@@ -35,10 +36,12 @@ function Sort({ items, onChange }) {
           <span className='mr-2'>
             {item.icon}
           </span>
-          {item.name}
+          <span className='text-center'>
+            {item.name}
+          </span>
         </button>
       ))}
-    </>
+    </div>
   )
 }
 

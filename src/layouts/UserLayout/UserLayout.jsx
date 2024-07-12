@@ -1,15 +1,12 @@
-import { Card } from '~/components'
-import { UserBar } from '~/layouts/components'
 import { DefaultLayout } from '~/layouts'
+import { UserBar } from '~/layouts/components'
 
 function UserLayout({ children }) {
   return (
     <DefaultLayout>
       <div className="container">
-        <div className="flex items-start gap-10">
-          <Card className='p-[20px] basis-[260px]'><UserBar /></Card>
-          <div className='flex-1'>{children}</div>
-        </div>
+        <div className='border-b'><UserBar /></div>
+        <div className='pt-[30px]'>{children}</div>
       </div>
     </DefaultLayout>
   )

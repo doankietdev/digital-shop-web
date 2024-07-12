@@ -50,88 +50,47 @@ function ChangeAddress({
   }, [handleCloseModal, loadingChangeAddressText, selectedAddressId, successChangeAddressText])
 
   return (
-    <div className="min-w-[620px] h-[600px] flex flex-col">
-      <div className="pb-6 border-b flex items-center justify-between gap-2 md:gap-0">
-        <h3 className="font-semibold">My Addresses</h3>
-        <Button
-          primary
-          outlined
-          rounded
-          disabled={disabled}
-          icon={<FaPlusIcon />}
-          onClick={onAddNewAddress}
-          className='!text-[14px] px-[12px] py-[8px]'
-        >
-          Add New Address
-        </Button>
-      </div>
+    <ul
+      className={clsx('py-[20px] md:py-[24px] flex-1 h-[440px] overflow-y-auto flex flex-col gap-4')}
+    >
+      {user.addresses.map((address) => {
+        const { streetAddress, ward, district, province } = address
+        return (
+          <li key={address._id} className="flex">
+            <div className="mr-3">
+              <CheckboxDot
+                disabled={disabled}
+                selected={
+                  selectedAddressId
+                    ? address._id === selectedAddressId
+                    : address.default
+                }
+                value={address._id}
+                onClick={handleCheckboxClick}
+              />
+            </div>
 
-      {/* Address items */}
-      <ul
-        className={clsx('flex-1 overflow-y-auto border-b py-6 flex flex-col gap-4')}
-      >
-        {user.addresses.map((address) => {
-          const { streetAddress, ward, district, province } = address
-          return (
-            <li key={address._id} className="flex">
-              <div className="mr-3">
-                <CheckboxDot
+            <div className="flex-1">
+              <div className="flex justify-between gap-2 mb-1">
+                <span
+                  onClick={() => handleSelectAddressText(address._id)}
+                >
+                  {`${streetAddress ? streetAddress + ', ' : ''}${ward.name}, ${district.name}, ${province.name}`}
+                </span>
+                <button
+                  className="text-[14px] text-purple-500 h-fit"
+                  onClick={() => onUpdateAddress(address._id)}
                   disabled={disabled}
-                  selected={
-                    selectedAddressId
-                      ? address._id === selectedAddressId
-                      : address.default
-                  }
-                  value={address._id}
-                  onClick={handleCheckboxClick}
-                />
-              </div>
-
-              <div className="flex-1">
-                <div className="flex justify-between gap-2 mb-1">
-                  <span
-                    onClick={() => handleSelectAddressText(address._id)}
-                  >
-                    {`${streetAddress ? streetAddress + ', ' : ''}${ward.name}, ${district.name}, ${province.name}`}
-                  </span>
-                  <button
-                    className="text-[14px] text-purple-500 h-fit"
-                    onClick={() => onUpdateAddress(address._id)}
-                    disabled={disabled}
-                  >
+                >
                         Update
-                  </button>
-                </div>
-                {address.default && <Mark>Default</Mark>}
+                </button>
               </div>
-            </li>
-          )
-        })}
-      </ul>
-
-      <div className="flex justify-end gap-3 pt-6">
-        {!hideCancel && (
-          <Button
-            primary
-            outlined
-            rounded
-            onClick={handleCloseModal}
-            className='capitalize'
-          >
-            {cancelText}
-          </Button>
-        )}
-        <Button
-          primary
-          rounded
-          disabled={disabled || !selectedAddressId}
-          onClick={handleConfirmButtonClick}
-          className='capitalize'
-        >
-          {confirmText}
-        </Button>
-      </div>
-    </div>
+              {address.default && <Mark>Default</Mark>}
+            </div>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 

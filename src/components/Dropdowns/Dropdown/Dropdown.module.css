@@ -1,6 +1,5 @@
 .dropdownList {
   animation: dropdownGrowth ease-in-out 0.25s;
-  transform-origin: calc(100% - 18px) -10px;
 }
 
 @keyframes dropdownGrowth {

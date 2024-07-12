@@ -67,7 +67,7 @@ function QuantityFieldWithoutForm({
   return (
     <div className="border rounded-sm flex w-fit">
       <button
-        className={clsx('px-2 py-[6px] border-r text-sm bg-white', {
+        className={clsx('px-[6px] py-[4px] md:px-[8px] md:py-[6px] border-r text-sm bg-white', {
           'hover:bg-gray-200 transition-all duration-200 ease-in-out':
             value > 1 && !disabled,
           'cursor-not-allowed opacity-50': value <= 1 || disabled
@@ -79,12 +79,12 @@ function QuantityFieldWithoutForm({
       <input
         type="number"
         value={value}
-        className="hide-arrows w-[50px] text-center"
+        className="hide-arrows w-[40px] md:w-[50px] text-center text-[12px] md:text-[14px]"
         disabled={disabled}
         onChange={handleInputChange}
       />
       <button
-        className={clsx('px-2 py-[6px] border-l text-sm bg-white', {
+        className={clsx('px-[6px] py-[4px] md:px-[8px] md:py-[6px]  border-l text-sm bg-white', {
           'hover:bg-gray-200 transition-all duration-200 ease-in-out': max
             ? value < max && !disabled
             : true,

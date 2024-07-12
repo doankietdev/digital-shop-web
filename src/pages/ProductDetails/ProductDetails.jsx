@@ -1,19 +1,23 @@
+import clsx from 'clsx'
+import lodash from 'lodash'
 import { useCallback, useEffect, useState } from 'react'
-import ReactImageMagnify from 'react-image-magnify'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Slider from 'react-slick'
+import { toast } from 'react-toastify'
 import { setLoading } from '~/AppSlice'
 import {
   Button,
   Card,
   DocumentTitle,
   GlobalLoading,
+  ImageMagnifier,
   Product,
   QuantityField,
   Rating
 } from '~/components'
 import { ReactSlickArrow } from '~/customLibraries/components'
+import { addToCart } from '~/pages/Cart/CartSlice'
 import { dispatch } from '~/redux'
 import { appSelector } from '~/redux/selectors'
 import { getProductBySlug, getProducts } from '~/services/productService'
@@ -24,9 +28,6 @@ import {
   MdArrowForwardIosIcon
 } from '~/utils/icons'
 import Variants from './Variants'
-import { toast } from 'react-toastify'
-import { addToCart } from '~/pages/Cart/CartSlice'
-import clsx from 'clsx'
 
 const imageSliderSettings = {
   dots: false,
@@ -118,11 +119,12 @@ const similarProductSliderSettings = {
 function ProductDetails() {
   const { slug } = useParams()
   const [product, setProduct] = useState(null)
+  const [productImages, setProductImages] = useState([])
   const [similarProducts, setSimilarProducts] = useState([])
   const [variant, setVariant] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const [hasError, setHasError] = useState(false)
-  const [currentThumb, setCurrentThumb] = useState(null)
+  const [productImageIndex, setProductImageIndex] = useState(0)
   const { loading } = useSelector(appSelector)
 
   useEffect(() => {
@@ -130,6 +132,14 @@ function ProductDetails() {
       dispatch(setLoading(true))
       const product = await getProductBySlug(slug)
       if (!product) return
+
+      setProductImages(() => {
+        const variantImages = lodash.flattenDeep(product?.variants?.map(variant => variant?.images))
+        return [
+          product.thumb.url,
+          ...variantImages
+        ]
+      })
 
       const similarProducts = (
         await getProducts({
@@ -139,20 +149,20 @@ function ProductDetails() {
         })
       ).products
       setProduct(product)
-      setCurrentThumb(product.thumb.url)
       setSimilarProducts(similarProducts)
       dispatch(setLoading(false))
     }
     fetchProduct()
   }, [slug])
 
-  const handleClickThumbItem = useCallback((image) => {
-    setCurrentThumb(image)
+  const handleClickImageItem = useCallback((index) => {
+    setProductImageIndex(index)
   }, [])
 
   const handleSelectVariant = useCallback((variant) => {
     setHasError(false)
     setVariant(variant)
+    setProductImages(variant.images)
   }, [])
 
   const handleQuantityFieldChange = useCallback(value => {
@@ -177,6 +187,7 @@ function ProductDetails() {
     }
   }, [product?._id, quantity, variant])
 
+
   return (
     <>
       {loading ? (
@@ -185,41 +196,30 @@ function ProductDetails() {
         <>
           <DocumentTitle title={product?.title} />
           <div className="container flex flex-col gap-7">
-            <Card className="p-[26px] md:grid md:grid-cols-2 md:gap-11 bg-white">
+            <Card className="p-[16px] md:p-[24px] md:grid md:grid-cols-2 md:gap-11 bg-white">
               <div>
-                <div className="rounded">
-                  <ReactImageMagnify
-                    {...{
-                      smallImage: {
-                        alt: 'Wristwatch by Ted Baker London',
-                        src: currentThumb || '',
-                        isFluidWidth: true
-                      },
-                      largeImage: {
-                        src: currentThumb || '',
-                        width: 1200,
-                        height: 1200
-                      },
-                      imageClassName: 'object-contain !h-[460px]'
-                    }}
-                  />
-                </div>
-                <div className="mt-6 mx-[-10px]">
-                  <Slider {...imageSliderSettings}>
-                    {variant?.images?.map((image, index) => (
-                      <div key={index} className="bg-white !w-auto mx-[10px]">
-                        <img
-                          onClick={() => handleClickThumbItem(image)}
-                          src={image}
-                          className="h-[140px] object-contain cursor-pointer rounded"
-                        />
-                      </div>
-                    ))}
-                  </Slider>
-                </div>
+                <ImageMagnifier
+                  src={productImages[productImageIndex]}
+                  mirrorSize='200px'
+                />
+                {productImages.length >= 2 && (
+                  <div className="mt-6 mx-[-10px]">
+                    <Slider {...imageSliderSettings}>
+                      {productImages.map((image, index) => (
+                        <div key={index} className="bg-white !w-auto mx-[10px]">
+                          <img
+                            onClick={() => handleClickImageItem(index)}
+                            src={image}
+                            className="h-[140px] object-contain cursor-pointer rounded"
+                          />
+                        </div>
+                      ))}
+                    </Slider>
+                  </div>
+                )}
               </div>
               <div className="mt-4 md:mt-0">
-                <h1 className="text-xl md:text-2xl font-semibold">
+                <h1 className="text-[20px] md:text-[24px] font-semibold line-clamp-2">
                   {product?.title}
                 </h1>
                 <div className="mt-2 flex items-center gap-4">
@@ -265,7 +265,7 @@ function ProductDetails() {
                         max={variant ? variant?.quantity : product?.quantity}
                         onChange={handleQuantityFieldChange}
                       />
-                      <span className="text-sm text-gray-600">
+                      <span className="text-[12px] md:text-[14px] text-gray-600">
                         {variant ? variant?.quantity : product?.quantity}{' '}
                         products available
                       </span>
@@ -296,33 +296,39 @@ function ProductDetails() {
                 </div>
               </div>
             </Card>
-            <Card className="p-[26px] bg-white flex flex-col gap-5">
+            <Card className="p-[16px] md:p-[24px] bg-white flex flex-col gap-5">
               <div>
-                <h2 className="text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]">
+                <h2 className="text[16px] md:text-[18px] font-medium uppercase
+                  bg-[#f7f7f7] p-[12px] md:p-[14px]"
+                >
                   Specifications
                 </h2>
-                <table className="w-full mt-5 mx-3">
-                  <tbody>
-                    {product?.specs?.map((spec, index) => (
-                      <tr key={index} className="flex">
-                        <td className="p-[6px] w-[120px] md:w-[152px] text-[14px] text-[#00000066]">
-                          {spec.k}
-                        </td>
-                        <td className="p-[6px] flex-1 text-[14px]">{spec.v}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <div className='mt-[8px] px-[12px] md:px-[14px]'>
+                  <table className="w-full ">
+                    <tbody>
+                      {product?.specs?.map((spec, index) => (
+                        <tr key={index} className="flex">
+                          <td className="pr-[6px] w-[120px] md:w-[152px] text-[14px] text-[#00000066]">
+                            {spec.k}
+                          </td>
+                          <td className="p-[6px] flex-1 text-[14px]">{spec.v}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <div>
-                <h2 className="text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]">
+              {product?.description && (
+                <div>
+                  <h2 className="text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]">
                   Description
-                </h2>
-                <p className="mt-2">{product?.description}</p>
-              </div>
+                  </h2>
+                  <p className="mt-[8px]">{product?.description}</p>
+                </div>
+              )}
             </Card>
-            <section>
-              <h2 className="uppercase font-semibold text-xl border-b-2 border-primary-400 pb-2">
+            <div>
+              <h2 className="uppercase font-semibold text-[18px] md:text-[20px] border-b-2 border-primary-400 pb-2">
                 Similar Products
               </h2>
               <div className="mt-5 -mx-[10px]">
@@ -337,7 +343,7 @@ function ProductDetails() {
                   ))}
                 </Slider>
               </div>
-            </section>
+            </div>
           </div>
         </>
       )}

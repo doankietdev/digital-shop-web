@@ -19,7 +19,7 @@ const routesConfig = {
   orders: '/user/purchase',
   orderDetails: '/user/purchase/orders/:orderId',
   profile: '/user/account/profile',
-  changePassword: '/user/account/password',
+  security: '/user/account/security',
   addresses: '/user/account/addresses',
   notifications: '/user/notifications'
 }

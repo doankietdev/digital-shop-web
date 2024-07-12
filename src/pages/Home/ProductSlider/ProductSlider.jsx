@@ -62,14 +62,14 @@ const settings = {
     {
       breakpoint: 768,
       settings: {
-        slidesToShow: 2,
+        slidesToShow: 3,
         slidesToScroll: 1
       }
     },
     {
       breakpoint: 480,
       settings: {
-        slidesToShow: 1,
+        slidesToShow: 2,
         slidesToScroll: 1
       }
     }
@@ -145,9 +145,11 @@ function ProductSlider() {
               >
                 <img src={tab.iconImage} className='h-[32px] object-contain' />
                 <span
-                  className={clsx({
-                    '!text-black': tab.id === activedTab
-                  })}
+                  className={clsx(
+                    'text-center',
+                    {
+                      '!text-black': tab.id === activedTab
+                    })}
                 >
                   {tab.name}
                 </span>

@@ -44,9 +44,11 @@ function Filter({
   return (
     <Dropdown
       label={title}
-      className='px-2 py-1 w-fit bg-[#F3F4F6] border rounded-lg'
-      dropdownContainerClassName='left-0 bg-white p-4 w-[360px]'
+      className='w-fit bg-[#F3F4F6] border rounded-lg'
+      dropdownContainerClassName='left-0 bg-white p-4 w-[360px] origin-[12px_-10px]'
       itemContainerClassName='flex gap-2 items-center flex-wrap'
+      arrowClassName='left-[12px] right-auto'
+      bridgeClassName='left-0 right-auto w-[51px]'
     >
       {items?.map((item, index) => (
         <span
