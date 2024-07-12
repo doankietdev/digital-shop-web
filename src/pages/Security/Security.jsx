@@ -62,27 +62,29 @@ function Security() {
   return (
     <>
       <DocumentTitle title='Security' />
-      <div>
-        <h2 className='font-medium text-[18px] text-center'>Security Dashboard</h2>
-        <div className="mt-7 flex justify-center">
-          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5 w-[350px]'>
-            <PasswordFieldOutlined
-              label='Current Password'
-              {...register('currentPassword')}
-              errorMessage={errors.currentPassword?.message}
-            />
-            <PasswordFieldOutlined
-              label='New Password'
-              {...register('newPassword')}
-              errorMessage={errors.newPassword?.message}
-            />
-            <PasswordFieldOutlined
-              label='New Password Confirmation'
-              {...register('newPasswordConfirmation')}
-              errorMessage={errors.newPasswordConfirmation?.message}
-            />
-            <Button type='submit' primary rounded disabled={isSubmitting || !isDirty}>Change</Button>
-          </form>
+      <div className='flex justify-center'>
+        <div className='max-w-[400px] w-full'>
+          <h2 className='font-medium text-[18px] text-center'>Security Dashboard</h2>
+          <div className="mt-7">
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
+              <PasswordFieldOutlined
+                label='Current Password'
+                {...register('currentPassword')}
+                errorMessage={errors.currentPassword?.message}
+              />
+              <PasswordFieldOutlined
+                label='New Password'
+                {...register('newPassword')}
+                errorMessage={errors.newPassword?.message}
+              />
+              <PasswordFieldOutlined
+                label='New Password Confirmation'
+                {...register('newPasswordConfirmation')}
+                errorMessage={errors.newPasswordConfirmation?.message}
+              />
+              <Button type='submit' primary rounded disabled={isSubmitting || !isDirty}>Change</Button>
+            </form>
+          </div>
         </div>
       </div>
     </>

@@ -91,7 +91,7 @@ function Profile() {
     <>
       <DocumentTitle title='Profile' />
       <div className='flex justify-center'>
-        <div className='w-[400px]'>
+        <div className='max-w-[400px] w-full'>
           <h2 className='font-medium text-[18px] text-center'>Profile</h2>
           <div className="mt-7">
             <div className="flex justify-center items-center gap-6">
