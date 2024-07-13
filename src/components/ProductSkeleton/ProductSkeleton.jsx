@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-function ProductSkeleton({ horizontal, className }) {
+function ProductSkeleton({ horizontal = false, className = '' }) {
   return (
     <div
       className={clsx(

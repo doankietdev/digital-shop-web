@@ -7,7 +7,7 @@ import bestSellingImage from '~/assets/best-selling.png'
 import giftImage from '~/assets/gift.png'
 import noImage from '~/assets/logo.png'
 import newImage from '~/assets/new.png'
-import { Loading, NoProductsAvailable, Product } from '~/components'
+import { NoProductsAvailable, Product, ProductSkeleton } from '~/components'
 import { routesConfig } from '~/config'
 import { ReactSlickArrow } from '~/customLibraries/components'
 import { getProducts } from '~/services/productService'
@@ -159,9 +159,11 @@ function ProductSlider() {
         </div>
         <div className='mx-[-10px] md:flex-1 md:h-auto'>
           {loading ? (
-            <div className='h-full flex justify-center items-center'>
-              <Loading />
-            </div>
+            <Slider {...settings} className='mt-5'>
+              {new Array(10).fill(0).map((ele, index) => (
+                <ProductSkeleton key={index} />
+              ))}
+            </Slider>
           ) : products.length ? (
             <Slider {...settings} className='mt-5'>
               {products.map((product) => (

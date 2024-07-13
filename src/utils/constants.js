@@ -44,24 +44,24 @@ const PRODUCT_CONDITIONS_TO_CHECK = {
 
 const CATEGORIES = {
   SMARTPHONE: {
-    ID: '662fd94a16690383cc9f6481',
-    SLUG: 'smartphone-1714411850886'
+    ID: '667283c5322b41490e8f7548',
+    SLUG: 'smartphone-1718780869049'
   },
   TABLET: {
-    ID: '662fd94a16690383cc9f6482',
-    SLUG: 'tablet-1714411850887'
+    ID: '667283c5322b41490e8f7549',
+    SLUG: 'tablet-1718780869050'
   },
   LAPTOP: {
-    ID: '662fd94a16690383cc9f6483',
-    SLUG: 'laptop-1714411850887'
+    ID: '667283c5322b41490e8f754a',
+    SLUG: 'laptop-1718780869050'
   },
   TELEVISION: {
-    ID: '662fd94a16690383cc9f6488',
-    SLUG: 'television-1714411850887'
+    ID: '667283c5322b41490e8f754f',
+    SLUG: 'television-1718780869050'
   },
   ACCESSORY: {
-    ID: '662fd94a16690383cc9f6487',
-    SLUG: 'accessories-1714411850887'
+    ID: '667283c5322b41490e8f754e',
+    SLUG: 'accessories-1718780869050'
   }
 }
 

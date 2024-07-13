@@ -1,32 +1,30 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useEffect, useState, memo } from 'react'
-import { Link } from 'react-router-dom'
+import { memo, useEffect, useState } from 'react'
 import { FaListUl } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
 import { routesConfig } from '~/config'
 import { getCategories } from '~/services/categoryService'
-import { useDispatch } from 'react-redux'
-import { actions } from '~/AppSlice'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
 
 function SideBar() {
   const [categories, setCategories] = useState([])
-  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        dispatch(actions.setLoading(true))
+        setLoading(true)
         const result = await getCategories()
         setCategories(result.categories)
       } catch (error) {
         /* empty */
       } finally {
-        dispatch(actions.setLoading(false))
+        setLoading(false)
       }
     }
 
     fetchCategories()
-  }, [dispatch])
+  }, [])
 
   return (
     <div
@@ -42,7 +40,12 @@ function SideBar() {
         <span>Categories</span>
       </div>
       <div className="flex lg:block text-[14px] capitalize font-medium text-white lg:text-inherit">
-        {categories?.map(category => (
+        {loading && new Array(10).fill(0).map((ele, index) => (
+          <div key={index} className='w-full px-[10px] py-[8px] lg:px-[20px] lg:py-[15px]'>
+            <p className='bg-gray-200 rounded-full animate-pulse w-full h-[20px]'></p>
+          </div>
+        ))}
+        {!loading && categories?.map(category => (
           <Link
             key={category._id}
             to={parsePlaceHolderUrl(routesConfig.productsOfCategory, {

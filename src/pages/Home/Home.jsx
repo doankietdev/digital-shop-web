@@ -1,7 +1,4 @@
-import clsx from 'clsx'
-import { useSelector } from 'react-redux'
-import { DocumentTitle, GlobalLoading } from '~/components'
-import { appSelector } from '~/redux/selectors'
+import { DocumentTitle } from '~/components'
 import Banner from './Banner'
 import BestSellingAccessory from './BestSellingAccessory'
 import BestSellingLaptop from './BestSellingLaptop'
@@ -17,19 +14,10 @@ import SideBar from './SideBar'
 import Slider from './Slider'
 
 function Home() {
-  const { loading } = useSelector(appSelector)
-
   return (
     <>
       <DocumentTitle />
-      {loading && (
-        <GlobalLoading />
-      )}
-      <div
-        className={clsx('animate-fadeIn', {
-          hidden: loading
-        })}
-      >
+      <div>
         <section>
           <div className='container lg:grid lg:grid-cols-4 lg:gap-5'>
             <SideBar />
