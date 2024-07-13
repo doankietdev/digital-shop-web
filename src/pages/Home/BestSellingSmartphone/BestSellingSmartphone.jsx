@@ -65,8 +65,7 @@ function BestSellingSmartphone() {
       const result = await getProducts({
         category: CATEGORIES.SMARTPHONE.ID,
         'sold[gte]': PRODUCT_CONDITIONS_TO_CHECK.SOLD,
-        _sort: '-sold',
-        _limit: 10
+        _sort: '-createdAt'
       })
 
       const products = result.products

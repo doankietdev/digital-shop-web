@@ -65,8 +65,7 @@ function BestSellingTablet() {
       const result = await getProducts({
         category: CATEGORIES.TABLET.ID,
         'sold[gte]': PRODUCT_CONDITIONS_TO_CHECK.SOLD,
-        _sort: '-createdAt',
-        _limit: 10
+        _sort: '-createdAt'
       })
 
       const products = result.products
