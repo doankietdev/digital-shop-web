@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { memo, useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import bestSellingImage from '~/assets/best-selling.png'
-import { NoProductsAvailable, Product } from '~/components'
+import { NoProductsAvailable, Product, ProductSkeleton } from '~/components'
 import { ReactSlickArrow } from '~/customLibraries/components'
 import { getProducts } from '~/services/productService'
 import {
@@ -57,17 +57,15 @@ const settings = {
 
 function BestSellingSmartphone() {
   const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchProducts = async () => {
-      // const MILLISECONDS_NEW_DISTANCE_DAY =
-      //   Date.now() -
-      //   PRODUCT_CONDITIONS_TO_CHECK.NEW_DISTANCE_DAY * TIME.MILLISECONDS_1_DAY
-
+      setLoading(true)
       const result = await getProducts({
         category: CATEGORIES.SMARTPHONE.ID,
         'sold[gte]': PRODUCT_CONDITIONS_TO_CHECK.SOLD,
-        _sort: '-createdAt',
+        _sort: '-sold',
         _limit: 10
       })
 
@@ -77,6 +75,7 @@ function BestSellingSmartphone() {
         settings.arrows = false
       }
       setProducts(products)
+      setLoading(false)
     }
 
     fetchProducts()
@@ -89,7 +88,14 @@ function BestSellingSmartphone() {
         Best Selling Smartphone
       </h2>
       <div className={clsx('mx-[-10px]')}>
-        {products.length ? (
+        {loading && (
+          <Slider {...settings}>
+            {new Array(10).fill(0).map((ele, index) => (
+              <ProductSkeleton key={index} />
+            ))}
+          </Slider>
+        )}
+        {!loading && products.length ? (
           <Slider {...settings}>
             {products.map((product) => (
               <Product
