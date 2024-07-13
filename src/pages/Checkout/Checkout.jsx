@@ -43,16 +43,20 @@ function Checkout() {
   const [addressIndexToUpdate, setAddressIndexToUpdate] = useState(null)
   const [orderLoading, setOrderLoading] = useState(false)
   const [globalLoading, setGlobalLoading] = useState(false)
+  const [orderProductsFromCartPage, setOrderProductsFromCartPage] = useState([])
 
-  const orderProductsFromCartPage = useMemo(() => {
-    const query = new URLSearchParams(location.search)
-    const orderProductsString = query.get('state')
-    if (!orderProductsString) {
+  useEffect(() => {
+    try {
+      const query = new URLSearchParams(location.search)
+      const orderProductsString = query.get('state')
+      if (!orderProductsString) {
+        navigate(routesConfig.cart)
+      }
+      setOrderProductsFromCartPage(JSON.parse(decodeURIComponent(orderProductsString)))
+    } catch (error) {
       navigate(routesConfig.cart)
     }
-    return JSON.parse(decodeURIComponent(orderProductsString))
   }, [location.search, navigate])
-
 
   const changeAddressModalRef = useRef()
   const addNewAddressModalRef = useRef()
@@ -91,8 +95,10 @@ function Checkout() {
         setGlobalLoading(false)
       }
     }
-    fetchPaymentInfo()
-  }, [orderProductsFromCartPage, orderProductsFromCartPage.length, navigate])
+    if (orderProductsFromCartPage?.length > 0) {
+      fetchPaymentInfo()
+    }
+  }, [navigate, orderProductsFromCartPage])
 
   const handleChangeAddressClick = useCallback(() => {
     changeAddressModalRef.current.show()

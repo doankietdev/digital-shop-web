@@ -90,7 +90,7 @@ function UpdateAddressModal({
         setDistricts(districts)
         setWards(wards)
       } catch (error) {
-        modalRef.current.hide()
+        modalRef.current?.hide()
         // toast.error(error.messages[0])
       } finally {
         setProvincesLoading(false)
