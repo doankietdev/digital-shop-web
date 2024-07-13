@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import lodash from 'lodash'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Slider from 'react-slick'
 import { toast } from 'react-toastify'
 import { setLoading } from '~/AppSlice'
@@ -16,6 +16,7 @@ import {
   QuantityField,
   Rating
 } from '~/components'
+import { routesConfig } from '~/config'
 import { ReactSlickArrow } from '~/customLibraries/components'
 import { addToCart } from '~/pages/Cart/CartSlice'
 import { dispatch } from '~/redux'
@@ -127,6 +128,8 @@ function ProductDetails() {
   const [productImageIndex, setProductImageIndex] = useState(0)
   const { loading } = useSelector(appSelector)
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const fetchProduct = async () => {
       dispatch(setLoading(true))
@@ -175,7 +178,6 @@ function ProductDetails() {
       if (!variant) {
         return setHasError(true)
       }
-      setHasError(false)
       await dispatch(
         addToCart({ productId: product?._id, variantId: variant._id, quantity })
       ).unwrap()
@@ -187,6 +189,19 @@ function ProductDetails() {
     }
   }, [product?._id, quantity, variant])
 
+  const handleBuyNowClick = useCallback(() => {
+    if (!variant) {
+      return setHasError(true)
+    }
+    const orderProductsString = encodeURIComponent(JSON.stringify([{
+      productId: product?._id,
+      variantId: variant?._id,
+      oldPrice: product?.oldPrice,
+      price: product?.price,
+      quantity: quantity
+    }]))
+    navigate(`${routesConfig.checkout}?state=${orderProductsString}`)
+  }, [navigate, product?._id, product?.oldPrice, product?.price, quantity, variant])
 
   return (
     <>
@@ -290,7 +305,7 @@ function ProductDetails() {
                   >
                     Add To Cart
                   </Button>
-                  <Button primary rounded>
+                  <Button primary rounded onClick={handleBuyNowClick}>
                     Buy Now
                   </Button>
                 </div>
