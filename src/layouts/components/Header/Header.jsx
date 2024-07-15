@@ -25,6 +25,7 @@ import {
 } from '~/utils/icons'
 import styles from './Header.module.css'
 import NavBar from './NavBar'
+import { clear } from '~/pages/Cart/CartSlice'
 
 function Header() {
   const [openExpandedNavBar, setOpenExpandedNavBar] = useState(false)
@@ -48,6 +49,7 @@ function Header() {
     const loadingToast = toast.loading('Signing out...')
     try {
       await dispatch(signOut()).unwrap()
+      dispatch(clear())
       navigate(routesConfig.home)
       toast.success('Sign out successfully')
     } catch (error) {

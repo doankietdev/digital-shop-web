@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import * as yup from 'yup'
 import sideImage from '~/assets/login.webp'
@@ -23,7 +23,10 @@ import { signIn } from '../AuthSlice'
 
 function SignIn() {
   const navigate = useNavigate()
+  const location = useLocation()
   const user = useSelector(userSelector)
+
+  const from = location.state?.from || routesConfig.home
 
   useEffect(() => {
     const isResetPasswordSuccess = sessionStorage.getItem(
@@ -73,16 +76,15 @@ function SignIn() {
         setDisable(true)
         await dispatch(signIn(data)).unwrap()
         await dispatch(getCart()).unwrap()
-        navigate(routesConfig.home)
+        navigate(from, { replace: true })
       } catch (error) {
         toast.error(error?.messages[0], { autoClose: 5000 })
-        form.reset()
       } finally {
         setDisable(false)
         toast.dismiss(loadingToast)
       }
     },
-    [form, navigate]
+    [from, navigate]
   )
 
   return (
