@@ -23,9 +23,12 @@ const checkNewProduct = (product = {}) => {
   return diffDays <= PRODUCT_CONDITIONS_TO_CHECK.NEW_DISTANCE_DAY
 }
 
+const isNumeric = (string) => /^[+-]?\d+(\.\d+)?$/.test(string)
+
+
 export {
-  checkTrendingProduct,
   checkBestSellerProduct,
   checkFavoriteProduct,
-  checkNewProduct
+  checkNewProduct, checkTrendingProduct, isNumeric
 }
+

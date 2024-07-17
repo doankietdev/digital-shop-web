@@ -22,8 +22,8 @@ root.render(
           <GlobalStyles>
             <BrowserRouter>
               <App />
+              <ToastContainer position='bottom-left' autoClose={3000} />
             </BrowserRouter>
-            <ToastContainer position='bottom-left' autoClose={3000} />
           </GlobalStyles>
         </PayPalScriptProvider>
       </PersistGate>

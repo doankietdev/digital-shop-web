@@ -3,7 +3,7 @@ import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import * as yup from 'yup'
 import sideImage from '~/assets/login.webp'
 import logo from '~/assets/logo.png'
@@ -29,15 +29,11 @@ function SignIn() {
   const from = location.state?.from || routesConfig.home
 
   useEffect(() => {
-    const isResetPasswordSuccess = sessionStorage.getItem(
-      StorageKeys.IS_RESET_PASSWORD_SUCCESS
-    )
     const successfulSignUpMessage = sessionStorage.getItem(
       StorageKeys.SUCCESSFUL_SIGN_UP_MESSAGE
     )
     sessionStorage.removeItem(StorageKeys.IS_RESET_PASSWORD_SUCCESS)
     sessionStorage.removeItem(StorageKeys.SUCCESSFUL_SIGN_UP_MESSAGE)
-    if (isResetPasswordSuccess) toast.success('Reset password successfully')
     if (successfulSignUpMessage) {
       toast.success('Sign up successfully')
       toast.success(successfulSignUpMessage, {
@@ -60,7 +56,6 @@ function SignIn() {
   })
 
   const form = useForm({
-    mode: 'onBlur',
     disabled: disable,
     defaultValues: {
       email: '',
@@ -74,7 +69,9 @@ function SignIn() {
       const loadingToast = toast.loading('Signing in...')
       try {
         setDisable(true)
-        await dispatch(signIn(data)).unwrap()
+        const { accessToken, refreshToken } = await dispatch(signIn(data)).unwrap()
+        localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken)
+        localStorage.setItem(StorageKeys.REFRESH_TOKEN, refreshToken)
         await dispatch(getCart()).unwrap()
         navigate(from, { replace: true })
       } catch (error) {
@@ -191,10 +188,6 @@ function SignIn() {
           </div>
         </div>
       </div>
-      <ToastContainer
-        position='bottom-left'
-        autoClose={3000}
-      />
     </>
   )
 }

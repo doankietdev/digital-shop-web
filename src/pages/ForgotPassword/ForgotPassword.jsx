@@ -1,18 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import clsx from 'clsx'
-import { useCallback, useState } from 'react'
+import { useCallback, useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import * as yup from 'yup'
 import forgotPasswordImage from '~/assets/forgot-password.svg'
-import { Button, Card, DocumentTitle, Loading, TextField } from '~/components'
+import { Button, Card, DocumentTitle, TextFieldOutlined } from '~/components'
 import { routesConfig } from '~/config'
 import authService from '~/services/authService'
 import { GrSendIcon } from '~/utils/icons'
 
 function ForgotPassword() {
-  const [disabled, setDisabled] = useState(false)
   const navigate = useNavigate()
 
   const schema = yup.object({
@@ -22,93 +20,89 @@ function ForgotPassword() {
       .required('Please enter your email')
   })
 
-  const form = useForm({
+  const {
+    register,
+    handleSubmit,
+    setFocus,
+    clearErrors,
+    formState: { isSubmitting, isDirty, errors }
+  } = useForm({
     mode: 'onBlur',
-    disabled,
     defaultValues: {
       email: ''
     },
     resolver: yupResolver(schema)
   })
 
-  const {
-    formState: { isSubmitting }
-  } = form
-
-  const handleSubmit = useCallback(
+  const onSubmit = useCallback(
     async (data) => {
+      const loadingToast = toast.loading('Finding account...')
       try {
-        setDisabled(true)
-        await authService.forgotPassword(data)
-        navigate(routesConfig.verifyPasswordResetOTP)
+        const { email, expiresAt } = await authService.forgotPassword(data)
+        navigate(`${routesConfig.verifyPasswordResetOTP}?email=${email}&expiresAt=${expiresAt}`, { replace: true })
       } catch (error) {
-        toast.error(error.messages[0])
+        toast.error(error.message)
       } finally {
-        setDisabled(false)
+        toast.dismiss(loadingToast)
       }
     },
     [navigate]
   )
 
+  useLayoutEffect(() => { setFocus('email') }, [setFocus])
+
   return (
     <>
       <DocumentTitle title='Forgot Password' />
-      <div
-        className={clsx(
-          'flex justify-center items-center h-screen bg-secondary-400 p-3'
-        )}
+      <Card
+        className='animate-growthCenter max-w-[520px] w-full'
       >
-        <Card
-          className='animate-fadeIn !min-w-0 w-[520px] shadow-none bg-white p-8 md:p-11 lg:p-16'
+        <form
+          className='flex flex-col justify-center items-center relative p-4 md:p-10 lg:p-15'
+          onSubmit={handleSubmit(onSubmit)}
         >
-          <form
-            className='flex flex-col justify-center items-center relative'
-            onSubmit={form.handleSubmit(handleSubmit)}
-          >
-            <h2 className='text-[20px] md:text-[23px] tracking-[2px] font-semibold'>
-              Forgot Password?
-            </h2>
-            <img
-              src={forgotPasswordImage}
-              className='w-[140px] h-[140px] md:w-[160px] md:h-[160px] object-contain'
-            />
-            <p className='text-[14px] text-center opacity-60 font-medium'>
-              Enter your email and we&apos;ll send you a OTP code to reset your
-              password.
-            </p>
-            <TextField
-              className='mt-4 text-[14px]'
-              form={form}
-              name='email'
-              placeholder='Email'
+          <h2 className='text-center text-[20px] md:text-[24px] tracking-[2px] font-semibold'>
+            Forgot Password?
+          </h2>
+          <img
+            src={forgotPasswordImage}
+            className='w-[140px] h-[140px] md:w-[160px] md:h-[160px] object-contain'
+          />
+          <p className='mb-[20px] text-[14px] text-center opacity-60 font-medium'>
+            Enter your email to find your account
+          </p>
+          <div className='mb-[20px] w-full'>
+            <TextFieldOutlined
+              label='Email'
               outlined
               rounded
+              {...register('email')}
+              onInput={() => clearErrors('email')}
+              errorMessage={errors.email?.message}
+              disabled={isSubmitting}
             />
-            <div className='mt-5 w-full relative flex justify-center items-center'>
-              <Button
-                className='!bg-success-400 hover:!bg-success-200 w-full py-[15px]'
-                type='submit'
-                rounded
-                startIcon={<GrSendIcon className='text-[18px]' />}
-              >
-                Send
-              </Button>
-            </div>
-
-            <div className='mt-6 text-[14px] font-semibold'>
-              <span className='mr-1'>Remember password?</span>
-              <Link
-                className='p-3 lg:p-1 text-success-400 hover:text-success-200 underline-run hover:after:bg-success-200'
-                to={routesConfig.signIn}
-              >
-                Sign in
-              </Link>
-            </div>
-            {isSubmitting && <Loading className='absolute -bottom-12' />}
-          </form>
-        </Card>
-        <ToastContainer autoClose={3000} />
-      </div>
+          </div>
+          <Button
+            type='submit'
+            primary
+            rounded
+            startIcon={<GrSendIcon className='text-[18px]' />}
+            disabled={!isDirty || isSubmitting}
+            className='w-full'
+          >
+            Send
+          </Button>
+          <div className='mt-[20px] text-[14px] font-semibold text-center'>
+            <span className='mr-1'>Remember password?</span>
+            <Link
+              className='p-1 text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
+              to={routesConfig.signIn}
+            >
+              Sign in
+            </Link>
+          </div>
+        </form>
+      </Card>
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { routesConfig } from '~/config'
-import { UserLayout } from '~/layouts'
+import { AuthLayout, UserLayout } from '~/layouts'
 import {
   Addresses,
   Cart,
@@ -79,17 +79,17 @@ const unauthorizedRoutes = [
   {
     path: routesConfig.forgotPassword,
     component: ForgotPassword,
-    layout: null
+    layout: AuthLayout
   },
   {
     path: routesConfig.verifyPasswordResetOTP,
     component: VerifyPasswordResetOTP,
-    layout: null
+    layout: AuthLayout
   },
   {
     path: routesConfig.resetPassword,
     component: ResetPassword,
-    layout: null
+    layout: AuthLayout
   }
 ]
 

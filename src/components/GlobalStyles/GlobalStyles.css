@@ -24,7 +24,8 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-background-clip: text;
-  -webkit-text-fill-color: #fff;
+  background-clip: text;
+  color: transparent; /* This makes the text itself transparent, revealing the background */
 }
 
 .container {

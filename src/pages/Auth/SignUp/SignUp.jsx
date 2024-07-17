@@ -1,9 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { StatusCodes } from 'http-status-codes'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import * as yup from 'yup'
 import sideImage from '~/assets/login.webp'
 import logo from '~/assets/logo.png'
@@ -17,10 +18,9 @@ import {
 import { routesConfig } from '~/config'
 import { userSelector } from '~/redux/selectors'
 import { dispatch } from '~/redux/store'
+import { StorageKeys } from '~/utils/constants'
 import { FaFacebookFIcon, FaGooglePlusGIcon } from '~/utils/icons'
 import { signUp } from '../AuthSlice'
-import { StatusCodes } from 'http-status-codes'
-import { StorageKeys } from '~/utils/constants'
 
 const fieldNameLabels = {
   firstName: 'first name',
@@ -253,7 +253,6 @@ function SignUp() {
           </div>
         </div>
       </div>
-      <ToastContainer autoClose={3000} />
     </>
   )
 }

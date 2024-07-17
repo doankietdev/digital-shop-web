@@ -41,7 +41,7 @@ const signIn = async (data) => {
 
 const signOut = async () => {
   try {
-    const { metadata } = await axios.post(signOutApi)
+    const { metadata } = await axios.delete(signOutApi)
     return metadata
   } catch (error) {
     if (error.statusCode === StatusCodes.UNAUTHORIZED) {
@@ -69,43 +69,23 @@ const verifyEmail = async ({ userId, token }) => {
 }
 
 const forgotPassword = async ({ email }) => {
-  try {
-    const { metadata } = await axios.post(forgotPasswordApi, { email })
-    return metadata
-  } catch (error) {
-    if (error.statusCode === StatusCodes.BAD_REQUEST) {
-      return Promise.reject(new UIError([error.message]))
-    }
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+  const { metadata } = await axios.post(forgotPasswordApi, { email })
+  return metadata
 }
 
-const verifyPasswordResetOtp = async ({ otp }) => {
-  try {
-    const { metadata } = await axios.post(verifyPasswordResetOtpApi, {
-      otp
-    })
-    return metadata
-  } catch (error) {
-    if (error.statusCode === StatusCodes.BAD_REQUEST) {
-      return Promise.reject(new UIError([error.message]))
-    }
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+const verifyPasswordResetOtp = async ({ email, otp }) => {
+  const { metadata } = await axios.post(verifyPasswordResetOtpApi, {
+    email,
+    otp
+  })
+  return metadata
 }
 
-const resetPassword = async ({ newPassword }) => {
-  try {
-    const { message } = await axios.post(resetPasswordApi, {
-      newPassword
-    })
-    return { message }
-  } catch (error) {
-    if (error.statusCode === StatusCodes.BAD_REQUEST || error.statusCode === StatusCodes.CONFLICT) {
-      return Promise.reject(new UIError([error.message]))
-    }
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+const resetPassword = async ({ email, newPassword }) => {
+  await axios.post(resetPasswordApi, {
+    email,
+    newPassword
+  })
 }
 
 const resendPasswordResetOtp = async () => {
