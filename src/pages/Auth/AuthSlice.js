@@ -106,20 +106,17 @@ const authSlice = createSlice({
     builder.addCase(signIn.rejected, () => {})
 
     builder.addCase(signIn.fulfilled, (state, action) => {
-      const { user, accessToken } = action.payload
+      const { user } = action.payload
       state.current = user
-      localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken)
     })
 
     builder.addCase(signOut.rejected, (state) => {
       state.current = {}
       state.settings = {}
-      localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
     })
     builder.addCase(signOut.fulfilled, (state) => {
       state.current = {}
       state.settings = {}
-      localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
     })
 
     builder.addCase(getCurrentUser.rejected, () => {})

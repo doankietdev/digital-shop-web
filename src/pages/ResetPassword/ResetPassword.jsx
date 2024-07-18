@@ -1,26 +1,27 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import clsx from 'clsx'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import * as yup from 'yup'
 import resetPasswordIcon from '~/assets/reset-password-icon.png'
 import {
   Button,
   Card,
   DocumentTitle,
-  Loading,
-  PasswordField
+  PasswordFieldOutlined
 } from '~/components'
 import { routesConfig } from '~/config'
 import authService from '~/services/authService'
-import { StorageKeys } from '~/utils/constants'
 import { GrSendIcon } from '~/utils/icons'
 
 function ResetPassword() {
-  const [disabled, setDisabled] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    !location.state?.email && navigate(routesConfig.signIn, { replace: true })
+  }, [location.state?.email, navigate])
 
   const schema = yup.object({
     newPassword: yup
@@ -34,107 +35,107 @@ function ResetPassword() {
           \`@\`, \`$\`, \`!\`, \`%\`, \`*\`, \`?\`, \`&\`, \`_\`, \`.\``
       )
       .required('Please enter your password'),
-    confirmNewPassword: yup
+    newPasswordConfirmation: yup
       .string()
       .oneOf([yup.ref('newPassword')], 'Password does not match')
       .required('Please re-enter your password')
   })
 
-  const form = useForm({
+  const {
+    register,
+    handleSubmit,
+    setFocus,
+    clearErrors,
+    formState: { isSubmitting, isDirty, errors }
+  } = useForm({
     mode: 'onBlur',
-    disabled,
     defaultValues: {
       newPassword: '',
-      confirmNewPassword: ''
+      newPasswordConfirmation: ''
     },
     resolver: yupResolver(schema)
   })
 
-  const {
-    formState: { isSubmitting }
-  } = form
-
-  const handleSubmit = useCallback(
+  const onSubmit = useCallback(
     async (data) => {
+      const loadingToast = toast.loading('Resetting password')
       try {
-        setDisabled(true)
-        await authService.resetPassword({ newPassword: data.newPassword })
-        sessionStorage.setItem(StorageKeys.IS_RESET_PASSWORD_SUCCESS, true)
-        navigate(routesConfig.signIn)
+        await authService.resetPassword({ email: location.state?.email, newPassword: data.newPassword })
+        toast.success('Reset password successfully. Please sign in to buy our products!')
+        navigate(routesConfig.signIn, { replace: true })
       } catch (error) {
-        toast.error(error.messages[0])
+        toast.error(error.message)
       } finally {
-        setDisabled(false)
-        form.reset()
+        toast.dismiss(loadingToast)
       }
     },
-    [form, navigate]
+    [location.state?.email, navigate]
   )
+
+  useLayoutEffect(() => setFocus('newPassword'), [setFocus])
 
   return (
     <>
       <DocumentTitle title='Reset Password' />
-      <div
-        className={clsx(
-          'flex justify-center items-center h-screen bg-[#885CEE] p-3'
-        )}
-      >
-        <Card className='animate-fadeIn !min-w-0 w-[520px] shadow-none bg-white p-8 md:p-11 lg:p-16'>
-          <form
-            className='flex flex-col justify-center items-center relative'
-            onSubmit={form.handleSubmit(handleSubmit)}
-          >
-            <h2 className='text-[20px] md:text-[23px] tracking-[2px] font-semibold'>
+      <Card className='animate-growthCenter max-w-[520px] w-full'>
+        <form
+          className='flex flex-col justify-center items-center relative p-4 md:p-10 lg:p-15'
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <h2 className='text-[20px] md:text-[23px] tracking-[2px] font-semibold'>
               Reset Password
-            </h2>
-            <img
-              src={resetPasswordIcon}
-              className='my-6 w-[80px] h-[80px] md:w-[100px] md:h-[100px] object-contain'
-            />
-            <p className='text-[14px] text-center opacity-60 font-medium'>
+          </h2>
+          <img
+            src={resetPasswordIcon}
+            className='my-6 w-[80px] h-[80px] md:w-[100px] md:h-[100px] object-contain'
+          />
+          <p className='mb-[20px] text-[14px] text-center'>
               Enter your new password to reset your password.
-            </p>
-            <PasswordField
-              className='mt-4 text-[14px]'
-              form={form}
-              name='newPassword'
-              placeholder='New Password'
+          </p>
+          <div className='mb-[20px] w-full'>
+            <PasswordFieldOutlined
+              label='New Password'
               outlined
               rounded
+              {...register('newPassword')}
+              onInput={() => clearErrors('newPassword')}
+              errorMessage={errors.newPassword?.message}
+              disabled={isSubmitting}
             />
-            <PasswordField
-              className='mt-4 text-[14px]'
-              form={form}
-              name='confirmNewPassword'
-              placeholder='Confirm New Password'
+          </div>
+          <div className='mb-[20px] w-full'>
+            <PasswordFieldOutlined
+              label='New Password Confirmation'
               outlined
               rounded
+              {...register('newPasswordConfirmation')}
+              onInput={() => clearErrors('newPasswordConfirmation')}
+              errorMessage={errors.newPasswordConfirmation?.message}
+              disabled={isSubmitting}
             />
-            <div className='mt-5 w-full relative flex justify-center items-center'>
-              <Button
-                className='!bg-[#885CEE] hover:!bg-[#976ff3] w-full py-[15px]'
-                type='submit'
-                rounded
-                startIcon={<GrSendIcon className='text-[18px]' />}
-              >
-                Reset Password
-              </Button>
-            </div>
+          </div>
+          <Button
+            type='submit'
+            primary
+            rounded
+            startIcon={<GrSendIcon className='text-[18px]' />}
+            disabled={!isDirty || isSubmitting}
+            className='w-full'
+          >
+            Send
+          </Button>
 
-            <div className='mt-6 text-[14px] font-semibold'>
-              <span className='mr-1'>Remember password?</span>
-              <Link
-                className='p-3 lg:p-1 text-[#885CEE] underline-run hover:after:bg-[#885CEE]'
-                to={routesConfig.signIn}
-              >
+          <div className='mt-[20px] text-[14px] font-semibold text-center'>
+            <span className='mr-1'>Remember password?</span>
+            <Link
+              className='p-1 text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
+              to={routesConfig.signIn}
+            >
                 Sign in
-              </Link>
-            </div>
-            {isSubmitting && <Loading className='absolute -bottom-12' />}
-          </form>
-        </Card>
-        <ToastContainer autoClose={3000} />
-      </div>
+            </Link>
+          </div>
+        </form>
+      </Card>
     </>
   )
 }

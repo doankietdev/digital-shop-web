@@ -4,18 +4,23 @@ import { forwardRef, memo, useCallback, useEffect, useRef, useState } from 'reac
 import { useOutsideClick } from '~/hooks'
 import { errorBorderClasses, errorMessageClasses } from '../classes'
 import { ErrorWarningIcon } from '~/utils/icons'
+import { isNumeric } from '~/utils/helpers'
 
-function TextFieldOutlined(
+function NumberFieldOutlined(
   {
+    inputClassName = '',
     placeholder = '',
+    textCenter = false,
+    minLength,
+    maxLength,
     label = '',
-    defaultValue = '',
-    disabled = false,
-    errorMessage = '',
-    onChange = () => {},
-    onBlur = () => {},
-    onInput = () => {},
-    name = ''
+    defaultValue,
+    disabled,
+    errorMessage,
+    onChange,
+    onBlur,
+    onInput,
+    name
   },
   ref
 ) {
@@ -38,7 +43,12 @@ function TextFieldOutlined(
   const handleInputChange = useCallback(
     (e) => {
       if (!disabled) {
-        setInputValue(e.target.value)
+        const value = e.target.value
+        if (value.length > 0) {
+          isNumeric(value) && setInputValue(value)
+        } else {
+          setInputValue('')
+        }
       }
     },
     [disabled]
@@ -74,14 +84,18 @@ function TextFieldOutlined(
           {label}
         </label>
         <input
-          type="text"
+          inputMode='numeric'
           placeholder={placeholder}
           value={inputValue}
+          minLength={minLength}
+          maxLength={maxLength}
           className={clsx(
             'rounded-md h-full w-full p-[10px] focus:outline-none text-[14px]',
             {
+              'text-center': textCenter,
               'pointer-events-none text-black/50': disabled
-            }
+            },
+            inputClassName
           )}
           onChange={(e) => {
             handleInputChange(e)
@@ -108,4 +122,4 @@ function TextFieldOutlined(
   )
 }
 
-export default memo(forwardRef(TextFieldOutlined))
+export default memo(forwardRef(NumberFieldOutlined))

@@ -25,6 +25,8 @@ import {
 } from '~/utils/icons'
 import styles from './Header.module.css'
 import NavBar from './NavBar'
+import { clear as clearCart } from '~/pages/Cart/CartSlice'
+import { StorageKeys } from '~/utils/constants'
 
 function Header() {
   const [openExpandedNavBar, setOpenExpandedNavBar] = useState(false)
@@ -48,6 +50,9 @@ function Header() {
     const loadingToast = toast.loading('Signing out...')
     try {
       await dispatch(signOut()).unwrap()
+      dispatch(clearCart())
+      localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
+      localStorage.removeItem(StorageKeys.REFRESH_TOKEN)
       navigate(routesConfig.home)
       toast.success('Sign out successfully')
     } catch (error) {

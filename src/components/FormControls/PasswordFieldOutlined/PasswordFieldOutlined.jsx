@@ -7,7 +7,16 @@ import usePasswordToggle from '~/hooks/usePasswordToggle'
 import { ErrorWarningIcon } from '~/utils/icons'
 
 function PasswordFieldOutlined(
-  { label, defaultValue, disabled, errorMessage, onChange, onBlur, name },
+  {
+    label = '',
+    defaultValue = '',
+    disabled = false,
+    errorMessage = '',
+    onChange = () => {},
+    onBlur = () => {},
+    onInput = () => {},
+    name = ''
+  },
   ref
 ) {
   const [focus, setFocus] = useState(false)
@@ -80,12 +89,15 @@ function PasswordFieldOutlined(
             onChange(e)
           }}
           onBlur={onBlur}
+          onInput={onInput}
           name={name}
           ref={ref}
         />
-        <span className='select-none cursor-pointer absolute top-0 right-[10px] translate-y-1/2'>
-          {toggleIcon}
-        </span>
+        {inputValue && (
+          <span className='select-none cursor-pointer absolute top-0 right-[10px] translate-y-1/2'>
+            {toggleIcon}
+          </span>
+        )}
       </div>
       {errorMessage && (
         <p
