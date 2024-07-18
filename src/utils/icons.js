@@ -42,7 +42,8 @@ import {
   MdArrowBackIosNew as MdArrowBackIosNewIcon,
   MdArrowForwardIos as MdArrowForwardIosIcon,
   MdDelete as DeleteIcon,
-  MdOutlineSecurity as SecurityIcon
+  MdOutlineSecurity as SecurityIcon,
+  MdOutlineInfo as InfoIcon
 } from 'react-icons/md'
 import { TbMailCheck as TbMailCheckIcon } from 'react-icons/tb'
 import { GiBuyCard as BuyIcon } from 'react-icons/gi'
@@ -87,5 +88,6 @@ export {
   EyeIcon,
   EyeSlashIcon,
   ErrorWarningIcon,
-  SecurityIcon
+  SecurityIcon,
+  InfoIcon
 }

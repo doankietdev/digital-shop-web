@@ -11,20 +11,10 @@ import {
 } from '~/apis/authApis'
 import axios from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
-import { parseResponseMessage } from '~/utils/formatter'
 
 const signUp = async (data) => {
-  try {
-    const { message } = await axios.post(signUpApi, data)
-    return {
-      message
-    }
-  } catch (error) {
-    if (error.statusCode === StatusCodes.CONFLICT) {
-      return Promise.reject(new UIError(parseResponseMessage(error.message), StatusCodes.CONFLICT))
-    }
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+  const { metadata } = await axios.post(signUpApi, data)
+  return metadata
 }
 
 const signIn = async (data) => {

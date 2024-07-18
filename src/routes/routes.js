@@ -64,7 +64,7 @@ const protectedRoutes = [
 
 const unauthorizedRoutes = [
   { path: routesConfig.signIn, component: SignIn, layout: AuthLayout },
-  { path: routesConfig.signUp, component: SignUp, layout: null },
+  { path: routesConfig.signUp, component: SignUp, layout: AuthLayout },
   { path: routesConfig.verifyEmail, component: VerifyEmail, layout: null },
   {
     path: routesConfig.emailVerificationSuccess,
