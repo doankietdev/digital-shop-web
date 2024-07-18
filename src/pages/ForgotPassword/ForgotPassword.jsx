@@ -95,7 +95,7 @@ function ForgotPassword() {
           <div className='mt-[20px] text-[14px] font-semibold text-center'>
             <span className='mr-1'>Remember password?</span>
             <Link
-              className='p-1 text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
+              className='text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
               to={routesConfig.signIn}
             >
               Sign in

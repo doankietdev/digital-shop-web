@@ -34,14 +34,14 @@ instance.interceptors.response.use(
     return response.data
   },
   function (error) {
-    if (error.response?.status === StatusCodes.UNAUTHORIZED) {
-      authService.signOut()
-        .then(() => {
-          dispatch(clearCart())
-          localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
-          localStorage.removeItem(StorageKeys.REFRESH_TOKEN)
-        })
-    }
+    // if (error.response?.status === StatusCodes.UNAUTHORIZED) {
+    //   authService.signOut()
+    //     .then(() => {
+    //       dispatch(clearCart())
+    //       localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
+    //       localStorage.removeItem(StorageKeys.REFRESH_TOKEN)
+    //     })
+    // }
 
     if (error.response?.status === StatusCodes.GONE) {
       // refresh token

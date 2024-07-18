@@ -10,8 +10,8 @@ import logo from '~/assets/logo.png'
 import {
   Button,
   DocumentTitle,
-  PasswordField,
-  TextField
+  PasswordFieldOutlined,
+  TextFieldOutlined
 } from '~/components'
 import { routesConfig } from '~/config'
 import { getCart } from '~/pages/Cart/CartSlice'
@@ -48,15 +48,17 @@ function SignIn() {
     }
   }, [navigate, user])
 
-  const [disable, setDisable] = useState(false)
-
   const schema = yup.object({
-    email: yup.string().required('Please enter your email'),
-    password: yup.string().required('Please enter your password')
+    email: yup.string(),
+    password: yup.string()
   })
 
-  const form = useForm({
-    disabled: disable,
+  const {
+    register,
+    handleSubmit,
+    setFocus,
+    formState: { isDirty, isSubmitting }
+  } = useForm({
     defaultValues: {
       email: '',
       password: ''
@@ -64,32 +66,34 @@ function SignIn() {
     resolver: yupResolver(schema)
   })
 
-  const handleSubmit = useCallback(
+  const onSubmit = useCallback(
     async (data) => {
       const loadingToast = toast.loading('Signing in...')
       try {
-        setDisable(true)
         const { accessToken, refreshToken } = await dispatch(signIn(data)).unwrap()
         localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken)
         localStorage.setItem(StorageKeys.REFRESH_TOKEN, refreshToken)
         await dispatch(getCart()).unwrap()
         navigate(from, { replace: true })
       } catch (error) {
-        toast.error(error?.messages[0], { autoClose: 5000 })
+        toast.error(error.message)
       } finally {
-        setDisable(false)
         toast.dismiss(loadingToast)
       }
     },
     [from, navigate]
   )
 
+  useLayoutEffect(() => {
+    setFocus('email')
+  }, [setFocus])
+
   return (
     <>
       <DocumentTitle title='Sign In' />
-      <div className='w-full min-h-screen grid lg:grid-cols-2 text-white'>
-        <div className='bg-secondary-400 p-[60px] hidden lg:flex lg:flex-col
-          lg:justify-center lg:items-center lg:gap-5'
+      <div className='w-full grid lg:grid-cols-2'>
+        <div className='bg-[#F9F9F9] p-[60px] hidden lg:flex lg:flex-col
+          lg:justify-center lg:items-center gap-2'
         >
           <Link to={routesConfig.home}>
             <img src={logo} />
@@ -99,88 +103,87 @@ function SignIn() {
           </p>
           <img
             src={sideImage}
-            className='h-[440px] object-contain'
+            className='w-[700px] object-contain'
           />
         </div>
-        <div className='bg-secondary-600 px-[16px] md:px-[155px] lg:p-[60px]
-          xl:px-[155px] py-[60px] flex flex-col justify-center items-center'
+        <div
+          className='bg-white px-[16px] md:px-[155px] lg:p-[60px]
+            xl:px-[155px] py-[60px] flex flex-col justify-center items-center'
         >
-          <div className='text-center'>
-            <h1 className='text-[38px] font-semibold'>Welcome back!</h1>
-            <p className='mt-2.5'>
-              Enter your email and password to use all of site features
-            </p>
-          </div>
           <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className='mt-10 w-full'
+            onSubmit={handleSubmit(onSubmit)}
+            className='w-full'
           >
-            <div className='flex flex-col gap-5 w-full text-[13px]'>
-              <TextField
-                form={form}
-                name='email'
+            <div className='text-center'>
+              <h1 className='text-[38px] font-semibold'>Welcome back!</h1>
+              <p className='mt-[10px]'>
+                Please enter your email and password to our products!
+              </p>
+            </div>
+            <div className='mt-[28px]'>
+              <TextFieldOutlined
                 placeholder='Email'
-                outlined
-                rounded
-                className='!bg-secondary-400 border-secondary-200'
+                disabled={isSubmitting}
+                {...register('email')}
               />
-              <PasswordField
-                form={form}
-                name='password'
+            </div>
+            <div className='mt-[20px]'>
+              <PasswordFieldOutlined
                 placeholder='Password'
-                outlined
-                rounded
-                className='!bg-secondary-400 border-secondary-200'
+                disabled={isSubmitting}
+                {...register('password')}
               />
             </div>
-            <div className='mt-4 mb-10 text-center'>
-              <Link
-                to={routesConfig.forgotPassword}
-                className='text-[14px] text-secondary-200 font-semibold underline-run'
-              >
-                Forgot Password?
-              </Link>
-              <Button
-                className='w-full mt-6 !bg-success-400 hover:!bg-success-200'
-                type='submit'
-                rounded
-                disabled={disable}
-              >
-                Sign In
-              </Button>
-            </div>
+            <Button
+              className='mt-[20px] w-full'
+              type='submit'
+              primary
+              rounded
+              disabled={isSubmitting || !isDirty}
+            >
+              Sign In
+            </Button>
           </form>
+
+          <div className='my-[20px] text-center'>
+            <Link
+              to={routesConfig.forgotPassword}
+              className='text-[14px] font-medium text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
+            >
+              Forgot Password?
+            </Link>
+          </div>
           <div className='w-full'>
             <div className='relative flex flex-col items-center justify-center'>
-              <span className='h-[1px] border border-[rgba(53,69,133,0.4)]
+              <span className='h-[1px] border
                 w-full absolute top-1/2 -translate-y-1/2'
               >
               </span>
-              <span className='bg-secondary-600 relative z-10 px-3'>or</span>
+              <span className='bg-white text-[14px] relative z-10 px-3'>or</span>
             </div>
             <div className='mt-[30px] mb-[36px] grid grid-cols-2 gap-[30px]'>
               <Button
-                className='text-secondary-200 border-secondary-200'
                 icon={<FaGooglePlusGIcon className='text-[24px]' />}
                 outlined
                 rounded
+                disabled={isSubmitting}
               >
                 Google
               </Button>
               <Button
-                className='text-secondary-200 border-secondary-200'
                 icon={<FaFacebookFIcon className='text-[18px]' />}
                 outlined
                 rounded
+                disabled={isSubmitting}
               >
                 Facebook
               </Button>
             </div>
-            <div className='flex justify-center items-center gap-2.5'>
+            <div className='flex justify-center items-center gap-2.5 text-[14px]'>
               <p>Don&apos;t have an account?</p>
               <Link
                 to={routesConfig.signUp}
-                className='text-secondary-200 font-semibold underline-run'
+                className='font-medium text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
               >
                 Sign up
               </Link>

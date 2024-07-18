@@ -58,7 +58,7 @@ function ResetPassword() {
 
   const onSubmit = useCallback(
     async (data) => {
-      const loadingToast = toast.loading('Resetting password')
+      const loadingToast = toast.loading('Resetting password...')
       try {
         await authService.resetPassword({ email: location.state?.email, newPassword: data.newPassword })
         toast.success('Reset password successfully. Please sign in to buy our products!')
@@ -128,10 +128,10 @@ function ResetPassword() {
           <div className='mt-[20px] text-[14px] font-semibold text-center'>
             <span className='mr-1'>Remember password?</span>
             <Link
-              className='p-1 text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
+              className='text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
               to={routesConfig.signIn}
             >
-                Sign in
+              Sign in
             </Link>
           </div>
         </form>
