@@ -1,7 +1,7 @@
 const signUpApi = '/auth/sign-up'
 const signInApi = '/auth/sign-in'
 const signOutApi = '/auth/sign-out'
-const verifyEmailApi = '/auth/verify-email'
+const verifyAccountApi = '/auth/verify-account'
 const forgotPasswordApi = '/auth/forgot-password'
 const verifyPasswordResetOtpApi = '/auth/verify-password-reset-otp'
 const resetPasswordApi = '/auth/reset-password'
@@ -11,7 +11,7 @@ export {
   signUpApi,
   signInApi,
   signOutApi,
-  verifyEmailApi,
+  verifyAccountApi,
   forgotPasswordApi,
   verifyPasswordResetOtpApi,
   resetPasswordApi,

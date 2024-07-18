@@ -1,6 +1,6 @@
 export { default as Home } from './Home'
 export * from './Auth'
-export { default as VerifyEmail } from './VerifyEmail'
+export { default as VerifyAccount } from './VerifyAccount'
 export { default as EmailVerificationSuccess } from './EmailVerificationSuccess'
 export { default as EmailVerificationError } from './EmailVerificationError'
 export { default as ForgotPassword } from './ForgotPassword'

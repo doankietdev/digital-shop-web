@@ -2,7 +2,7 @@ const routesConfig = {
   home: '/',
   signIn: '/auth/sign-in',
   signUp: '/auth/sign-up',
-  verifyEmail: '/auth/verify-email/:userId/:token',
+  verifyAccount: '/auth/verify-account',
   emailVerificationSuccess: '/auth/email-verification-success',
   emailVerificationError: '/auth/email-verification-error',
   forgotPassword: '/auth/forgot-password',
@@ -21,7 +21,8 @@ const routesConfig = {
   profile: '/user/account/profile',
   security: '/user/account/security',
   addresses: '/user/account/addresses',
-  notifications: '/user/notifications'
+  notifications: '/user/notifications',
+  pageNotFound: '/404'
 }
 
 export default routesConfig

@@ -101,11 +101,24 @@ function SignIn() {
 
             <div className='flex flex-col gap-[24px] xl:gap-[16px]'>
               {searchParams.get('registeredEmail') && (
-                <div className='flex items-center gap-2 p-3 rounded-md bg-blue-400/15'>
+                <div className='flex items-center gap-2 p-3 rounded-md bg-blue-300/15'>
                   <p><InfoIcon className='text-[30px] text-blue-500' /></p>
-                  <p>
+                  <p className='text-[15px]'>
                     An email had been sent to <span className='font-semibold'>{searchParams.get('registeredEmail')}</span>
                     . Please check and verify your account before sign in!
+                  </p>
+                </div>
+              )}
+              {searchParams.get('verifiedEmail') && (
+                <div className='flex items-center gap-2 p-3 rounded-md bg-green-300/15'>
+                  <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 16 16">
+                      <path fill="#00b569" d="M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.418,0,8,0z"></path><polygon fill="#fff" points="7,12 3.48,8.48 4.894,7.066 7,9.172 11.71,4.462 13.124,5.876"></polygon>
+                    </svg>
+                  </p>
+                  <p className='text-[15px]'>
+                    Your email <span className='font-semibold'>{searchParams.get('verifiedEmail')} </span>
+                    has been verified. Now you can sign in to buy our products. Have a good day!
                   </p>
                 </div>
               )}
