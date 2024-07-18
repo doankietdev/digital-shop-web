@@ -24,19 +24,8 @@ const signOut = createAsyncThunk(
   }
 )
 
-const verifyEmail = createAsyncThunk(
-  'auth/verifyEmail',
-  async (payload, { rejectWithValue }) => {
-    try {
-      await authService.verifyEmail(payload)
-    } catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
-
 const getCurrentUser = createAsyncThunk(
-  'auth/verifyEmail',
+  'auth/getCurrentUser',
   async (payload, { rejectWithValue }) => {
     try {
       return await userService.getCurrentUser()
@@ -126,8 +115,7 @@ export {
   signIn,
   signOut,
   updateCurrentUser,
-  uploadAvatar,
-  verifyEmail
+  uploadAvatar
 }
 
 export default persistReducer({ key: 'user', storage }, reducer)

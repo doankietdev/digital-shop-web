@@ -6,7 +6,7 @@ import {
   signInApi,
   signOutApi,
   signUpApi,
-  verifyEmailApi,
+  verifyAccountApi,
   verifyPasswordResetOtpApi
 } from '~/apis/authApis'
 import axios from '~/config/axiosClient'
@@ -27,21 +27,9 @@ const signOut = async () => {
   return metadata
 }
 
-const verifyEmail = async ({ userId, token }) => {
-  try {
-    const { message } = await axios.post(verifyEmailApi, { userId, token })
-    return {
-      message
-    }
-  } catch (error) {
-    if (
-      error.statusCode === StatusCodes.BAD_REQUEST ||
-      error.statusCode === StatusCodes.NOT_FOUND
-    ) {
-      return Promise.reject(new UIError(['Not found']))
-    }
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+const verifyAccount = async ({ email, token }) => {
+  const { metadata } = await axios.post(verifyAccountApi, { email, token })
+  return metadata
 }
 
 const forgotPassword = async ({ email }) => {
@@ -80,7 +68,7 @@ export default {
   signUp,
   signIn,
   signOut,
-  verifyEmail,
+  verifyAccount,
   forgotPassword,
   verifyPasswordResetOtp,
   resetPassword,

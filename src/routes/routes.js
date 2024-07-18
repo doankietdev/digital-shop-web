@@ -15,7 +15,7 @@ import {
   Security,
   SignIn,
   SignUp,
-  VerifyEmail,
+  VerifyAccount,
   VerifyPasswordResetOTP
 } from '~/pages'
 import OrderDetails from '~/pages/OrderDetails'
@@ -65,7 +65,7 @@ const protectedRoutes = [
 const unauthorizedRoutes = [
   { path: routesConfig.signIn, component: SignIn, layout: AuthLayout },
   { path: routesConfig.signUp, component: SignUp, layout: AuthLayout },
-  { path: routesConfig.verifyEmail, component: VerifyEmail, layout: null },
+  { path: routesConfig.verifyAccount, component: VerifyAccount, layout: AuthLayout },
   {
     path: routesConfig.emailVerificationSuccess,
     component: EmailVerificationSuccess,
