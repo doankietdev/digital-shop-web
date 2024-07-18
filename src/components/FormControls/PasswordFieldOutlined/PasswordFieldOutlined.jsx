@@ -24,28 +24,31 @@ function PasswordFieldOutlined(
   const [inputValue, setInputValue] = useState('')
   const containerRef = useRef()
 
+  const [ToggleIcon, inputType, setVisible] = usePasswordToggle()
+
   useEffect(() => {
-    if (defaultValue) {
-      setInputValue(defaultValue)
-    }
+    defaultValue && setInputValue(defaultValue)
   }, [defaultValue])
 
-  const [toggleIcon, inputType] = usePasswordToggle()
+  useEffect(() => {
+    disabled && setVisible(false)
+  }, [disabled, setVisible])
+
 
   const handleContainerClick = useCallback(() => {
-    if (!focus && !disabled) {
-      setFocus(true)
-    }
+    !focus && !disabled && setFocus(true)
   }, [focus, disabled])
 
   const handleInputChange = useCallback(
     (e) => {
-      if (!disabled) {
-        setInputValue(e.target.value)
-      }
+      !disabled && setInputValue(e.target.value)
     },
     [disabled]
   )
+
+  const handleTogglePassword = useCallback(() => {
+    setVisible(visible => !visible)
+  }, [setVisible])
 
   useOutsideClick(containerRef, () => {
     setFocus(false)
@@ -55,7 +58,7 @@ function PasswordFieldOutlined(
     <div className='w-full'>
       <div
         className={clsx(
-          'relative border rounded-md w-full h-[40px] bg-white transition-all duration-300',
+          'relative flex items-center border rounded-md w-full h-[40px] bg-white transition-all duration-300',
           {
             'border-black': focus && !errorMessage,
             'border-black/40': !focus && !errorMessage,
@@ -81,7 +84,7 @@ function PasswordFieldOutlined(
           placeholder={placeholder}
           value={inputValue}
           className={clsx(
-            'rounded-md h-full w-full p-[10px] focus:outline-none text-[14px]',
+            'rounded-md h-full w-full pl-[10px] pr-0 py-[10px] focus:outline-none text-[14px]',
             {
               'pointer-events-none text-black/50': disabled
             }
@@ -95,11 +98,9 @@ function PasswordFieldOutlined(
           name={name}
           ref={ref}
         />
-        {inputValue && (
-          <span className='select-none cursor-pointer absolute top-0 right-[10px] translate-y-1/2'>
-            {toggleIcon}
-          </span>
-        )}
+        <div className='flex justify-center items-center px-[10px] h-full cursor-pointer' onClick={handleTogglePassword}>
+          <ToggleIcon />
+        </div>
       </div>
       {errorMessage && (
         <p

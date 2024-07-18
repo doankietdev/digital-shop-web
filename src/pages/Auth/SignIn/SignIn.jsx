@@ -1,8 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import { useCallback, useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
 import sideImage from '~/assets/login.webp'
@@ -15,38 +14,17 @@ import {
 } from '~/components'
 import { routesConfig } from '~/config'
 import { getCart } from '~/pages/Cart/CartSlice'
-import { userSelector } from '~/redux/selectors'
 import { dispatch } from '~/redux/store'
 import { StorageKeys } from '~/utils/constants'
-import { FaFacebookFIcon, FaGooglePlusGIcon } from '~/utils/icons'
+import { FaFacebookFIcon, FaGooglePlusGIcon, InfoIcon } from '~/utils/icons'
 import { signIn } from '../AuthSlice'
 
 function SignIn() {
   const navigate = useNavigate()
   const location = useLocation()
-  const user = useSelector(userSelector)
+  const [searchParams] = useSearchParams()
 
   const from = location.state?.from || routesConfig.home
-
-  useEffect(() => {
-    const successfulSignUpMessage = sessionStorage.getItem(
-      StorageKeys.SUCCESSFUL_SIGN_UP_MESSAGE
-    )
-    sessionStorage.removeItem(StorageKeys.IS_RESET_PASSWORD_SUCCESS)
-    sessionStorage.removeItem(StorageKeys.SUCCESSFUL_SIGN_UP_MESSAGE)
-    if (successfulSignUpMessage) {
-      toast.success('Sign up successfully')
-      toast.success(successfulSignUpMessage, {
-        autoClose: 8000
-      })
-    }
-  }, [])
-
-  useLayoutEffect(() => {
-    if (user?.current?._id) {
-      navigate(routesConfig.home)
-    }
-  }, [navigate, user])
 
   const schema = yup.object({
     email: yup.string(),
@@ -91,8 +69,8 @@ function SignIn() {
   return (
     <>
       <DocumentTitle title='Sign In' />
-      <div className='w-full grid lg:grid-cols-2'>
-        <div className='bg-[#F9F9F9] p-[60px] hidden lg:flex lg:flex-col
+      <div className='w-full lg:w-[700px] xl:w-full h-full grid xl:grid-cols-2'>
+        <div className='pl-[16px] lg:pl-[32px] lg:pr-[32px] bg-[#F9F9F9] hidden xl:flex xl:flex-col
           lg:justify-center lg:items-center gap-2'
         >
           <Link to={routesConfig.home}>
@@ -103,39 +81,49 @@ function SignIn() {
           </p>
           <img
             src={sideImage}
-            className='w-[700px] object-contain'
+            className='h-[400px] object-contain'
           />
         </div>
         <div
-          className='bg-white px-[16px] md:px-[155px] lg:p-[60px]
-            xl:px-[155px] py-[60px] flex flex-col justify-center items-center'
+          className='relative pl-[16px] pr-[16px] lg:pl-[32px] lg:pr-[32px] bg-white flex flex-col justify-center items-center animate-growthCenter'
         >
+          <Link to={routesConfig.home} className='absolute top-[28px] md:top-[40px] left-1/2 -translate-x-1/2 xl:hidden'>
+            <img src={logo} />
+          </Link>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className='w-full'
+            className='max-w-[440px] w-full mt-[56px] md:mt-[68px] xl:mt-0'
           >
-            <div className='text-center'>
-              <h1 className='text-[38px] font-semibold'>Welcome back!</h1>
-              <p className='mt-[10px]'>
-                Please enter your email and password to our products!
-              </p>
-            </div>
-            <div className='mt-[28px]'>
+            <h1 className='text-[38px] font-semibold text-center'>Welcome back!</h1>
+            <p className='mt-[10px] mb-[30px] text-center'>
+              Please enter your email and password to our products!
+            </p>
+
+            <div className='flex flex-col gap-[24px] xl:gap-[16px]'>
+              {searchParams.get('registeredEmail') && (
+                <div className='flex items-center gap-2 p-3 rounded-md bg-blue-400/15'>
+                  <p><InfoIcon className='text-[30px] text-blue-500' /></p>
+                  <p>
+                    An email had been sent to <span className='font-semibold'>{searchParams.get('registeredEmail')}</span>
+                    . Please check and verify your account before sign in!
+                  </p>
+                </div>
+              )}
               <TextFieldOutlined
-                placeholder='Email'
+                label='Email'
                 disabled={isSubmitting}
                 {...register('email')}
               />
-            </div>
-            <div className='mt-[20px]'>
+
               <PasswordFieldOutlined
-                placeholder='Password'
+                label='Password'
                 disabled={isSubmitting}
                 {...register('password')}
               />
             </div>
+
             <Button
-              className='mt-[20px] w-full'
+              className='mt-[32px] xl:mt-[24px] w-full'
               type='submit'
               primary
               rounded
@@ -143,25 +131,22 @@ function SignIn() {
             >
               Sign In
             </Button>
-          </form>
 
-          <div className='my-[20px] text-center'>
-            <Link
-              to={routesConfig.forgotPassword}
-              className='text-[14px] font-medium text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
-            >
-              Forgot Password?
-            </Link>
-          </div>
-          <div className='w-full'>
-            <div className='relative flex flex-col items-center justify-center'>
-              <span className='h-[1px] border
-                w-full absolute top-1/2 -translate-y-1/2'
+            <div className='mt-[28px] xl:mt-[20px] text-center'>
+              <Link
+                to={routesConfig.forgotPassword}
+                className='text-[14px] font-medium text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
               >
-              </span>
+                Forgot Password?
+              </Link>
+            </div>
+
+            <div className='my-[32px] xl:my-[24px] w-full relative flex flex-col items-center justify-center'>
+              <span className='h-[1px] border w-full absolute top-1/2 -translate-y-1/2'></span>
               <span className='bg-white text-[14px] relative z-10 px-3'>or</span>
             </div>
-            <div className='mt-[30px] mb-[36px] grid grid-cols-2 gap-[30px]'>
+
+            <div className='w-full grid grid-cols-2 gap-[16px]'>
               <Button
                 icon={<FaGooglePlusGIcon className='text-[24px]' />}
                 outlined
@@ -179,16 +164,17 @@ function SignIn() {
                 Facebook
               </Button>
             </div>
-            <div className='flex justify-center items-center gap-2.5 text-[14px]'>
+
+            <div className='mt-[28px] xl:mt-[20px] flex justify-center items-center xl:gap-[10px] text-[14px]'>
               <p>Don&apos;t have an account?</p>
               <Link
                 to={routesConfig.signUp}
-                className='font-medium text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
+                className='px-[10px] !py-[12px] xl:px-0 xl:py-1 font-medium text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
               >
                 Sign up
               </Link>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </>

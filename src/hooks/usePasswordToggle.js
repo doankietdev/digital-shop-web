@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { EyeIcon, EyeSlashIcon } from '~/utils/icons'
 
 /**
@@ -6,18 +6,10 @@ import { EyeIcon, EyeSlashIcon } from '~/utils/icons'
  */
 function usePasswordToggle() {
   const [visible, setVisible] = useState(false)
-
-  const handleIconClick = useCallback(() => setVisible((visible) => !visible), [])
-
-  const toggleIcon = visible ? (
-    <EyeSlashIcon onClick={handleIconClick} />
-  ) : (
-    <EyeIcon onClick={handleIconClick} />
-  )
-
+  const ToggleIcon = visible ? EyeSlashIcon : EyeIcon
   const inputType = visible ? 'text' : 'password'
 
-  return [toggleIcon, inputType]
+  return [ToggleIcon, inputType, setVisible]
 }
 
 export default usePasswordToggle

@@ -1,8 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { StatusCodes } from 'http-status-codes'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
@@ -11,53 +9,37 @@ import logo from '~/assets/logo.png'
 import {
   Button,
   DocumentTitle,
-  Loading,
-  PasswordField,
-  TextField
+  PasswordFieldOutlined,
+  TextFieldOutlined
 } from '~/components'
 import { routesConfig } from '~/config'
-import { userSelector } from '~/redux/selectors'
-import { dispatch } from '~/redux/store'
-import { StorageKeys } from '~/utils/constants'
+import authService from '~/services/authService'
 import { FaFacebookFIcon, FaGooglePlusGIcon } from '~/utils/icons'
-import { signUp } from '../AuthSlice'
-
-const fieldNameLabels = {
-  firstName: 'first name',
-  lastName: 'last name',
-  mobile: 'phone number',
-  email: 'email',
-  password: 'password'
-}
 
 function SignUp() {
-  const [disable, setDisable] = useState(false)
-  const [errors, setErrors] = useState([])
+  const [apiErrors, setApiErrors] = useState([])
   const navigate = useNavigate()
-  const user = useSelector(userSelector)
-
-  useEffect(() => {
-    if (user?.current?._id) {
-      navigate(routesConfig.home)
-    }
-  }, [navigate, user])
 
   const schema = yup.object({
-    firstName: yup.string().required('Please enter your first name'),
+    firstName: yup
+      .string()
+      .required('Please enter your first name')
+      .min(1, 'First name must have at least 2 characters'),
     lastName: yup
       .string()
-      .min(2, 'Last name must have at least 2 characters')
-      .required('Please enter your last name'),
+      .required('Please enter your last name')
+      .min(2, 'Last name must have at least 2 characters'),
     mobile: yup
       .string()
-      .matches(/^\d{10}$/, 'Phone number must be 10 digits')
-      .required('Please enter your phone number'),
+      .required('Please enter your phone number')
+      .matches(/^\d{10}$/, 'Phone number must be 10 digits'),
     email: yup
       .string()
-      .email('Please enter a valid email')
-      .required('Please enter your email'),
+      .required('Please enter your email')
+      .email('Please enter a valid email'),
     password: yup
       .string()
+      .required('Please enter your password')
       .min(6, 'Password must have at least 6 characters')
       .matches(/[a-zA-Z]/, 'Password must contain at least 1 letter')
       .matches(/\d/, 'Password must contain at least 1 digit')
@@ -65,56 +47,59 @@ function SignUp() {
         /[@$!%*?&_.]/,
         `Password must contain at least 1 special character from the following list:
           \`@\`, \`$\`, \`!\`, \`%\`, \`*\`, \`?\`, \`&\`, \`_\`, \`. \``
-      )
-      .required('Please enter your password'),
-    confirmPassword: yup
+      ),
+    passwordConfirmation: yup
       .string()
-      .oneOf([yup.ref('password')], 'Password does not match')
       .required('Please re-enter your password')
+      .oneOf([yup.ref('password')], 'Password Confirmation does not match')
   })
 
-  const form = useForm({
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { isSubmitting, errors, isDirty }
+  } = useForm({
     mode: 'onBlur',
-    disabled: disable,
     defaultValues: {
       firstName: '',
       lastName: '',
       mobile: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      passwordConfirmation: ''
     },
     resolver: yupResolver(schema)
   })
 
-  const {
-    formState: { isSubmitting }
-  } = form
-
   useEffect(() => {
-    errors.forEach((error) => {
-      form.setError(error.field, {
+    apiErrors.forEach((apiError) => {
+      setError(apiError.field, {
         type: 'custom',
-        message:  `This ${fieldNameLabels[error.field]} ${error.message}`
+        message:  apiError.message
       })
     })
-  }, [errors, form])
+  }, [apiErrors, setError])
 
-  const handleSubmit = useCallback(
-    async (data) => {
+  const onSubmit = useCallback(
+    async ({ firstName, lastName, mobile, email, password }) => {
+      const loadingToast = toast.loading('Signing up...')
       try {
-        setDisable(true)
-        const { message } = await dispatch(signUp(data)).unwrap()
-        sessionStorage.setItem(StorageKeys.SUCCESSFUL_SIGN_UP_MESSAGE, message)
-        navigate(routesConfig.signIn)
+        await authService.signUp({
+          firstName,
+          lastName,
+          mobile,
+          email,
+          password
+        })
+        toast.success('Sign up successfully. Please check and verify your account before sign in!')
+        navigate(`${routesConfig.signIn}?registeredEmail=${email}`)
       } catch (error) {
-        if (error.statusCode === StatusCodes.CONFLICT) {
-          setErrors(error.messages)
-        } else {
-          toast.error(error.messages[0], { autoClose: 5000 })
-        }
+        setApiErrors(error?.metadata?.errors || [])
+        toast.error(error.message)
       } finally {
-        setDisable(false)
+        toast.dismiss(loadingToast)
       }
     },
     [navigate]
@@ -123,9 +108,9 @@ function SignUp() {
   return (
     <>
       <DocumentTitle title='Sign Up' />
-      <div className='w-full min-h-screen grid lg:grid-cols-2 text-white'>
-        <div className='bg-secondary-400 p-[60px] hidden lg:flex lg:flex-col
-          lg:justify-center lg:items-center lg:gap-5'
+      <div className='w-full lg:w-[700px] xl:w-full h-full grid xl:grid-cols-2'>
+        <div className='pl-[16px] lg:pl-[32px] lg:pr-[32px] bg-[#F9F9F9] hidden xl:flex xl:flex-col
+          lg:justify-center lg:items-center gap-2'
         >
           <Link to={routesConfig.home}>
             <img src={logo} />
@@ -133,124 +118,117 @@ function SignUp() {
           <p className='text-[18px] xl:mb-7 mt-7 font-medium'>
             Buying online is faster than ever
           </p>
-          <img src={sideImage} className='h-[440px] object-contain' />
+          <img
+            src={sideImage}
+            className='h-[400px] object-contain'
+          />
         </div>
-        <div className='bg-secondary-600 px-[16px] md:px-[155px] lg:p-[60px]
-          xl:px-[155px] py-[60px] flex flex-col justify-center items-center'
+        <div className='relative pl-[16px] pr-[16px] lg:pl-[32px] lg:pr-[32px] bg-white flex flex-col justify-center items-center animate-growthCenter'
         >
-          <div className='text-center'>
-            <h1 className='text-[38px] font-semibold'>Welcome back!</h1>
-            <p className='mt-2.5'>
-              Enter your personal details to use all of site features
-            </p>
-          </div>
+          <Link to={routesConfig.home} className='absolute top-[28px] md:top-[40px] left-1/2 -translate-x-1/2 xl:hidden'>
+            <img src={logo} />
+          </Link>
           <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className='mt-10 w-full'
+            onSubmit={handleSubmit(onSubmit)}
+            className='max-w-[440px] w-full mt-[56px] md:mt-[68px] xl:mt-0'
           >
-            <div className='flex flex-col gap-5 w-full text-[13px]'>
-              <TextField
-                form={form}
-                name='firstName'
-                placeholder={fieldNameLabels.firstName}
-                outlined
-                rounded
-                className='!bg-secondary-400 border-secondary-200'
-              />
-              <TextField
-                form={form}
-                name='lastName'
-                placeholder='Last Name'
-                outlined
-                rounded
-                className='!bg-secondary-400 border-secondary-200'
-              />
-              <TextField
-                form={form}
-                name='mobile'
-                placeholder='Phone Number'
-                outlined
-                rounded
-                className='!bg-secondary-400 border-secondary-200'
-              />
-              <TextField
-                form={form}
-                name='email'
-                placeholder='Email'
-                outlined
-                rounded
-                className='!bg-secondary-400 border-secondary-200'
-              />
-              <div className='grid grid-cols-2 gap-3'>
-                <PasswordField
-                  form={form}
-                  name='password'
-                  placeholder='Password'
-                  outlined
-                  rounded
-                  className='!bg-secondary-400 border-secondary-200'
+            <h1 className='text-[38px] font-semibold text-center'>Welcome back!</h1>
+            <p className='mt-[10px] mb-[30px] text-center'>
+              Please enter your personal details to sign up
+            </p>
+
+            <div className='mt-[30px] flex flex-col gap-[24px] xl:gap-[16px]'>
+              <div className='flex flex-col md:flex-row gap-[24px] xl:gap-[16px]'>
+                <TextFieldOutlined
+                  label='First Name'
+                  disabled={isSubmitting}
+                  {...register('firstName')}
+                  errorMessage={errors.firstName?.message}
+                  onInput={() => clearErrors('firstName')}
                 />
-                <PasswordField
-                  form={form}
-                  name='confirmPassword'
-                  placeholder='Confirm Password'
-                  outlined
-                  rounded
-                  className='!bg-secondary-400 border-secondary-200'
+                <TextFieldOutlined
+                  label='Last Name'
+                  disabled={isSubmitting}
+                  {...register('lastName')}
+                  errorMessage={errors.lastName?.message}
+                  onInput={() => clearErrors('lastName')}
+                />
+              </div>
+              <TextFieldOutlined
+                label='Phone Number'
+                disabled={isSubmitting}
+                {...register('mobile')}
+                errorMessage={errors.mobile?.message}
+                onInput={() => clearErrors('mobile')}
+              />
+              <TextFieldOutlined
+                label='Email'
+                disabled={isSubmitting}
+                {...register('email')}
+                errorMessage={errors.email?.message}
+                onInput={() => clearErrors('email')}
+              />
+              <div className='flex flex-col md:flex-row gap-[24px] xl:gap-[16px]'>
+                <PasswordFieldOutlined
+                  label='Password'
+                  disabled={isSubmitting}
+                  {...register('password')}
+                  errorMessage={errors.password?.message}
+                  onInput={() => clearErrors('password')}
+                />
+                <PasswordFieldOutlined
+                  label='Password Confirmation'
+                  disabled={isSubmitting}
+                  {...register('passwordConfirmation')}
+                  errorMessage={errors.passwordConfirmation?.message}
+                  onInput={() => clearErrors('passwordConfirmation')}
                 />
               </div>
             </div>
-            <div className='mt-4 mb-10 text-center'>
+
+            <Button
+              className='mt-[32px] xl:mt-[24px] w-full'
+              type='submit'
+              primary
+              rounded
+              disabled={isSubmitting || !isDirty}
+            >
+              Sign Up
+            </Button>
+            <div className='my-[32px] xl:my-[24px] w-full relative flex flex-col items-center justify-center'>
+              <span className='h-[1px] border w-full absolute top-1/2 -translate-y-1/2'></span>
+              <span className='bg-white text-[14px] relative z-10 px-3'>or</span>
+            </div>
+
+            <div className='w-full grid grid-cols-2 gap-[16px]'>
               <Button
-                className='w-full mt-8 !bg-success-400 hover:!bg-success-200'
-                type='submit'
-                rounded
-              >
-                Sign Up
-              </Button>
-            </div>
-          </form>
-          {isSubmitting && (
-            <div className='absolute top-[18px]'>
-              <Loading white />
-            </div>
-          )}
-          <div className='w-full'>
-            <div className='relative flex flex-col items-center justify-center'>
-              <span className='h-[1px] border border-[rgba(53,69,133,0.4)] w-full
-                absolute top-1/2 -translate-y-1/2'
-              >
-              </span>
-              <span className='bg-secondary-600 relative z-10 px-3'>or</span>
-            </div>
-            <div className='mt-[30px] mb-[36px] grid grid-cols-2 gap-[30px]'>
-              <Button
-                className='text-secondary-200 border-secondary-200'
                 icon={<FaGooglePlusGIcon className='text-[24px]' />}
                 outlined
                 rounded
+                disabled={isSubmitting}
               >
                 Google
               </Button>
               <Button
-                className='text-secondary-200 border-secondary-200'
                 icon={<FaFacebookFIcon className='text-[18px]' />}
                 outlined
                 rounded
+                disabled={isSubmitting}
               >
                 Facebook
               </Button>
             </div>
-            <div className='flex justify-center items-center gap-2.5'>
+
+            <div className='mt-[28px] xl:mt-[20px] flex justify-center items-center xl:gap-[10px] text-[14px]'>
               <p>Do you already have an account?</p>
               <Link
                 to={routesConfig.signIn}
-                className='text-secondary-200 font-semibold underline-run'
+                className='px-[10px] !py-[12px] xl:px-0 xl:py-1 font-medium text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
               >
-                Sign in
+               Sign in
               </Link>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </>

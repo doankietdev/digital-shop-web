@@ -5,32 +5,10 @@ import authService from '~/services/authService'
 import userService from '~/services/userService'
 import { StorageKeys } from '~/utils/constants'
 
-const signUp = createAsyncThunk(
-  'auth/signUp',
-  async (payload, { rejectWithValue }) => {
-    try {
-      const { firstName, lastName, mobile, email, password } = payload
-      return await authService.signUp({
-        firstName,
-        lastName,
-        mobile,
-        email,
-        password
-      })
-    } catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
-
 const signIn = createAsyncThunk(
   'auth/signIn',
-  async (payload, { rejectWithValue }) => {
-    try {
-      return await authService.signIn(payload)
-    } catch (error) {
-      return rejectWithValue(error)
-    }
+  async (payload) => {
+    return await authService.signIn(payload)
   }
 )
 
@@ -143,8 +121,13 @@ const { reducer, actions } = authSlice
 const { clear } = actions
 
 export {
-  clear, getCurrentUser, signIn,
-  signOut, signUp, updateCurrentUser, uploadAvatar, verifyEmail
+  clear,
+  getCurrentUser,
+  signIn,
+  signOut,
+  updateCurrentUser,
+  uploadAvatar,
+  verifyEmail
 }
 
 export default persistReducer({ key: 'user', storage }, reducer)
