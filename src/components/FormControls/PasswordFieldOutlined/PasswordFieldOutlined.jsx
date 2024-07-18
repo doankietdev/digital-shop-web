@@ -15,7 +15,8 @@ function PasswordFieldOutlined(
     onChange = () => {},
     onBlur = () => {},
     onInput = () => {},
-    name = ''
+    name = '',
+    placeholder
   },
   ref
 ) {
@@ -77,6 +78,7 @@ function PasswordFieldOutlined(
         </label>
         <input
           type={inputType}
+          placeholder={placeholder}
           value={inputValue}
           className={clsx(
             'rounded-md h-full w-full p-[10px] focus:outline-none text-[14px]',

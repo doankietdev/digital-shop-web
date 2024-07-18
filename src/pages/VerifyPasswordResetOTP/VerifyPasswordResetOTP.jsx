@@ -140,7 +140,7 @@ function VerifyPasswordResetOTP() {
           <div className='mt-[20px] text-[14px] font-semibold text-center'>
             <span className='mr-1'>Didn&apos;t receive OTP?</span>
             <span
-              className='cursor-pointer p-1 text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
+              className='cursor-pointer text-primary-400 hover:text-primary-200 underline-run hover:after:bg-primary-200'
               onClick={handleResendOtp}
             >
                 Resend OTP

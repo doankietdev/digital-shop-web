@@ -28,27 +28,13 @@ const signUp = async (data) => {
 }
 
 const signIn = async (data) => {
-  try {
-    const { metadata } = await axios.post(signInApi, data)
-    return metadata
-  } catch (error) {
-    if (error.statusCode === StatusCodes.UNAUTHORIZED) {
-      return Promise.reject(new UIError([error.message]))
-    }
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+  const { metadata } = await axios.post(signInApi, data)
+  return metadata
 }
 
 const signOut = async () => {
-  try {
-    const { metadata } = await axios.delete(signOutApi)
-    return metadata
-  } catch (error) {
-    if (error.statusCode === StatusCodes.UNAUTHORIZED) {
-      return
-    }
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+  const { metadata } = await axios.delete(signOutApi)
+  return metadata
 }
 
 const verifyEmail = async ({ userId, token }) => {

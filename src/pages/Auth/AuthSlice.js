@@ -6,7 +6,7 @@ import userService from '~/services/userService'
 import { StorageKeys } from '~/utils/constants'
 
 const signUp = createAsyncThunk(
-  'auth',
+  'auth/signUp',
   async (payload, { rejectWithValue }) => {
     try {
       const { firstName, lastName, mobile, email, password } = payload
