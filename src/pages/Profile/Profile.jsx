@@ -97,7 +97,7 @@ function Profile() {
             <div className="flex justify-center items-center gap-6">
               <img
                 className='w-[140px] h-[140px] rounded-full object-cover'
-                src={user.image.url || noAvatarImage}
+                src={user.image?.url || noAvatarImage}
               />
               <FileField
                 primary

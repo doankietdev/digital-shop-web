@@ -1,12 +1,19 @@
 import { Fragment } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import { ScrollToTop } from './components'
 import ProtectedRoutes from './components/ProtectedRoutes'
 import { DefaultLayout } from './layouts'
 import { protectedRoutes, publicRoutes, unauthorizedRoutes } from './routes'
 import UnauthorizedRoutes from './components/UnauthorizedRoutes'
+import { useSignInStatusChecker } from './hooks'
+import globalRouter from './utils/globalRouter'
 
 function App() {
+  const navigate = useNavigate()
+  globalRouter.navigate = navigate
+
+  useSignInStatusChecker()
+
   return (
     <div className="font-main">
       <ScrollToTop />

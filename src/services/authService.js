@@ -1,6 +1,8 @@
 import { StatusCodes } from 'http-status-codes'
 import {
+  checkSignInStatusApi,
   forgotPasswordApi,
+  refreshTokenApi,
   resendPasswordResetOtpApi,
   resetPasswordApi,
   signInApi,
@@ -64,6 +66,16 @@ const resendPasswordResetOtp = async () => {
   }
 }
 
+const checkSignInStatus = async () => {
+  const { metadata } = await axios.get(checkSignInStatusApi)
+  return metadata
+}
+
+const refreshToken = async ({ refreshToken }) => {
+  const { metadata } = await axios.put(refreshTokenApi, { refreshToken })
+  return metadata
+}
+
 export default {
   signUp,
   signIn,
@@ -72,5 +84,7 @@ export default {
   forgotPassword,
   verifyPasswordResetOtp,
   resetPassword,
-  resendPasswordResetOtp
+  resendPasswordResetOtp,
+  checkSignInStatus,
+  refreshToken
 }

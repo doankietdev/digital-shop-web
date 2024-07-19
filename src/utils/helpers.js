@@ -25,7 +25,6 @@ const checkNewProduct = (product = {}) => {
 
 const isNumeric = (string) => /^[+-]?\d+(\.\d+)?$/.test(string)
 
-
 export {
   checkBestSellerProduct,
   checkFavoriteProduct,

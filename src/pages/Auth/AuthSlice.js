@@ -3,7 +3,6 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import authService from '~/services/authService'
 import userService from '~/services/userService'
-import { StorageKeys } from '~/utils/constants'
 
 const signIn = createAsyncThunk(
   'auth/signIn',
@@ -14,13 +13,8 @@ const signIn = createAsyncThunk(
 
 const signOut = createAsyncThunk(
   'auth/signOut',
-  async (payload, { rejectWithValue }) => {
-    try {
-      await authService.signOut()
-      localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
-    } catch (error) {
-      return rejectWithValue(error)
-    }
+  async () => {
+    return await authService.signOut()
   }
 )
 
