@@ -78,6 +78,7 @@ const cartSlice = createSlice({
   },
   reducers: {
     clear: (state) => {
+      state._id = null
       state.products = []
       state.countProducts = 0
     }

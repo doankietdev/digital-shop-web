@@ -14,6 +14,7 @@ import {
 } from '~/components'
 import { routesConfig } from '~/config'
 import { signOut } from '~/pages/Auth/AuthSlice'
+import { clear as clearCart } from '~/pages/Cart/CartSlice'
 import { dispatch } from '~/redux'
 import { cartSelector, userSelector } from '~/redux/selectors'
 import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
@@ -25,7 +26,6 @@ import {
 } from '~/utils/icons'
 import styles from './Header.module.css'
 import NavBar from './NavBar'
-import { clear as clearCart } from '~/pages/Cart/CartSlice'
 import { StorageKeys } from '~/utils/constants'
 
 function Header() {
@@ -53,10 +53,10 @@ function Header() {
       dispatch(clearCart())
       localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
       localStorage.removeItem(StorageKeys.REFRESH_TOKEN)
-      navigate(routesConfig.home)
+      navigate(routesConfig.home, { replace: true })
       toast.success('Sign out successfully')
     } catch (error) {
-      toast.error(error.messages[0])
+      toast.error(error.message)
     } finally {
       toast.dismiss(loadingToast)
     }

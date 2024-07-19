@@ -6,6 +6,8 @@ const forgotPasswordApi = '/auth/forgot-password'
 const verifyPasswordResetOtpApi = '/auth/verify-password-reset-otp'
 const resetPasswordApi = '/auth/reset-password'
 const resendPasswordResetOtpApi = '/auth/resend-password-reset-otp'
+const checkSignInStatusApi = '/auth/sign-in-status'
+const refreshTokenApi = '/auth/refresh-token'
 
 export {
   signUpApi,
@@ -15,5 +17,7 @@ export {
   forgotPasswordApi,
   verifyPasswordResetOtpApi,
   resetPasswordApi,
-  resendPasswordResetOtpApi
+  resendPasswordResetOtpApi,
+  checkSignInStatusApi,
+  refreshTokenApi
 }
