@@ -13,12 +13,15 @@ import {
   TextFieldOutlined
 } from '~/components'
 import { routesConfig } from '~/config'
+import { useGoogleAuth } from '~/hooks'
 import authService from '~/services/authService'
 import { FaFacebookFIcon, FaGooglePlusGIcon } from '~/utils/icons'
 
 function SignUp() {
   const [apiErrors, setApiErrors] = useState([])
   const navigate = useNavigate()
+
+  const [signInWithGoogle, signInWithGoogleLoading] = useGoogleAuth()
 
   const schema = yup.object({
     firstName: yup
@@ -105,6 +108,10 @@ function SignUp() {
     [navigate]
   )
 
+  const handleGoogleButtonClick = useCallback(() => {
+    signInWithGoogle()
+  }, [signInWithGoogle])
+
   return (
     <>
       <DocumentTitle title='Sign Up' />
@@ -141,14 +148,14 @@ function SignUp() {
               <div className='flex flex-col md:flex-row gap-[24px] xl:gap-[16px]'>
                 <TextFieldOutlined
                   label='First Name'
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || signInWithGoogleLoading}
                   {...register('firstName')}
                   errorMessage={errors.firstName?.message}
                   onInput={() => clearErrors('firstName')}
                 />
                 <TextFieldOutlined
                   label='Last Name'
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || signInWithGoogleLoading}
                   {...register('lastName')}
                   errorMessage={errors.lastName?.message}
                   onInput={() => clearErrors('lastName')}
@@ -156,14 +163,14 @@ function SignUp() {
               </div>
               <TextFieldOutlined
                 label='Phone Number'
-                disabled={isSubmitting}
+                disabled={isSubmitting || signInWithGoogleLoading}
                 {...register('mobile')}
                 errorMessage={errors.mobile?.message}
                 onInput={() => clearErrors('mobile')}
               />
               <TextFieldOutlined
                 label='Email'
-                disabled={isSubmitting}
+                disabled={isSubmitting || signInWithGoogleLoading}
                 {...register('email')}
                 errorMessage={errors.email?.message}
                 onInput={() => clearErrors('email')}
@@ -171,14 +178,14 @@ function SignUp() {
               <div className='flex flex-col md:flex-row gap-[24px] xl:gap-[16px]'>
                 <PasswordFieldOutlined
                   label='Password'
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || signInWithGoogleLoading}
                   {...register('password')}
                   errorMessage={errors.password?.message}
                   onInput={() => clearErrors('password')}
                 />
                 <PasswordFieldOutlined
                   label='Password Confirmation'
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || signInWithGoogleLoading}
                   {...register('passwordConfirmation')}
                   errorMessage={errors.passwordConfirmation?.message}
                   onInput={() => clearErrors('passwordConfirmation')}
@@ -205,7 +212,8 @@ function SignUp() {
                 icon={<FaGooglePlusGIcon className='text-[24px]' />}
                 outlined
                 rounded
-                disabled={isSubmitting}
+                disabled={isSubmitting || signInWithGoogleLoading}
+                onClick={handleGoogleButtonClick}
               >
                 Google
               </Button>
@@ -213,7 +221,7 @@ function SignUp() {
                 icon={<FaFacebookFIcon className='text-[18px]' />}
                 outlined
                 rounded
-                disabled={isSubmitting}
+                disabled={isSubmitting || signInWithGoogleLoading}
               >
                 Facebook
               </Button>
