@@ -8,6 +8,7 @@ const resetPasswordApi = '/auth/reset-password'
 const resendPasswordResetOtpApi = '/auth/resend-password-reset-otp'
 const checkSignInStatusApi = '/auth/sign-in-status'
 const refreshTokenApi = '/auth/refresh-token'
+const signInWithGoogleApi = '/auth/sign-in-with-google'
 
 export {
   signUpApi,
@@ -19,5 +20,6 @@ export {
   resetPasswordApi,
   resendPasswordResetOtpApi,
   checkSignInStatusApi,
-  refreshTokenApi
+  refreshTokenApi,
+  signInWithGoogleApi
 }

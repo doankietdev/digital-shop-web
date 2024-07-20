@@ -13,6 +13,7 @@ import {
   TextFieldOutlined
 } from '~/components'
 import { routesConfig } from '~/config'
+import { useGoogleAuth } from '~/hooks'
 import { getCart } from '~/pages/Cart/CartSlice'
 import { dispatch } from '~/redux/store'
 import { StorageKeys } from '~/utils/constants'
@@ -23,6 +24,8 @@ function SignIn() {
   const navigate = useNavigate()
   const location = useLocation()
   const [searchParams] = useSearchParams()
+
+  const [signInWithGoogle, signInWithGoogleLoading] = useGoogleAuth()
 
   const from = location.state?.from || routesConfig.home
 
@@ -65,6 +68,10 @@ function SignIn() {
   useLayoutEffect(() => {
     setFocus('email')
   }, [setFocus])
+
+  const handleGoogleButtonClick = useCallback(() => {
+    signInWithGoogle()
+  }, [signInWithGoogle])
 
   return (
     <>
@@ -124,13 +131,13 @@ function SignIn() {
               )}
               <TextFieldOutlined
                 label='Email'
-                disabled={isSubmitting}
+                disabled={isSubmitting || signInWithGoogleLoading}
                 {...register('email')}
               />
 
               <PasswordFieldOutlined
                 label='Password'
-                disabled={isSubmitting}
+                disabled={isSubmitting || signInWithGoogleLoading}
                 {...register('password')}
               />
             </div>
@@ -140,7 +147,7 @@ function SignIn() {
               type='submit'
               primary
               rounded
-              disabled={isSubmitting || !isDirty}
+              disabled={isSubmitting || !isDirty || signInWithGoogleLoading}
             >
               Sign In
             </Button>
@@ -164,7 +171,8 @@ function SignIn() {
                 icon={<FaGooglePlusGIcon className='text-[24px]' />}
                 outlined
                 rounded
-                disabled={isSubmitting}
+                disabled={isSubmitting || signInWithGoogleLoading}
+                onClick={handleGoogleButtonClick}
               >
                 Google
               </Button>
@@ -172,7 +180,7 @@ function SignIn() {
                 icon={<FaFacebookFIcon className='text-[18px]' />}
                 outlined
                 rounded
-                disabled={isSubmitting}
+                disabled={isSubmitting || signInWithGoogleLoading}
               >
                 Facebook
               </Button>

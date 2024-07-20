@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes'
 import {
   checkSignInStatusApi,
   forgotPasswordApi,
+  signInWithGoogleApi,
   refreshTokenApi,
   resendPasswordResetOtpApi,
   resetPasswordApi,
@@ -11,36 +12,36 @@ import {
   verifyAccountApi,
   verifyPasswordResetOtpApi
 } from '~/apis/authApis'
-import axios from '~/config/axiosClient'
+import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 
 const signUp = async (data) => {
-  const { metadata } = await axios.post(signUpApi, data)
+  const { metadata } = await axiosClient.post(signUpApi, data)
   return metadata
 }
 
 const signIn = async (data) => {
-  const { metadata } = await axios.post(signInApi, data)
+  const { metadata } = await axiosClient.post(signInApi, data)
   return metadata
 }
 
 const signOut = async () => {
-  const { metadata } = await axios.delete(signOutApi)
+  const { metadata } = await axiosClient.delete(signOutApi)
   return metadata
 }
 
 const verifyAccount = async ({ email, token }) => {
-  const { metadata } = await axios.post(verifyAccountApi, { email, token })
+  const { metadata } = await axiosClient.post(verifyAccountApi, { email, token })
   return metadata
 }
 
 const forgotPassword = async ({ email }) => {
-  const { metadata } = await axios.post(forgotPasswordApi, { email })
+  const { metadata } = await axiosClient.post(forgotPasswordApi, { email })
   return metadata
 }
 
 const verifyPasswordResetOtp = async ({ email, otp }) => {
-  const { metadata } = await axios.post(verifyPasswordResetOtpApi, {
+  const { metadata } = await axiosClient.post(verifyPasswordResetOtpApi, {
     email,
     otp
   })
@@ -48,7 +49,7 @@ const verifyPasswordResetOtp = async ({ email, otp }) => {
 }
 
 const resetPassword = async ({ email, newPassword }) => {
-  await axios.post(resetPasswordApi, {
+  await axiosClient.post(resetPasswordApi, {
     email,
     newPassword
   })
@@ -56,7 +57,7 @@ const resetPassword = async ({ email, newPassword }) => {
 
 const resendPasswordResetOtp = async () => {
   try {
-    const { message } = await axios.post(resendPasswordResetOtpApi)
+    const { message } = await axiosClient.post(resendPasswordResetOtpApi)
     return { message }
   } catch (error) {
     if (error.statusCode === StatusCodes.BAD_REQUEST || error.statusCode === StatusCodes.CONFLICT) {
@@ -67,12 +68,17 @@ const resendPasswordResetOtp = async () => {
 }
 
 const checkSignInStatus = async () => {
-  const { metadata } = await axios.get(checkSignInStatusApi)
+  const { metadata } = await axiosClient.get(checkSignInStatusApi)
   return metadata
 }
 
 const refreshToken = async ({ refreshToken }) => {
-  const { metadata } = await axios.put(refreshTokenApi, { refreshToken })
+  const { metadata } = await axiosClient.put(refreshTokenApi, { refreshToken })
+  return metadata
+}
+
+const signInWithGoogle = async ({ code }) => {
+  const { metadata } = await axiosClient.post(signInWithGoogleApi, { code })
   return metadata
 }
 
@@ -86,5 +92,6 @@ export default {
   resetPassword,
   resendPasswordResetOtp,
   checkSignInStatus,
-  refreshToken
+  refreshToken,
+  signInWithGoogle
 }
