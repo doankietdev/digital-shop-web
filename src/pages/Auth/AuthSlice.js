@@ -11,6 +11,14 @@ const signIn = createAsyncThunk(
   }
 )
 
+const signInWithGoogle = createAsyncThunk(
+  'auth/signInWithGoogle',
+  async (payload) => {
+    return await authService.signInWithGoogle(payload)
+  }
+)
+
+
 const signOut = createAsyncThunk(
   'auth/signOut',
   async () => {
@@ -65,8 +73,13 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(signIn.rejected, () => {})
-
     builder.addCase(signIn.fulfilled, (state, action) => {
+      const { user } = action.payload
+      state.current = user
+    })
+
+    builder.addCase(signInWithGoogle.rejected, () => {})
+    builder.addCase(signInWithGoogle.fulfilled, (state, action) => {
       const { user } = action.payload
       state.current = user
     })
@@ -107,6 +120,7 @@ export {
   clear,
   getCurrentUser,
   signIn,
+  signInWithGoogle,
   signOut,
   updateCurrentUser,
   uploadAvatar

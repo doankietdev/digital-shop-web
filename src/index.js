@@ -1,4 +1,5 @@
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import 'rc-slider/assets/index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -18,14 +19,16 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <PayPalScriptProvider>
-          <GlobalStyles>
-            <BrowserRouter>
-              <App />
-              <ToastContainer position='bottom-left' autoClose={3000} />
-            </BrowserRouter>
-          </GlobalStyles>
-        </PayPalScriptProvider>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+          <PayPalScriptProvider>
+            <GlobalStyles>
+              <BrowserRouter>
+                <App />
+                <ToastContainer position='bottom-left' autoClose={3000} />
+              </BrowserRouter>
+            </GlobalStyles>
+          </PayPalScriptProvider>
+        </GoogleOAuthProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>

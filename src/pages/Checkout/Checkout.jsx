@@ -67,7 +67,7 @@ function Checkout() {
   } = useSelector(userSelector)
 
   const defaultAddress = useMemo(
-    () => addresses.find(address => address.default), [addresses]
+    () => addresses?.find(address => address.default), [addresses]
   )
 
   useEffect(() => {
