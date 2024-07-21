@@ -1,12 +1,10 @@
 import clsx from 'clsx'
 import { useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Button, Card, Divider, DocumentTitle, ModalLoading } from '~/components'
 import { routesConfig } from '~/config'
 import { dispatch } from '~/redux'
-import { userSelector } from '~/redux/selectors'
 import { cancelOrder } from '~/services/checkoutService'
 import orderService from '~/services/orderService'
 import { OrderStatusesEnum, PaymentMethodsEnum } from '~/utils/constants'
@@ -18,10 +16,6 @@ function OrderDetails() {
   const params = useParams()
   const [order, setOrder] = useState(null)
   const [disabled, setDisabled] = useState(false)
-
-  const {
-    current: { firstName, lastName, mobile }
-  } = useSelector(userSelector)
 
   const navigate = useNavigate()
 
@@ -109,34 +103,30 @@ function OrderDetails() {
                 </h3>
                 <div className="pt-[8px] flex flex-col lg:flex-row gap-6 text-[14px] md:text-[18px] lg:text-[16px]">
                   <div className="flex lg:items-center gap-2 lg:gap-6 flex-col lg:flex-row">
-                    <span className="font-semibold">{`${firstName} ${lastName}`}</span>
-                    <span className="font-semibold">{mobile}</span>
+                    <span className="font-semibold">{`${order?.shippingAddress?.firstName} ${order?.shippingAddress?.lastName}`}</span>
+                    <span className="font-semibold">{order?.shippingAddress?.phoneNumber}</span>
                     <span>
-                      {order?.shippingAddress
-                        ? `${
-                          order?.shippingAddress?.streetAddress
-                            ? order?.shippingAddress?.streetAddress + ', '
-                            : ''
-                        }
-                      ${order?.shippingAddress?.ward.name},
-                      ${order?.shippingAddress?.district.name},
-                      ${order?.shippingAddress?.province.name}`
-                        : 'Pick up in store'}
+                      {`${order?.shippingAddress?.streetAddress && order?.shippingAddress?.streetAddress + ', '}${order?.shippingAddress?.ward?.name}, ${order?.shippingAddress?.district?.name}, ${order?.shippingAddress?.province?.name}`}
                     </span>
                   </div>
-                  <button
-                    className="hidden lg:block lg:ml-9 text-[14px] text-blue-500 hover:text-red-500"
-                  >
-                    Change address
-                  </button>
-                  <Button
-                    className="block lg:hidden"
-                    primary
-                    rounded
-                    outlined
-                  >
-                    Change address
-                  </Button>
+                  {(order.status === OrderStatusesEnum.PENDING.value
+                    || order.status === OrderStatusesEnum.PAID.value) && (
+                    <>
+                      <button
+                        className="hidden lg:block lg:ml-9 text-[14px] text-blue-500 hover:text-red-500"
+                      >
+                          Change address
+                      </button>
+                      <Button
+                        className="block lg:hidden"
+                        primary
+                        rounded
+                        outlined
+                      >
+                          Change address
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
 
