@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -63,7 +62,7 @@ function Checkout() {
   const updateAddressModalRef = useRef()
 
   const {
-    current: { firstName, lastName, mobile, addresses }
+    current: { addresses }
   } = useSelector(userSelector)
 
   const defaultAddress = useMemo(
@@ -163,31 +162,20 @@ function Checkout() {
               Shipping Address
             </p>
             <div className="flex flex-col lg:flex-row gap-6 text-[14px] md:text-[18px] lg:text-[16px]">
-              <div className="flex lg:items-center gap-2 lg:gap-6 flex-col lg:flex-row">
-                <span className="font-semibold">{`${firstName} ${lastName}`}</span>
-                <span className="font-semibold">{mobile}</span>
-                <span
-                  className={clsx({
-                    'text-red-600': !defaultAddress
-                  })}
-                >
-                  {defaultAddress
-                    ? `${
-                      defaultAddress.streetAddress
-                        ? defaultAddress.streetAddress + ', '
-                        : ''
-                    }
-                    ${defaultAddress.ward.name},
-                    ${defaultAddress.district.name},
-                    ${defaultAddress.province.name}`
-                    : 'There is no shipping address yet'}
-                </span>
-                {defaultAddress && (
+              {defaultAddress ? (
+                <div className="flex lg:items-center gap-2 lg:gap-6 flex-col lg:flex-row">
+                  <span className="font-semibold">{`${defaultAddress?.firstName} ${defaultAddress?.lastName}`}</span>
+                  <span className="font-semibold">{defaultAddress.phoneNumber}</span>
+                  <span>
+                    {`${defaultAddress.streetAddress && defaultAddress.streetAddress + ', '}${defaultAddress.ward.name}, ${defaultAddress.district.name}, ${defaultAddress.province.name}`}
+                  </span>
                   <div>
                     <Mark>Default</Mark>
                   </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <span className='text-red-500'>There is no shipping address yet</span>
+              )}
               {defaultAddress ? (
                 <>
                   <button

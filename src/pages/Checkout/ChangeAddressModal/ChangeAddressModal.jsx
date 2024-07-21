@@ -77,7 +77,7 @@ function ChangeAddressModal({
           className={clsx('py-[20px] md:py-[24px] flex-1 h-[440px] overflow-y-auto flex flex-col gap-4')}
         >
           {user.addresses.map((address, index) => {
-            const { streetAddress, ward, district, province } = address
+            const { firstName, lastName, phoneNumber, streetAddress, ward, district, province } = address
             return (
               <li key={address._id} className="flex">
                 <div className="mr-3">
@@ -94,12 +94,23 @@ function ChangeAddressModal({
                 </div>
 
                 <div className="flex-1">
-                  <div className="flex justify-between gap-2 mb-1">
-                    <span
+                  <div className="flex justify-between items-center gap-2 mb-1">
+                    <p
+                      className='flex flex-col items-start gap-2'
                       onClick={() => handleSelectAddress(address._id)}
                     >
-                      {`${streetAddress ? streetAddress + ', ' : ''}${ward.name}, ${district.name}, ${province.name}`}
-                    </span>
+                      <p className='flex gap-2'>
+                        <span className='font-medium'>{`${firstName} ${lastName}`}</span>
+                        <span>-</span>
+                        <span>{phoneNumber}</span>
+                      </p>
+                      <p>
+                        {`${streetAddress ? streetAddress + ', ' : ''}${ward.name}, ${district.name}, ${province.name}`}
+                      </p>
+                      {address.default && (
+                        <p><Mark>Default</Mark></p>
+                      )}
+                    </p>
                     <button
                       className="text-[14px] text-purple-500 h-fit"
                       onClick={() => onUpdateAddressButtonClick(index)}
@@ -108,7 +119,6 @@ function ChangeAddressModal({
                       Update
                     </button>
                   </div>
-                  {address.default && <Mark>Default</Mark>}
                 </div>
               </li>
             )
