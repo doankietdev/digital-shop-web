@@ -2,7 +2,7 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-function Banner() {
+function Advertise() {
   return (
     <div className='grid md:grid-cols-4 gap-5 md:min-h-[400px] lg:min-h-[600px] xl:min-h-[656px]'>
       <div className='md:col-span-2 h-full'>
@@ -55,4 +55,4 @@ function Banner() {
   )
 }
 
-export default memo(Banner)
+export default memo(Advertise)

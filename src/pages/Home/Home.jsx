@@ -1,5 +1,6 @@
 import { DocumentTitle } from '~/components'
-import Banner from './Banner'
+import Advertise from './Advertise'
+import Banners from './Banners'
 import BestSellingAccessory from './BestSellingAccessory'
 import BestSellingLaptop from './BestSellingLaptop'
 import BestSellingSmartphone from './BestSellingSmartphone'
@@ -11,7 +12,6 @@ import FeaturedProducts from './FeaturedProducts'
 import { ProductSlider } from './ProductSlider'
 import ServiceInfo from './ServiceInfo'
 import SideBar from './SideBar'
-import Slider from './Slider'
 
 function Home() {
   return (
@@ -21,7 +21,7 @@ function Home() {
         <section>
           <div className='container lg:grid lg:grid-cols-4 lg:gap-5'>
             <SideBar />
-            <Slider />
+            <Banners />
           </div>
         </section>
 
@@ -46,7 +46,7 @@ function Home() {
 
         <section className='mt-10 lg:mt-16'>
           <div className='container'>
-            <Banner />
+            <Advertise />
           </div>
         </section>
 

@@ -40,8 +40,11 @@ input:-webkit-autofill:active {
   @apply text-xl inline-block;
 }
 
+.slick-list {
+  @apply h-full
+}
 .slick-track {
-  @apply flex;
+  @apply flex h-full;
 }
 .slick-slide {
   @apply animate-fadeIn h-auto;
