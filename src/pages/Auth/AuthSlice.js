@@ -50,12 +50,8 @@ const uploadAvatar = createAsyncThunk(
 
 const updateCurrentUser = createAsyncThunk(
   'auth/updateCurrentUser',
-  async (payload, { rejectWithValue }) => {
-    try {
-      return await userService.updateCurrentUser(payload)
-    } catch (error) {
-      return rejectWithValue(error)
-    }
+  async (payload) => {
+    return await userService.updateCurrentUser(payload)
   }
 )
 
@@ -107,7 +103,7 @@ const authSlice = createSlice({
 
     builder.addCase(updateCurrentUser.rejected, () => {})
     builder.addCase(updateCurrentUser.fulfilled, (state, action) => {
-      state.current = action.payload
+      state.current = action.payload.user
       state.settings = {}
     })
   }

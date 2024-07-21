@@ -36,56 +36,54 @@ function Profile() {
   const schema = yup.object({
     firstName: yup
       .string()
-      .min(1, 'First name must have at least 1 characters')
-      .required('Please enter your first name'),
+      .required('Please enter your first name')
+      .min(1, 'First name must have at least 1 characters'),
     lastName: yup
       .string()
-      .min(2, 'Last name must have at least 2 characters')
       .required('Please enter your last name')
+      .min(2, 'Last name must have at least 2 characters'),
+    mobile: yup
+      .string()
+      .matches(/^\d{10}$/, 'Phone number must be 10 digits')
   })
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, touchedFields, isDirty, isSubmitting }
+    clearErrors,
+    formState: { errors, isDirty, isSubmitting }
   } = useForm({
     mode: 'onBlur',
     disabled,
     defaultValues: {
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
+      mobile: user.mobile
     },
     resolver: yupResolver(schema)
   })
+
   useEffect(() => {
     reset({
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
+      mobile: user.mobile
     })
-  }, [user.firstName, user.lastName, reset])
+  }, [user.firstName, user.lastName, reset, user.mobile])
 
   const onSubmit = useCallback(async (data) => {
-    if (!isDirty) {
-      return
-    }
     const loadingToast = toast.loading('Updating...')
     try {
       setDisabled(true)
-      const touchedData = Object.keys(data).reduce((acc, key) => {
-        if (touchedFields[key]) {
-          acc[key] = data[key]
-        }
-        return acc
-      }, {})
-      await dispatch(updateCurrentUser(touchedData)).unwrap()
+      await dispatch(updateCurrentUser(data)).unwrap()
       toast.success('Update profile successfully')
     } catch (error) {
-      toast.error(error.messages[0])
+      toast.error(error.message)
     } finally {
       setDisabled(false)
       toast.dismiss(loadingToast)
     }
-  }, [isDirty, touchedFields])
+  }, [])
 
   return (
     <>
@@ -119,16 +117,27 @@ function Profile() {
                     {...register('firstName')}
                     defaultValue={user.firstName}
                     errorMessage={errors.firstName?.message}
+                    disabled={isSubmitting}
+                    onInput={() => clearErrors('firstName')}
                   />
                   <TextFieldOutlined
                     label='Last Name'
                     {...register('lastName')}
                     defaultValue={user.lastName}
                     errorMessage={errors.lastName?.message}
+                    disabled={isSubmitting}
+                    onInput={() => clearErrors('lastName')}
                   />
                 </div>
+                <TextFieldOutlined
+                  label='Phone Number'
+                  defaultValue={user.mobile}
+                  {...register('mobile')}
+                  errorMessage={errors.mobile?.message}
+                  disabled={isSubmitting}
+                  onInput={() => clearErrors('mobile')}
+                />
                 <TextFieldOutlined label='Email' defaultValue={user.email} disabled />
-                <TextFieldOutlined label='Phone Number' defaultValue={user.mobile} disabled />
                 <Button type='submit' primary rounded disabled={disabled || isSubmitting || !isDirty}>Update</Button>
               </form>
             </div>

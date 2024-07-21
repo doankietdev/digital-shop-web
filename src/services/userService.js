@@ -35,12 +35,8 @@ const uploadAvatar = async (formData) => {
 }
 
 const updateCurrentUser = async (data = {}) => {
-  try {
-    const { metadata } = await axiosClient.patch(updateCurrentUserApi, data)
-    return metadata.user
-  } catch (error) {
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+  const { metadata } = await axiosClient.patch(updateCurrentUserApi, data)
+  return metadata
 }
 
 const changePassword = async (data = {}) => {
