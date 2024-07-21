@@ -33,8 +33,14 @@ function AddNewAddressModal({
   const wardsSelectorRef = useRef(null)
 
   const schema = yup.object({
-    provinceId: yup.number().required('Please select province'),
-    districtId: yup.number().required('Please select district'),
+    firstName: yup.string().required('Please enter first name').min(1, 'First name must have at least 1 characters'),
+    lastName: yup.string().required('Please enter last name').min(2, 'Last name must have at least 2 characters'),
+    phoneNumber: yup
+      .string()
+      .required('Please enter phone number')
+      .matches(/^\d{10}$/, 'Phone number must be 10 digits'),
+    provinceId: yup.string().required('Please select province'),
+    districtId: yup.string().required('Please select district'),
     wardCode: yup.string().required('Please select ward'),
     streetAddress: yup
       .string()
@@ -52,14 +58,18 @@ function AddNewAddressModal({
     register,
     setValue,
     reset,
+    clearErrors,
+    getValues,
     formState: { errors, isSubmitting }
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      provinceId: null,
-      districtId: null,
-      wardCode: null,
-      streetAddress: null,
+      firstName: '',
+      lastName: '',
+      provinceId: '',
+      districtId: '',
+      wardCode: '',
+      streetAddress: '',
       setAsDefault: false
     },
     resolver: yupResolver(schema)
@@ -72,7 +82,7 @@ function AddNewAddressModal({
         setProvinces(await getProvinces())
       } catch (error) {
         modalRef.current.hide()
-        toast.error(error.messages[0])
+        toast.error(error.message)
       } finally {
         setProvincesLoading(false)
       }
@@ -86,81 +96,92 @@ function AddNewAddressModal({
       await addressService.createNewAddress(data)
       await dispatch(getCurrentUser()).unwrap()
 
-      setProvinces([])
       setDistricts([])
       setWards([])
+      reset({
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        provinceId: '',
+        districtId: '',
+        wardCode: '',
+        streetAddress: '',
+        setAsDefault: false
+      })
 
       onSuccess()
       modalRef.current.hide()
       toast.success('Add new address successfully')
     } catch (error) {
-      toast.error(error.messages[0])
+      toast.error(error.message)
     } finally {
       toast.dismiss(loadingToast)
     }
-  }, [onSuccess])
+  }, [onSuccess, reset])
 
   const handleSelectProvince = useCallback(
     async (id) => {
       try {
+        clearErrors('provinceId')
         setDistrictsLoading(true)
 
         setDistricts(await getDistricts(id))
         setWards([])
-
-        districtsSelectorRef.current?.reset()
-        wardsSelectorRef.current?.reset()
 
         setValue('provinceId', id)
         setValue('districtId', null)
         setValue('wardCode', null)
       } catch (error) {
         modalRef.current.hide()
-        toast.error(error.messages[0])
+        toast.error(error.message)
       } finally {
         setDistrictsLoading(false)
       }
     },
-    [setValue]
+    [clearErrors, setValue]
   )
 
   const handleSelectDistrict = useCallback(
     async (id) => {
       try {
+        clearErrors('districtId')
         setWardsLoading(true)
 
         setWards(await getWards(id))
         wardsSelectorRef.current?.reset()
 
         setValue('districtId', id)
-        setValue('wardCode', null)
+        setValue('wardCode', '')
       } catch (error) {
         modalRef.current.hide()
-        toast.error(error.messages[0])
+        toast.error(error.message)
       } finally {
         setWardsLoading(false)
       }
     },
-    [setValue]
+    [clearErrors, setValue]
   )
 
   const handleSelectWard = useCallback((id) => {
+    clearErrors('wardCode')
     setValue('wardCode', id)
-  }, [setValue])
+  }, [clearErrors, setValue])
 
   const handleAddNewAddressConfirm = useCallback(() => {
     submitButtonRef.current.click()
   }, [])
 
   const handleModalClose = useCallback(() => {
-    provincesSelectorRef.current?.reset()
-    districtsSelectorRef.current?.reset()
-    wardsSelectorRef.current?.reset()
+    setDistricts([])
+    setWards([])
     reset({
-      provinceId: null,
-      districtId: null,
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      provinceId: '',
+      districtId: '',
       wardCode: null,
-      streetAddress: null,
+      streetAddress: '',
       setAsDefault: false
     })
     onClose()
@@ -177,11 +198,38 @@ function AddNewAddressModal({
           onSubmit={handleSubmit(onSubmit)}
           className='flex flex-col gap-5'
         >
+          <div className='flex gap-5'>
+            <TextFieldOutlined
+              label="First Name"
+              disabled={isSubmitting}
+              errorMessage={errors?.firstName?.message}
+              {...register('firstName')}
+              defaultValue={getValues('firstName')}
+              onInput={() => clearErrors('firstName')}
+            />
+            <TextFieldOutlined
+              label="Last Name"
+              disabled={isSubmitting}
+              errorMessage={errors?.lastName?.message}
+              {...register('lastName')}
+              defaultValue={getValues('lastName')}
+              onInput={() => clearErrors('lastName')}
+            />
+            <TextFieldOutlined
+              label="Phone Number"
+              disabled={isSubmitting}
+              errorMessage={errors?.phoneNumber?.message}
+              {...register('phoneNumber')}
+              defaultValue={getValues('phoneNumber')}
+              onInput={() => clearErrors('phoneNumber')}
+            />
+          </div>
           <div className="flex flex-col md:flex-row justify-between gap-5">
             <SelectorOutlined
               ref={provincesSelectorRef}
               disabled={isSubmitting}
               label="Province"
+              defaultId={getValues('provinceId')}
               items={provinces.map((province) => ({
                 id: province.id,
                 name: province.name
@@ -194,6 +242,7 @@ function AddNewAddressModal({
             <SelectorOutlined
               label="District"
               disabled={!districts.length || isSubmitting}
+              defaultId={getValues('districtId')}
               items={districts.map((district) => ({
                 id: district.id,
                 name: district.name
@@ -207,6 +256,7 @@ function AddNewAddressModal({
             <SelectorOutlined
               label="Ward"
               disabled={!wards.length || isSubmitting}
+              defaultId={getValues('wardCode')}
               items={wards.map((ward) => ({
                 id: ward.code,
                 name: ward.name
@@ -222,14 +272,15 @@ function AddNewAddressModal({
             label="Specific Address"
             disabled={isSubmitting}
             errorMessage={errors?.streetAddress?.message}
-            {...register('streetAddress', {
-              setValueAs: (value) => (value === '' ? null : value)
-            })}
+            {...register('streetAddress')}
+            defaultValue={getValues('streetAddress')}
+            onInput={() => clearErrors('streetAddress')}
           />
           <div className="flex items-center gap-1">
             <CheckboxV2
               id="setAsDefaultCheckbox"
               {...register('setAsDefault')}
+              defaultChecked={getValues('setAsDefault')}
               disabled={isSubmitting}
             />
             <label

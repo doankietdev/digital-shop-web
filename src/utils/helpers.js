@@ -25,9 +25,12 @@ const checkNewProduct = (product = {}) => {
 
 const isNumeric = (string) => /^[+-]?\d+(\.\d+)?$/.test(string)
 
+const getDirtiedReactHookFormDta = (dirtyFields = {}, data = {}) => Object.keys(dirtyFields).reduce((acc, field) => ({ ...acc, [field]: data[field] }), {})
+
 export {
   checkBestSellerProduct,
   checkFavoriteProduct,
-  checkNewProduct, checkTrendingProduct, isNumeric
+  checkNewProduct, checkTrendingProduct, isNumeric,
+  getDirtiedReactHookFormDta
 }
 

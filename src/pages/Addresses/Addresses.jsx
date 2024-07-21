@@ -63,16 +63,21 @@ function Addresses() {
           </div>
           <ul className={clsx('mt-7 flex-1')}>
             {user.addresses.map((address, index) => {
-              const { streetAddress, ward, district, province } = address
+              const { firstName, lastName, phoneNumber, streetAddress, ward, district, province } = address
               return (
                 <li
                   key={address._id}
                   className="py-[20px] border-t flex flex-col md:flex-row md:justify-between md:items-center gap-[12px]"
                 >
                   <div className="flex flex-col items-start gap-2">
-                    <span>
+                    <p className='flex gap-2'>
+                      <span className='font-medium'>{`${firstName} ${lastName}`}</span>
+                      <span>-</span>
+                      <span>{phoneNumber}</span>
+                    </p>
+                    <p>
                       {`${streetAddress ? streetAddress + ', ' : ''}${ward.name}, ${district.name}, ${province.name}`}
-                    </span>
+                    </p>
                     {address.default && <Mark>Default</Mark>}
                   </div>
 

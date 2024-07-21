@@ -9,24 +9,26 @@ import UIError from '~/utils/UIError'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
 
 const createNewAddress = async ({
+  firstName,
+  lastName,
+  phoneNumber,
   provinceId,
   districtId,
   wardCode,
   streetAddress,
   setAsDefault
 }) => {
-  try {
-    const { metadata } = await axiosClient.post(createNewAddressApi, {
-      provinceId,
-      districtId,
-      wardCode,
-      streetAddress,
-      setAsDefault
-    })
-    return metadata
-  } catch (error) {
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+  const { metadata } = await axiosClient.post(createNewAddressApi, {
+    firstName,
+    lastName,
+    phoneNumber,
+    provinceId,
+    districtId,
+    wardCode,
+    streetAddress,
+    setAsDefault
+  })
+  return metadata
 }
 
 const getUserAddresses = async () => {
@@ -53,19 +55,15 @@ const getUserAddress = async (addressId) => {
 
 const updateAddressForCurrentUser = async (
   addressId,
-  { provinceId, districtId, wardCode, streetAddress, setAsDefault }
+  { firstName, lastName, phoneNumber, provinceId, districtId, wardCode, streetAddress, setAsDefault }
 ) => {
-  try {
-    const { metadata } = await axiosClient.patch(
-      parsePlaceHolderUrl(updateAddressForCurrentUserApi, {
-        addressId
-      }),
-      { provinceId, districtId, wardCode, streetAddress, setAsDefault }
-    )
-    return metadata.address
-  } catch (error) {
-    return Promise.reject(new UIError(['Something went wrong']))
-  }
+  const { metadata } = await axiosClient.patch(
+    parsePlaceHolderUrl(updateAddressForCurrentUserApi, {
+      addressId
+    }),
+    { firstName, lastName, phoneNumber, provinceId, districtId, wardCode, streetAddress, setAsDefault }
+  )
+  return metadata.address
 }
 
 export default {

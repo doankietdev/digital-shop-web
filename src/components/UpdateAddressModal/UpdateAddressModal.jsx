@@ -11,7 +11,7 @@ import addressService from '~/services/addressService'
 import { getDistricts, getProvinces, getWards } from '~/services/locationService'
 
 function UpdateAddressModal({
-  address = {},
+  address,
   onSuccess = () => {},
   onClose = () => {}
 }, ref) {
@@ -34,8 +34,14 @@ function UpdateAddressModal({
   const wardsSelectorRef = useRef()
 
   const schema = yup.object({
-    provinceId: yup.number().required('Please select province'),
-    districtId: yup.number().required('Please select district'),
+    firstName: yup.string().required('Please enter first name').min(1, 'First name must have at least 1 characters'),
+    lastName: yup.string().required('Please enter last name').min(2, 'Last name must have at least 2 characters'),
+    phoneNumber: yup
+      .string()
+      .required('Please enter phone number')
+      .matches(/^\d{10}$/, 'Phone number must be 10 digits'),
+    provinceId: yup.string().required('Please select province'),
+    districtId: yup.string().required('Please select district'),
     wardCode: yup.string().required('Please select ward'),
     streetAddress: yup
       .string()
@@ -53,28 +59,23 @@ function UpdateAddressModal({
     handleSubmit,
     register,
     setValue,
-    reset,
+    getValues,
+    clearErrors,
     formState: { errors, isSubmitting }
   } = useForm({
     mode: 'onBlur',
-    defaultValues: {
-      provinceId: null,
-      districtId: null,
-      wardCode: null,
-      streetAddress: null,
-      setAsDefault: false
+    values: {
+      firstName: address?.firstName,
+      lastName: address?.lastName,
+      phoneNumber: address?.phoneNumber,
+      provinceId: address?.province?.id,
+      districtId: address?.district?.id,
+      wardCode: address?.ward?.code,
+      streetAddress: address?.streetAddress,
+      setAsDefault: address?.default
     },
     resolver: yupResolver(schema)
   })
-
-  useEffect(() => {
-    if (!address) return
-    setValue('provinceId', address.province?.id)
-    setValue('districtId', address.district?.id)
-    setValue('wardCode', address.ward?.code)
-    setValue('streetAddress', address.streetAddress)
-    setValue('setAsDefault', address.default)
-  }, [address, setValue])
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -90,16 +91,18 @@ function UpdateAddressModal({
         setDistricts(districts)
         setWards(wards)
       } catch (error) {
-        modalRef.current?.hide()
-        // toast.error(error.messages[0])
+        toast.error('Cannot update address!')
+        modalRef.current.hide()
       } finally {
         setProvincesLoading(false)
         setDistrictsLoading(false)
         setWardsLoading(false)
       }
     }
-    fetchLocations()
-  }, [address.district?.id, address.province?.id])
+    if (address) {
+      fetchLocations()
+    }
+  }, [address])
 
   const onSubmit = useCallback(async (data) => {
     const loadingToast = toast.loading('Updating address...')
@@ -107,10 +110,10 @@ function UpdateAddressModal({
       await addressService.updateAddressForCurrentUser(address._id, data)
       await dispatch(getCurrentUser()).unwrap()
       onSuccess()
-      modalRef.current.hide()
       toast.success('Update address successfully')
+      modalRef.current.hide()
     } catch (error) {
-      toast.error(error.messages[0])
+      toast.error(error.message)
     } finally {
       toast.dismiss(loadingToast)
     }
@@ -119,6 +122,7 @@ function UpdateAddressModal({
   const handleSelectProvince = useCallback(
     async (id) => {
       try {
+        clearErrors('provinceId')
         setDistrictsLoading(true)
         setDistricts(await getDistricts(id))
         setWards([])
@@ -126,61 +130,48 @@ function UpdateAddressModal({
         wardsSelectorRef.current?.reset()
 
         setValue('provinceId', id)
-        setValue('districtId', null)
-        setValue('wardCode', null)
+        setValue('districtId', '')
+        setValue('wardCode', '')
       } catch (error) {
         modalRef.current.hide()
-        toast.error(error.messages[0])
+        toast.error(error.message)
       } finally {
         setDistrictsLoading(false)
       }
     },
-    [setValue]
+    [clearErrors, setValue]
   )
 
   const handleSelectDistrict = useCallback(
     async (id) => {
       try {
+        clearErrors('districtId')
         setWardsLoading(true)
         setWards(await getWards(id))
-        wardsSelectorRef.current?.reset()
-
         setValue('districtId', id)
-        setValue('wardCode', null)
+        setValue('wardCode', '')
       } catch (error) {
         modalRef.current.hide()
-        toast.error(error.messages[0])
+        toast.error(error.message)
       } finally {
         setWardsLoading(false)
       }
     },
-    [setValue]
+    [clearErrors, setValue]
   )
 
   const handleSelectWard = useCallback((id) => {
+    clearErrors('wardCode')
     setValue('wardCode', id)
-  }, [setValue])
+  }, [clearErrors, setValue])
 
   const handleAddNewAddressConfirm = useCallback(() => {
     submitButtonRef.current.click()
   }, [])
 
   const handleModalClose = useCallback(() => {
-    setProvinces([])
-    setDistricts([])
-    setWards([])
-    provincesSelectorRef.current?.reset()
-    districtsSelectorRef.current?.reset()
-    wardsSelectorRef.current?.reset()
-    reset({
-      provinceId: null,
-      districtId: null,
-      wardCode: null,
-      streetAddress: null,
-      setAsDefault: false
-    })
     onClose()
-  }, [onClose, reset])
+  }, [onClose])
 
   return (
     <Modal
@@ -193,6 +184,32 @@ function UpdateAddressModal({
           onSubmit={handleSubmit(onSubmit)}
           className='flex flex-col gap-5'
         >
+          <div className='flex gap-5'>
+            <TextFieldOutlined
+              label="First Name"
+              disabled={isSubmitting}
+              errorMessage={errors?.firstName?.message}
+              {...register('firstName')}
+              defaultValue={getValues('firstName')}
+              onInput={() => clearErrors('firstName')}
+            />
+            <TextFieldOutlined
+              label="Last Name"
+              disabled={isSubmitting}
+              errorMessage={errors?.lastName?.message}
+              {...register('lastName')}
+              defaultValue={getValues('lastName')}
+              onInput={() => clearErrors('lastName')}
+            />
+            <TextFieldOutlined
+              label="Phone Number"
+              disabled={isSubmitting}
+              errorMessage={errors?.phoneNumber?.message}
+              {...register('phoneNumber')}
+              defaultValue={getValues('phoneNumber')}
+              onInput={() => clearErrors('phoneNumber')}
+            />
+          </div>
           <div className="flex flex-col md:flex-row justify-between gap-5">
             <SelectorOutlined
               ref={provincesSelectorRef}
@@ -201,10 +218,10 @@ function UpdateAddressModal({
                 id: province.id,
                 name: province.name
               }))}
-              defaultId={address.province?.id}
+              defaultId={getValues('provinceId')}
               loading={provincesLoading}
               errorMessage={errors.provinceId?.message}
-              {...register('province')}
+              {...register('provinceId')}
               onSelect={handleSelectProvince}
               disabled={isSubmitting}
             />
@@ -215,11 +232,11 @@ function UpdateAddressModal({
                 id: district.id,
                 name: district.name
               }))}
-              defaultId={address.district?.id}
+              defaultId={getValues('districtId')}
               loading={districtsLoading}
               ref={districtsSelectorRef}
               errorMessage={errors.districtId?.message}
-              {...register('district')}
+              {...register('districtId')}
               onSelect={handleSelectDistrict}
             />
             <SelectorOutlined
@@ -229,12 +246,12 @@ function UpdateAddressModal({
                 id: ward.code,
                 name: ward.name
               }))}
-              defaultId={address.ward?.code}
-              loading={wardsLoading}
               ref={wardsSelectorRef}
+              {...register('wardCode')}
+              defaultId={getValues('wardCode')}
               errorMessage={errors.wardCode?.message}
-              {...register('ward')}
               onSelect={handleSelectWard}
+              loading={wardsLoading}
             />
           </div>
           <TextFieldOutlined
@@ -243,14 +260,14 @@ function UpdateAddressModal({
             {...register('streetAddress', {
               setValueAs: (value) => (value === '' ? null : value)
             })}
-            defaultValue={address.streetAddress}
+            defaultValue={getValues('streetAddress')}
             disabled={isSubmitting}
           />
           <div className="flex items-center gap-1">
             <CheckboxV2
               id="setAsDefaultCheckbox"
               {...register('setAsDefault')}
-              defaultChecked={address.default}
+              defaultChecked={getValues('setAsDefault')}
               disabled={isSubmitting}
             />
             <label

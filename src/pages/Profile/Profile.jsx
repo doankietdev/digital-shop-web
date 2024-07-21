@@ -57,8 +57,7 @@ function Profile() {
     disabled,
     defaultValues: {
       firstName: user.firstName,
-      lastName: user.lastName,
-      mobile: user.mobile
+      lastName: user.lastName
     },
     resolver: yupResolver(schema)
   })
@@ -66,8 +65,7 @@ function Profile() {
   useEffect(() => {
     reset({
       firstName: user.firstName,
-      lastName: user.lastName,
-      mobile: user.mobile
+      lastName: user.lastName
     })
   }, [user.firstName, user.lastName, reset, user.mobile])
 
@@ -129,14 +127,6 @@ function Profile() {
                     onInput={() => clearErrors('lastName')}
                   />
                 </div>
-                <TextFieldOutlined
-                  label='Phone Number'
-                  defaultValue={user.mobile}
-                  {...register('mobile')}
-                  errorMessage={errors.mobile?.message}
-                  disabled={isSubmitting}
-                  onInput={() => clearErrors('mobile')}
-                />
                 <TextFieldOutlined label='Email' defaultValue={user.email} disabled />
                 <Button type='submit' primary rounded disabled={disabled || isSubmitting || !isDirty}>Update</Button>
               </form>

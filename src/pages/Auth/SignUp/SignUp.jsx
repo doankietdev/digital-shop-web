@@ -27,15 +27,12 @@ function SignUp() {
     firstName: yup
       .string()
       .required('Please enter your first name')
-      .min(1, 'First name must have at least 2 characters'),
+      .min(1, 'First name must have at least 1 characters'),
     lastName: yup
       .string()
       .required('Please enter your last name')
       .min(2, 'Last name must have at least 2 characters'),
-    mobile: yup
-      .string()
-      .required('Please enter your phone number')
-      .matches(/^\d{10}$/, 'Phone number must be 10 digits'),
+
     email: yup
       .string()
       .required('Please enter your email')
@@ -68,7 +65,6 @@ function SignUp() {
     defaultValues: {
       firstName: '',
       lastName: '',
-      mobile: '',
       email: '',
       password: '',
       passwordConfirmation: ''
@@ -161,13 +157,6 @@ function SignUp() {
                   onInput={() => clearErrors('lastName')}
                 />
               </div>
-              <TextFieldOutlined
-                label='Phone Number'
-                disabled={isSubmitting || signInWithGoogleLoading}
-                {...register('mobile')}
-                errorMessage={errors.mobile?.message}
-                onInput={() => clearErrors('mobile')}
-              />
               <TextFieldOutlined
                 label='Email'
                 disabled={isSubmitting || signInWithGoogleLoading}

@@ -45,9 +45,7 @@ function SelectorOutlined(
   }), [setInputValue, setSelectedItem])
 
   useEffect(() => {
-    if (defaultId) {
-      setSelectedItem(items.find((item) => item.id === defaultId))
-    }
+    setSelectedItem(items.find((item) => item.id === defaultId) || null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultId, items.length])
 
@@ -65,6 +63,10 @@ function SelectorOutlined(
     setInputValue(e.target.value)
     onChange(e)
   }, [onChange])
+
+  const handleInputFocus = useCallback(() => {
+    setFocus(true)
+  }, [])
 
   const handleInputMouseDown = useCallback(
     (e) => {
@@ -124,8 +126,10 @@ function SelectorOutlined(
           placeholder={selectedItem?.name}
           onChange={handleInputChange}
           onBlur={onBlur}
+          onFocus={handleInputFocus}
           onMouseDown={handleInputMouseDown}
           autoComplete='off'
+          disabled={disabled}
         />
         {loading && (
           <div className='pr-[10px] flex justify-center items-center'>

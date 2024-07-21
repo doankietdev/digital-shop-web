@@ -24,7 +24,7 @@ function TextFieldOutlined(
   const containerRef = useRef()
 
   useEffect(() => {
-    if (defaultValue) {
+    if (defaultValue !== undefined) {
       setInputValue(defaultValue)
     }
   }, [defaultValue])
