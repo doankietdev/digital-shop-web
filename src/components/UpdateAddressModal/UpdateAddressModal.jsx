@@ -117,7 +117,7 @@ function UpdateAddressModal({
     } finally {
       toast.dismiss(loadingToast)
     }
-  }, [address._id, onSuccess])
+  }, [address?._id, onSuccess])
 
   const handleSelectProvince = useCallback(
     async (id) => {
