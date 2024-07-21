@@ -175,11 +175,11 @@ function Orders() {
       <DocumentTitle title="Orders" />
       <div className='flex justify-center'>
         <div className='max-w-[800px] w-full'>
-          <h2 className='font-medium text-[18px] text-center'>My Addresses</h2>
+          <h2 className='font-medium text-[18px] text-center'>My Orders</h2>
           <div className='mt-7'>
             <Card>
               <ul
-                className="flex items-center top-0 left-0 right-0 lg:static
+                className="flex md:gap-4 items-center top-0 left-0 right-0 lg:static
                   overflow-x-auto no-scrollbar"
               >
                 {tabs.map((tab, index) => (

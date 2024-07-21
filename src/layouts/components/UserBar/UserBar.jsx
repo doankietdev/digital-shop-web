@@ -28,7 +28,7 @@ const NAV_LINKS = [
 
 function AccountBar() {
   return (
-    <div className='flex overflow-x-auto no-scrollbar'>
+    <div className='flex md:gap-4 overflow-x-auto no-scrollbar'>
       {NAV_LINKS.map((NAV_LINK, index) => (
         <NavLink
           key={index}
