@@ -11,11 +11,15 @@ function VerifyAccount() {
   const navigate = useNavigate()
 
   useLayoutEffect(() => {
-    (!searchParams.get('email') || !searchParams.get('token')) && navigate(routesConfig.pageNotFound, { replace: true })
+
   }, [navigate, searchParams])
 
   useEffect(() => {
     const handleVerifyAccount = async () => {
+      if (!searchParams.has('email') || !searchParams.has('token')) {
+        return navigate(routesConfig.pageNotFound, { replace: true })
+      }
+
       try {
         await authService.verifyAccount({
           email: searchParams.get('email'),
