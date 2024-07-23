@@ -20,7 +20,7 @@ function ResetPassword() {
   const location = useLocation()
 
   useEffect(() => {
-    !location.state?.email && navigate(routesConfig.signIn, { replace: true })
+    !location.state?.email && navigate(routesConfig.pageNotFound, { replace: true })
   }, [location.state?.email, navigate])
 
   const schema = yup.object({

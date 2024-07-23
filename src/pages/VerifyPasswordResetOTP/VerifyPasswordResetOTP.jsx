@@ -16,8 +16,8 @@ function VerifyPasswordResetOTP() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    if (!searchParams.get('email') || !searchParams.get('expiresAt')) {
-      navigate(routesConfig.signIn)
+    if (!searchParams.has('email') || !searchParams.has('expiresAt')) {
+      navigate(routesConfig.pageNotFound)
     }
   }, [navigate, searchParams])
 
