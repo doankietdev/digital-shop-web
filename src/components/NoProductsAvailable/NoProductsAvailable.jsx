@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import noProductImage from '~/assets/no-product.jpg'
 
-function NoProductsAvailable({ className, imageClassName, labelClassName }) {
+function NoProductsAvailable({ className = '', imageClassName = '', labelClassName = '' }) {
   return (
     <div
       className={clsx(

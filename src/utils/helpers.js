@@ -27,10 +27,24 @@ const isNumeric = (string) => /^[+-]?\d+(\.\d+)?$/.test(string)
 
 const getDirtiedReactHookFormDta = (dirtyFields = {}, data = {}) => Object.keys(dirtyFields).reduce((acc, field) => ({ ...acc, [field]: data[field] }), {})
 
+const debounceEvent = (fn, delay = 0) => {
+  let timerId = null
+  return (e) => {
+    if (timerId) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+    timerId = setTimeout(() => {
+      fn(e)
+    }, delay)
+  }
+}
+
 export {
   checkBestSellerProduct,
   checkFavoriteProduct,
   checkNewProduct, checkTrendingProduct, isNumeric,
-  getDirtiedReactHookFormDta
+  getDirtiedReactHookFormDta,
+  debounceEvent
 }
 

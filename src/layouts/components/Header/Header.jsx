@@ -17,16 +17,15 @@ import { signOut } from '~/pages/Auth/AuthSlice'
 import { clear as clearCart } from '~/pages/Cart/CartSlice'
 import { dispatch } from '~/redux'
 import { cartSelector, userSelector } from '~/redux/selectors'
+import { StorageKeys } from '~/utils/constants'
 import { formatCash, parsePlaceHolderUrl } from '~/utils/formatter'
 import {
   FaCartShoppingIcon,
-  FaSearchIcon,
   FaUserIcon,
   IoMenuIcon
 } from '~/utils/icons'
 import styles from './Header.module.css'
 import NavBar from './NavBar'
-import { StorageKeys } from '~/utils/constants'
 
 function Header() {
   const [openExpandedNavBar, setOpenExpandedNavBar] = useState(false)
@@ -73,7 +72,7 @@ function Header() {
           className='bg-primary-400 text-white relative z-50'
           ref={mainHeaderRef}
         >
-          <div className='container py-2 md:py-3 lg:py-4 flex items-center gap-2
+          <div className='container py-2 md:py-3 lg:py-4 flex items-center
             md:gap-10 lg:gap-20 text-[13px] relative z-50'
           >
             <div className='flex items-center gap-1 -ml-2'>
@@ -98,27 +97,15 @@ function Header() {
             </div>
             <div className='flex items-center gap-1 md:gap-7 flex-1'>
               <div className='flex-1'>
-                <div className='hidden md:block'>
-                  <Search />
-                </div>
-                <div className='flex justify-end md:hidden'>
-                  <Button
-                    icon={
-                      <FaSearchIcon className='icon !text-base text-white' />
-                    }
-                    className='border-white min-w-[20px]'
-                    outlined
-                    rounded
-                  />
-                </div>
+                <Search />
               </div>
               <div className='flex items-center gap-2 md:gap-4 lg:gap-7'>
                 <Dropdown
                   label={(
                     <Link to={routesConfig.cart} className='py-2 flex'>
                       <FaCartShoppingIcon className='icon text-white !text-[24px]' />
-                      <span className='relative -top-[10px] -left-[10px]
-                      min-w-[26px] h-[22px] rounded-full flex justify-center items-center px-[6px]
+                      <span className='hidden md:flex relative -top-[10px] -left-[10px]
+                      min-w-[26px] h-[22px] rounded-full justify-center items-center px-[6px]
                       bg-white text-primary-400 border-2 border-primary-400 text-[10px]'
                       >
                         {cart.products.length >= 99 ? '99+' : cart.products.length}
@@ -186,23 +173,25 @@ function Header() {
                   })}
                 </Dropdown>
                 {user._id ? (
-                  <AvatarDropdown
-                    avatarSrc={user.image?.url || noAvatarImage}
-                    fullName={`${user.firstName} ${user.lastName}`}
-                    email={user.email}
-                    hover
-                  >
-                    <DropdownItem link={routesConfig.profile}>
+                  <div className='hidden md:block'>
+                    <AvatarDropdown
+                      avatarSrc={user.image?.url || noAvatarImage}
+                      fullName={`${user.firstName} ${user.lastName}`}
+                      email={user.email}
+                      hover
+                    >
+                      <DropdownItem link={routesConfig.profile}>
                       My Account
-                    </DropdownItem>
-                    <DropdownItem link={routesConfig.orders}>
+                      </DropdownItem>
+                      <DropdownItem link={routesConfig.orders}>
                       My Orders
-                    </DropdownItem>
-                    <Divider />
-                    <DropdownItem onClick={handleSignOut}>
+                      </DropdownItem>
+                      <Divider />
+                      <DropdownItem onClick={handleSignOut}>
                       Sign Out
-                    </DropdownItem>
-                  </AvatarDropdown>
+                      </DropdownItem>
+                    </AvatarDropdown>
+                  </div>
                 ) : (
                   <Link
                     to={routesConfig.signIn}

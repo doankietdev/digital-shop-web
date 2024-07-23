@@ -14,6 +14,7 @@ const routesConfig = {
   service: '/service',
   faqs: '/faqs',
   productsOfCategory: '/categories/:slug',
+  search: '/search',
   productDetails: '/products/:slug',
   productsOfBrands: '/brands/:slug',
   orders: '/user/purchase',

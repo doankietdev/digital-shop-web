@@ -51,7 +51,7 @@ function SelectorOutlined(
 
   useEffect(() => {
     loadingRef.current?.resize('25px')
-  })
+  }, [])
 
   const handleContainerClick = useCallback(() => {
     if (!focus && !disabled) {

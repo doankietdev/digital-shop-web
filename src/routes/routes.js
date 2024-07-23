@@ -8,23 +8,25 @@ import {
   EmailVerificationSuccess,
   ForgotPassword,
   Home,
+  OrderDetails,
   Orders,
+  ProductDetails,
   ProductsOfCategory,
   Profile,
   ResetPassword,
+  Search,
   Security,
   SignIn,
   SignUp,
   VerifyAccount,
   VerifyPasswordResetOTP
 } from '~/pages'
-import OrderDetails from '~/pages/OrderDetails'
-import ProductDetails from '~/pages/ProductDetails'
 
 const publicRoutes = [
   { path: routesConfig.home, component: Home },
   { path: routesConfig.productDetails, component: ProductDetails },
-  { path: routesConfig.productsOfCategory, component: ProductsOfCategory }
+  { path: routesConfig.productsOfCategory, component: ProductsOfCategory },
+  { path: routesConfig.search, component: Search }
 ]
 
 const protectedRoutes = [
