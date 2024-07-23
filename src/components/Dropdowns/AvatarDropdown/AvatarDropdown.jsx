@@ -8,7 +8,7 @@ function AvatarDropDown({ className, children, fullName, email, avatarSrc, hover
       label={
         <>
           <img
-            className='w-[36px] h-[36px] object-cover rounded-full'
+            className='w-[40px] h-[40px] object-cover rounded-full'
             src={avatarSrc}
           />
         </>

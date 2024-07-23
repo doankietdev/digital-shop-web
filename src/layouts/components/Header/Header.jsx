@@ -181,14 +181,14 @@ function Header() {
                       hover
                     >
                       <DropdownItem link={routesConfig.profile}>
-                      My Account
+                        My Account
                       </DropdownItem>
                       <DropdownItem link={routesConfig.orders}>
-                      My Orders
+                        My Orders
                       </DropdownItem>
                       <Divider />
                       <DropdownItem onClick={handleSignOut}>
-                      Sign Out
+                        Sign Out
                       </DropdownItem>
                     </AvatarDropdown>
                   </div>
