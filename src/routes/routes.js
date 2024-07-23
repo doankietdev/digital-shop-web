@@ -19,14 +19,17 @@ import {
   SignIn,
   SignUp,
   VerifyAccount,
-  VerifyPasswordResetOTP
+  VerifyPasswordResetOTP,
+  PageNotFound
 } from '~/pages'
 
 const publicRoutes = [
   { path: routesConfig.home, component: Home },
   { path: routesConfig.productDetails, component: ProductDetails },
   { path: routesConfig.productsOfCategory, component: ProductsOfCategory },
-  { path: routesConfig.search, component: Search }
+  { path: routesConfig.search, component: Search },
+  { path: routesConfig.pageNotFound, component: PageNotFound, layout: null },
+  { path: routesConfig.noMatchPath, component: PageNotFound, layout: null }
 ]
 
 const protectedRoutes = [

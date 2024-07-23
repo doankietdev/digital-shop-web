@@ -42,6 +42,11 @@ instance.interceptors.response.use(
     return response.data
   },
   async function (error) {
+    if (error.response?.status === StatusCodes.NOT_FOUND) {
+      // globalRouter.navigate(routesConfig.pageNotFound)
+      location.href = routesConfig.pageNotFound
+    }
+
     if (error.response?.status === StatusCodes.UNAUTHORIZED) {
       // sign out
       dispatch(clearUser())

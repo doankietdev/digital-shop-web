@@ -23,7 +23,8 @@ const routesConfig = {
   security: '/user/account/security',
   addresses: '/user/account/addresses',
   notifications: '/user/notifications',
-  pageNotFound: '/404'
+  pageNotFound: '/404',
+  noMatchPath: '*'
 }
 
 export default routesConfig

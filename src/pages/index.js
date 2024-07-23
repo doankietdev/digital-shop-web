@@ -16,4 +16,5 @@ export { default as Search } from './Search'
 export { default as Security } from './Security'
 export { default as VerifyAccount } from './VerifyAccount'
 export { default as VerifyPasswordResetOTP } from './VerifyPasswordResetOTP'
+export { default as PageNotFound } from './PageNotFound'
 
