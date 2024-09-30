@@ -173,11 +173,11 @@ function ProductDetails() {
   }, [])
 
   const handleAddToCart = useCallback(async () => {
+    if (!variant) {
+      return setHasError(true)
+    }
     const loadingToast = toast.loading('Adding product to cart...')
     try {
-      if (!variant) {
-        return setHasError(true)
-      }
       await dispatch(
         addToCart({ productId: product?._id, variantId: variant._id, quantity })
       ).unwrap()

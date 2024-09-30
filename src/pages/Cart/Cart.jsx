@@ -112,40 +112,57 @@ function Cart() {
       }
 
       timer.current = setTimeout(async () => {
-        toast.promise(
-          dispatch(
+        const loadingToast = toast.loading('Updating product quantity')
+        try {
+          setDisabled(true)
+          await dispatch(
             updateProductQuantity({
               productId,
               variantId,
               quantity,
               oldQuantity: oldestQuantity.current
             })
-          ).unwrap(),
-          {
-            pending: {
-              render() {
-                setDisabled(true)
-                oldestQuantity.current = null
-                return 'Updating product quantity'
-              }
-            },
-            success: {
-              render() {
-                setDisabled(false)
-                return 'Update product quantity successfully'
-              }
-            },
-            error: {
-              render({ data }) {
-                setDisabled(false)
-                return data.messages[0]
-              }
-            }
+          ).unwrap()
+
+          const orderProduct = orderProducts.find(orderProduct =>
+            orderProduct.productId === productId
+              && orderProduct.variantId === variantId
+          )
+          if (!orderProduct) {
+            return
           }
-        )
+          orderProduct.quantity = quantity
+
+          const isSelected = orderProducts.some(orderProduct =>
+            orderProduct.productId === productId
+              && orderProduct.variantId === variantId
+          )
+
+          if (isSelected) {
+            const {
+              totalPriceApplyDiscount,
+              totalPrice,
+              orderProducts: responseOrderProducts
+            } = await reviewOrder(orderProducts)
+            setPaymentInfo(prevPaymentInfo => ({
+              ...prevPaymentInfo,
+              totalPriceApplyDiscount,
+              totalPrice,
+              countProducts: responseOrderProducts.length
+            }))
+          }
+
+          toast.success('Update product quantity successfully')
+        } catch (error) {
+          toast.error(error.messages[0])
+        } finally {
+          oldestQuantity.current = null
+          setDisabled(false)
+          toast.dismiss(loadingToast)
+        }
       }, TIME_UPDATE_QUANTITY)
     },
-    []
+    [orderProducts]
   )
 
   const handleUpdateVariant = useCallback(({ productId, oldVariantId, variantId }) => {
@@ -370,7 +387,7 @@ function Cart() {
                   </div>
                   <div className="basis-[12.5%] text-[14px] flex justify-center items-center">
                     <QuantityField
-                      defaultValue={quantity}
+                      defaultValue={oldestQuantity.current || quantity}
                       max={variant ? variant?.quantity : product?.quantity}
                       disabled={disabled}
                       onChange={({ quantity, oldQuantity }) =>

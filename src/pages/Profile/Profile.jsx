@@ -17,11 +17,18 @@ function Profile() {
   const [disabled, setDisabled] = useState(false)
 
   const handleFileChange = useCallback(async (files) => {
+    const file = files[0]
+    const MAX_SIZE = process.env.REACT_APP_MAX_AVATAR_SIZE
+    if (file?.size > MAX_SIZE) {
+      toast.info(`Maximum file size is: ${Math.round(MAX_SIZE / 1024 / 1024)} MB`)
+      return
+    }
+
     const loadingToast = toast.loading('Uploading...')
     try {
       setDisabled(true)
       const formData = new FormData()
-      formData.append('image', files[0])
+      formData.append('image', file)
       await dispatch(uploadAvatar(formData)).unwrap()
       toast.success('Upload avatar successfully')
     } catch (error) {

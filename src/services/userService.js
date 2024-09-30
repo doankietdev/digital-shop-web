@@ -30,6 +30,9 @@ const uploadAvatar = async (formData) => {
     const { metadata } = await axiosClient.patch(uploadAvatarApi, formData)
     return metadata.user
   } catch (error) {
+    if (error.statusCode === StatusCodes.BAD_REQUEST) {
+      return Promise.reject(new UIError([error.message]))
+    }
     return Promise.reject(new UIError(['Something went wrong']))
   }
 }
