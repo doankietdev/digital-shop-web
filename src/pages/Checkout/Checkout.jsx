@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -42,20 +42,22 @@ function Checkout() {
   const [addressIndexToUpdate, setAddressIndexToUpdate] = useState(null)
   const [orderLoading, setOrderLoading] = useState(false)
   const [globalLoading, setGlobalLoading] = useState(false)
-  const [orderProductsFromCartPage, setOrderProductsFromCartPage] = useState([])
-
-  useEffect(() => {
+  const orderProductsFromCartPage = useMemo(() => {
     try {
       const query = new URLSearchParams(location.search)
       const orderProductsString = query.get('state')
       if (!orderProductsString) {
         navigate(routesConfig.cart)
       }
-      setOrderProductsFromCartPage(JSON.parse(decodeURIComponent(orderProductsString)))
+      return JSON.parse(decodeURIComponent(orderProductsString))
     } catch (error) {
       navigate(routesConfig.cart)
     }
   }, [location.search, navigate])
+
+  // useLayoutEffect(() => {
+
+  // }, [location, navigate])
 
   const changeAddressModalRef = useRef()
   const addNewAddressModalRef = useRef()
@@ -342,9 +344,8 @@ function Checkout() {
             </div>
             <div className="lg:flex lg:items-center lg:justify-end w-full pt-6">
               {selectedPaymentMethod ===
-                PaymentMethodsEnum.ONLINE_PAYMENT.value ||
-              selectedPaymentMethod ===
-                PaymentMethodsEnum.CASH_ON_DELIVERY.value ? (
+                PaymentMethodsEnum.ONLINE_PAYMENT.value ?
+                (
                   <div className="w-full lg:w-[200px]">
                     <PayPalPayment orderProducts={orderProductsFromCartPage} />
                   </div>

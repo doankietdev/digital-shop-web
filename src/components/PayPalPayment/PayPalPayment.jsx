@@ -7,7 +7,6 @@ import { OrderStatusesEnum } from '~/utils/constants'
 
 function PayPalPayment({ orderProducts }) {
   const navigate = useNavigate()
-
   return (
     <PayPalButtons
       style={{
