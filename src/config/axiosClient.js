@@ -64,8 +64,9 @@ instance.interceptors.response.use(
       if (!refreshTokenPromise) {
         const refreshToken = localStorage.getItem(StorageKeys.REFRESH_TOKEN)
         refreshTokenPromise = authService.refreshToken({ refreshToken })
-          .then(({ accessToken }) => {
+          .then(({ accessToken, refreshToken }) => {
             localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken)
+            localStorage.setItem(StorageKeys.REFRESH_TOKEN, refreshToken)
             originalRequest.headers.Authorization = `Bearer ${accessToken}`
           })
           .catch((_error) => {
