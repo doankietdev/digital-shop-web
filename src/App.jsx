@@ -7,6 +7,7 @@ import { protectedRoutes, publicRoutes, unauthorizedRoutes } from './routes'
 import UnauthorizedRoutes from './components/UnauthorizedRoutes'
 import { useSignInStatusChecker } from './hooks'
 import globalRouter from './utils/globalRouter'
+import { LanguageProvider } from './contexts/LanguageContext'
 
 function App() {
   const navigate = useNavigate()
@@ -15,77 +16,79 @@ function App() {
   useSignInStatusChecker()
 
   return (
-    <div className="font-main">
-      <ScrollToTop />
-      <Routes>
-        {publicRoutes.map((route, index) => {
-          const Page = route.component
-          let Layout = DefaultLayout
-          if (route.layout) {
-            Layout = route.layout
-          } else if (route.layout === null) {
-            Layout = Fragment
-          }
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              element={
-                <Layout>
-                  <Page />
-                </Layout>
+    <LanguageProvider>
+      <div className="font-main">
+        <ScrollToTop />
+        <Routes>
+          {publicRoutes.map((route, index) => {
+            const Page = route.component
+            let Layout = DefaultLayout
+            if (route.layout) {
+              Layout = route.layout
+            } else if (route.layout === null) {
+              Layout = Fragment
+            }
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            )
+          })}
+
+          <Route element={<ProtectedRoutes />}>
+            {protectedRoutes.map((route, index) => {
+              const Page = route.component
+              let Layout = DefaultLayout
+              if (route.layout) {
+                Layout = route.layout
+              } else if (route.layout === null) {
+                Layout = Fragment
               }
-            />
-          )
-        })}
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <Layout>
+                      <Page />
+                    </Layout>
+                  }
+                />
+              )
+            })}
+          </Route>
 
-        <Route element={<ProtectedRoutes />}>
-          {protectedRoutes.map((route, index) => {
-            const Page = route.component
-            let Layout = DefaultLayout
-            if (route.layout) {
-              Layout = route.layout
-            } else if (route.layout === null) {
-              Layout = Fragment
-            }
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <Layout>
-                    <Page />
-                  </Layout>
-                }
-              />
-            )
-          })}
-        </Route>
-
-        <Route element={<UnauthorizedRoutes />}>
-          {unauthorizedRoutes.map((route, index) => {
-            const Page = route.component
-            let Layout = DefaultLayout
-            if (route.layout) {
-              Layout = route.layout
-            } else if (route.layout === null) {
-              Layout = Fragment
-            }
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <Layout>
-                    <Page />
-                  </Layout>
-                }
-              />
-            )
-          })}
-        </Route>
-      </Routes>
-    </div>
+          <Route element={<UnauthorizedRoutes />}>
+            {unauthorizedRoutes.map((route, index) => {
+              const Page = route.component
+              let Layout = DefaultLayout
+              if (route.layout) {
+                Layout = route.layout
+              } else if (route.layout === null) {
+                Layout = Fragment
+              }
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <Layout>
+                      <Page />
+                    </Layout>
+                  }
+                />
+              )
+            })}
+          </Route>
+        </Routes>
+      </div>
+    </LanguageProvider>
   )
 }
 

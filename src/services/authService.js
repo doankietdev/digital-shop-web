@@ -1,5 +1,9 @@
 import { StatusCodes } from 'http-status-codes'
-import {
+import apis from '~/apis'
+import axiosClient from '~/config/axiosClient'
+import UIError from '~/utils/UIError'
+
+const {
   checkSignInStatusApi,
   forgotPasswordApi,
   signInWithGoogleApi,
@@ -11,9 +15,7 @@ import {
   signUpApi,
   verifyAccountApi,
   verifyPasswordResetOtpApi
-} from '~/apis/authApis'
-import axiosClient from '~/config/axiosClient'
-import UIError from '~/utils/UIError'
+} = apis
 
 const signUp = async (data) => {
   const { metadata } = await axiosClient.post(signUpApi, data)

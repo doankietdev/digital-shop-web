@@ -1,4 +1,6 @@
 import { routesConfig } from '~/config'
+import enImage from '~/assets/en.png'
+import viImage from '~/assets/vi.png'
 
 const NAV_BAR = [
   {
@@ -118,6 +120,22 @@ const OrderStatusesEnum = {
   }
 }
 
+const languageMap = {
+  en: {
+    name: 'English',
+    flag:  enImage,
+  },
+  vi: {
+    name: 'Vietnamese',
+    flag: viImage,
+  },
+};
+
+const currencyMap = {
+  vi: 'VND',
+  en: 'USD'
+}
+
 export {
   NAV_BAR,
   TIME,
@@ -126,5 +144,7 @@ export {
   StorageKeys,
   RequestHeaderKeys,
   PaymentMethodsEnum,
-  OrderStatusesEnum
+  OrderStatusesEnum,
+  languageMap,
+  currencyMap
 }

@@ -1,6 +1,8 @@
+import apis from '~/apis'
 import axios from '~/config/axiosClient'
-import { getCategoriesApi, getCategoryBySlugApi } from '~/apis/categoryApis'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
+
+const { getCategoriesApi, getCategoryBySlugApi } = apis
 
 const getCategories = async () => {
   const { metadata } = await axios.get(getCategoriesApi, {

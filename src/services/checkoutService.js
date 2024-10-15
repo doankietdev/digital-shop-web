@@ -1,6 +1,8 @@
-import { cancelOrderApi, orderApi, reviewOrderApi } from '~/apis/checkoutApis'
+import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
+
+const { cancelOrderApi, orderApi, reviewOrderApi } = apis
 
 /**
  * @param {[{

@@ -1,8 +1,10 @@
 import { StatusCodes } from 'http-status-codes'
-import { getOrderOfCurrentUserApi, getOrdersOfCurrentUserApi, updateShippingAddressOfCurrentUserApi } from '~/apis/orderApis'
+import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
+
+const { getOrderOfCurrentUserApi, getOrdersOfCurrentUserApi, updateShippingAddressOfCurrentUserApi } = apis
 
 /**
  *

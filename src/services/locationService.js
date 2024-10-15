@@ -1,9 +1,7 @@
-import {
-  getDistrictsApi,
-  getProvincesApi,
-  getWardsApi
-} from '~/apis/locationApis'
+import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
+
+const { getProvincesApi, getDistrictsApi, getWardsApi } = apis
 
 const getProvinces = async (params) => {
   const { metadata } = await axiosClient.get(getProvincesApi, {

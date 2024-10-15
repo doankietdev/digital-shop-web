@@ -1,6 +1,8 @@
-import { getPaymentMethodsApi } from '~/apis/paymentMethodApis'
+import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
+
+const { getPaymentMethodsApi } = apis
 
 const getPaymentMethods = async (params) => {
   try {

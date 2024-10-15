@@ -1,7 +1,9 @@
 import { StatusCodes } from 'http-status-codes'
-import { changePasswordApi, getCurrentUserApi, setDefaultAddressApi, updateCurrentUserApi, uploadAvatarApi } from '~/apis/userApis'
+import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
+
+const { changePasswordApi, getCurrentUserApi, setDefaultAddressApi, updateCurrentUserApi, uploadAvatarApi } = apis
 
 const getCurrentUser = async (params) => {
   try {

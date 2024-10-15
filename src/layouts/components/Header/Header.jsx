@@ -26,6 +26,7 @@ import {
 } from '~/utils/icons'
 import styles from './Header.module.css'
 import NavBar from './NavBar'
+import { LanguageSwitcher } from '~/components'
 
 function Header() {
   const [openExpandedNavBar, setOpenExpandedNavBar] = useState(false)
@@ -211,6 +212,7 @@ function Header() {
                     </Button>
                   </Link>
                 )}
+                <LanguageSwitcher />
               </div>
             </div>
           </div>

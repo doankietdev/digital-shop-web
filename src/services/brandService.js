@@ -1,5 +1,7 @@
 import axios from '~/config/axiosClient'
-import { getBrandsApi } from '~/apis/brandApis'
+import apis from '~/apis'
+
+const { getBrandsApi } = apis
 
 const getBrands = async (params) => {
   const { metadata } = await axios.get(getBrandsApi, {

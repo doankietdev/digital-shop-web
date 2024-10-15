@@ -1,6 +1,8 @@
-import { capturePayPalOrderApi, createPayPalOrderApi } from '~/apis/paymentApis'
+import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
+
+const { createPayPalOrderApi, capturePayPalOrderApi } = apis
 
 const createPayPalOrder = async (orderProducts) => {
   try {

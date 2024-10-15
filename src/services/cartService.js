@@ -1,14 +1,16 @@
 import { StatusCodes } from 'http-status-codes'
-import {
+import apis from '~/apis'
+import axiosClient from '~/config/axiosClient'
+import UIError from '~/utils/UIError'
+
+const {
   addProductsToCartApi,
   addToCartApi,
   deleteFromCartApi,
   getCartApi,
   updateProductQuantityApi,
   updateVariantApi
-} from '~/apis/cartApis'
-import axiosClient from '~/config/axiosClient'
-import UIError from '~/utils/UIError'
+} = apis
 
 const addToCart = async ({ productId, variantId, quantity }) => {
   try {

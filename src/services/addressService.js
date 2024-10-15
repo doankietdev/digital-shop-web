@@ -1,12 +1,14 @@
-import {
-  createNewAddressApi,
-  getUserAddressApi,
-  getUserAddressesApi,
-  updateAddressForCurrentUserApi
-} from '~/apis/addressApis'
+import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
+
+const {   
+  createNewAddressApi,
+  getUserAddressesApi,
+  getUserAddressApi,
+  updateAddressForCurrentUserApi
+} = apis
 
 const createNewAddress = async ({
   firstName,
