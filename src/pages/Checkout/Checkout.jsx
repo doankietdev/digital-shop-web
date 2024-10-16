@@ -11,6 +11,7 @@ import {
   Mark,
   ModalLoading,
   PayPalPayment,
+  MomoPayment,
   SelectorOutlined,
   UpdateAddressModal
 } from '~/components'
@@ -353,6 +354,7 @@ function Checkout() {
                 (
                   <div className="w-full lg:w-[200px]">
                     <PayPalPayment orderProducts={orderProductsFromCartPage} />
+                    <MomoPayment orderProducts={orderProductsFromCartPage} />
                   </div>
                 ) : (
                   <Button
