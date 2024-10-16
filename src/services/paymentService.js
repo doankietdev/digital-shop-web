@@ -1,4 +1,5 @@
 import apis from '~/apis'
+import { initMomoPaymentApi } from '~/apis/en'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 
@@ -11,7 +12,7 @@ const createPayPalOrder = async (orderProducts) => {
     })
     return metadata
   } catch (error) {
-    return Promise.reject(new UIError(['Something went wrong']))
+    return Promise.reject(new UIError([error.message]))
   }
 }
 
@@ -23,11 +24,23 @@ const capturePayPalOrder = async ({ paypalOrderId, orderProducts }) => {
     })
     return metadata
   } catch (error) {
-    return Promise.reject(new UIError(['Something went wrong']))
+    return Promise.reject(new UIError([error.message]))
+  }
+}
+
+const initMomoPayment = async (orderProducts) => {
+  try {
+    const { metadata } = await axiosClient.post(initMomoPaymentApi, {
+      orderProducts
+    })
+    return metadata
+  } catch (error) {
+    return Promise.reject(new UIError([error.message]))
   }
 }
 
 export default {
   createPayPalOrder,
-  capturePayPalOrder
+  capturePayPalOrder,
+  initMomoPayment
 }

@@ -64,6 +64,7 @@ function Search() {
   }, [])
 
   const handleButtonClick = useCallback(() => {
+    if (!inputRef.current.value) return
     navigate(`${routesConfig.search}?q=${inputRef.current.value}`)
   }, [navigate])
 

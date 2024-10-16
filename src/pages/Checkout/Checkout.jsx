@@ -352,7 +352,7 @@ function Checkout() {
               {selectedPaymentMethod ===
                 PaymentMethodsEnum.ONLINE_PAYMENT.value ?
                 (
-                  <div className="w-full lg:w-[200px]">
+                  <div className="w-full lg:w-[200px] flex flex-col gap-2">
                     <PayPalPayment orderProducts={orderProductsFromCartPage} />
                     <MomoPayment orderProducts={orderProductsFromCartPage} />
                   </div>

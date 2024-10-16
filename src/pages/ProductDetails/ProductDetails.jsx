@@ -146,7 +146,7 @@ function ProductDetails() {
 
       const similarProducts = (
         await getProducts({
-          category: product?.category,
+          category: product?.category._id,
           _sort: '-createdAt',
           _limit: 50
         })
