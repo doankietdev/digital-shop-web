@@ -227,34 +227,36 @@ function Orders() {
                             </div>
                             <Divider />
                             <ul>
-                              {order.products.map(({ product, variant, quantity, price }, index) => (
-                                <li key={index} className="flex items-center gap-3 pt-[16px]">
-                                  <img
-                                    src={variant.images[0]}
-                                    className="w-[80px] h-[80px] object-cover"
-                                  />
-                                  <div className="flex-1 flex flex-col md:flex-row gap-[6px] md:gap-0">
-                                    <div className="flex-1 flex flex-col gap-[6px]">
-                                      <p className="line-clamp-2 font-medium">{product.title}</p>
-                                      <p className="text-gray-500 text-[14px]">
-                                    Variant: {variant.name}
-                                      </p>
-                                    </div>
-                                    <div className="text-[14px]">
-                                      <div className="flex md:justify-end items-center gap-[28px]">
-                                        <span className="">{formatCash(price)}</span>
-                                        <span>{`x${quantity}`}</span>
+                              {order.products.map(({ product, variant, quantity, price }, index) => {
+                                return (
+                                  <li key={index} className="flex items-center gap-3 pt-[16px]">
+                                    <img
+                                      src={variant?.images[0]}
+                                      className="w-[80px] h-[80px] object-cover"
+                                    />
+                                    <div className="flex-1 flex flex-col md:flex-row gap-[6px] md:gap-0">
+                                      <div className="flex-1 flex flex-col gap-[6px]">
+                                        <p className="line-clamp-2 font-medium">{product.title}</p>
+                                        <p className="text-gray-500 text-[14px]">
+                                      Variant: {variant.name}
+                                        </p>
                                       </div>
-                                      <div className="flex md:justify-end items-center mt-[6px] md:mt-0">
-                                        <span className="hidden md:block">Total amount:</span>
-                                        <span className="text-[16px] md:text-[18px] font-medium text-primary-400 md:ml-[8px]">
-                                          {formatCash(price * quantity)}
-                                        </span>
+                                      <div className="text-[14px]">
+                                        <div className="flex md:justify-end items-center gap-[28px]">
+                                          <span className="">{formatCash(price)}</span>
+                                          <span>{`x${quantity}`}</span>
+                                        </div>
+                                        <div className="flex md:justify-end items-center mt-[6px] md:mt-0">
+                                          <span className="hidden md:block">Total amount:</span>
+                                          <span className="text-[16px] md:text-[18px] font-medium text-primary-400 md:ml-[8px]">
+                                            {formatCash(price * quantity)}
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </li>
-                              ))}
+                                  </li>
+                                )
+                              })}
                             </ul>
                           </div>
                           <Divider />

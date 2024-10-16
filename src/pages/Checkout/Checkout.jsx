@@ -153,6 +153,11 @@ function Checkout() {
     changeAddressModalRef.current.show()
   }, [])
 
+  const isDisabledOrderButton = useMemo(() => {
+    return (!defaultAddress && selectedPaymentMethod !== PaymentMethodsEnum.PAY_IN_STORE.value)
+        || orderLoading
+  }, [defaultAddress, orderLoading, selectedPaymentMethod])
+
   return (
     <>
       <DocumentTitle title="Checkout" />
@@ -353,16 +358,11 @@ function Checkout() {
                   <Button
                     primary
                     rounded
-                    disabled={
-                      (!defaultAddress &&
-                      selectedPaymentMethod !==
-                        PaymentMethodsEnum.PAY_IN_STORE) ||
-                    orderLoading
-                    }
+                    disabled={isDisabledOrderButton}
                     onClick={handleOrderClick}
                     className="w-full lg:w-[200px]"
                   >
-                  Order
+                    Order
                   </Button>
                 )}
             </div>

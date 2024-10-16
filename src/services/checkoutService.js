@@ -44,7 +44,7 @@ const order = async (orderProducts, paymentMethod) => {
     })
     return metadata
   } catch (error) {
-    return Promise.reject(new UIError(['Something went wrong']))
+    return Promise.reject(new UIError([error.message]))
   }
 }
 
