@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -10,8 +10,8 @@ import {
   DocumentTitle,
   Mark,
   ModalLoading,
-  PayPalPayment,
   MomoPayment,
+  PayPalPayment,
   SelectorOutlined,
   UpdateAddressModal
 } from '~/components'

@@ -1,22 +1,17 @@
-# Dockerfile for Create React App
+# Use a lightweight Node.js base image
 FROM node:16.20.2
 
-# Set working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and yarn.lock and install dependencies
-COPY package.json yarn.lock ./
-RUN yarn install
+# Copy only the build directory to the container
+COPY build /app
 
-# Copy the rest of the application code
-COPY . .
-
-# Build the React app
-RUN yarn build
-
-# Expose port 3000
+# Expose port 3000 for the app
 EXPOSE 3000
 
-# Serve the React app using a simple HTTP server
+# Install `serve` to serve the static files
 RUN yarn global add serve
-CMD ["serve", "-s", "build"]
+
+# Command to serve the build folder
+CMD ["serve", "-s", "/app"]

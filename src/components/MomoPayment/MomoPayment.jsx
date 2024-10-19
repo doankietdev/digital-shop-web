@@ -1,8 +1,5 @@
-import React from 'react'
-// import { useNavigate } from 'react-router-dom';
-// import paymentService from '~/services/paymentService';
-import { toast } from 'react-toastify'
 import { FaMoneyBillWave } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 import paymentService from '~/services/paymentService'
 
 function MomoPayment({ orderProducts }) {

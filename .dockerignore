@@ -5,8 +5,8 @@ node_modules
 *.log
 
 # Ignore build directories
-dist
-build
+# dist
+# build
 
 # Ignore local environment files
 .env.development
