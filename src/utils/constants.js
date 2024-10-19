@@ -123,13 +123,13 @@ const OrderStatusesEnum = {
 const languageMap = {
   en: {
     name: 'English',
-    flag:  enImage,
+    flag:  enImage
   },
   vi: {
     name: 'Vietnamese',
-    flag: viImage,
-  },
-};
+    flag: viImage
+  }
+}
 
 const currencyMap = {
   vi: 'VND',

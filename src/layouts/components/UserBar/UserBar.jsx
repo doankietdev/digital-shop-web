@@ -10,9 +10,9 @@ const NAV_LINKS = [
     icon: <FaUserIcon className='w-[20px] icon mr-[10px]' />
   },
   {
-    to: routesConfig.security,
-    title: 'Security',
-    icon: <SecurityIcon className='w-[20px] icon mr-[10px]' />
+    to: routesConfig.orders,
+    title: 'Orders',
+    icon: <PaperIcon className='w-[20px] icon mr-[10px]' />
   },
   {
     to: routesConfig.addresses,
@@ -20,9 +20,14 @@ const NAV_LINKS = [
     icon: <LocationDotIcon className='w-[20px] icon mr-[10px]' />
   },
   {
-    to: routesConfig.orders,
-    title: 'Orders',
-    icon: <PaperIcon className='w-[20px] icon mr-[10px]' />
+    to: routesConfig.changePassword,
+    title: 'Change Password',
+    icon: <SecurityIcon className='w-[20px] icon mr-[10px]' />
+  },
+  {
+    to: routesConfig.security,
+    title: 'Security',
+    icon: <SecurityIcon className='w-[20px] icon mr-[10px]' />
   }
 ]
 

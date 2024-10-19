@@ -17,6 +17,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
     "clsx": "^2.1.0",
+    "cross-env": "^7.0.3",
     "framer-motion": "^11.1.9",
     "http-status-codes": "^2.3.0",
     "lodash": "^4.17.21",
@@ -52,10 +53,10 @@
     "tailwindcss": "^3.4.3"
   },
   "scripts": {
+    "lint": "eslint src --ext js --report-unused-disable-directives --max-warnings 0",
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "build": "cross-env GENERATE_SOURCEMAP=false react-app-rewired build",
+    "test": "react-app-rewired test"
   },
   "eslintConfig": {
     "extends": [

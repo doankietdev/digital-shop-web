@@ -1,90 +1,80 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useCallback } from 'react'
-import { useForm } from 'react-hook-form'
+import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import * as yup from 'yup'
-import { Button, DocumentTitle, PasswordFieldOutlined } from '~/components'
-import { dispatch } from '~/redux'
-import userService from '~/services/userService'
-import { signOut } from '../Auth/AuthSlice'
-import { useNavigate } from 'react-router-dom'
-import { routesConfig } from '~/config'
+import { Button, DocumentTitle } from '~/components'
+import sessionService from '~/services/sessionService'
+import { convertMsToHumanizeTime } from '~/utils/formatter'
 
 function Security() {
-  const schema = yup.object({
-    currentPassword: yup.string().required('Please enter current password'),
-    newPassword: yup
-      .string()
-      .min(6, 'New password must have at least 6 characters')
-      .matches(/[a-zA-Z]/, 'Password must contain at least 1 letter')
-      .matches(/\d/, 'New password must contain at least 1 digit')
-      .matches(
-        /[@$!%*?&_.]/,
-        `New password must contain at least 1 special character from the following list:
-          \`@\`, \`$\`, \`!\`, \`%\`, \`*\`, \`?\`, \`&\`, \`_\`, \`.\``
-      )
-      .required('Please enter your password'),
-    newPasswordConfirmation: yup
-      .string()
-      .oneOf([yup.ref('newPassword')], 'New Password confirmation does not match')
-      .required('Please re-enter new password')
-  })
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isDirty, isSubmitting }
-  } = useForm({
-    mode: 'onBlur',
-    defaultValues: {
-      currentPassword: '',
-      newPassword: '',
-      newPasswordConfirmation: ''
-    },
-    resolver: yupResolver(schema)
-  })
+  const [loginSessions, setLoginSessions] = useState([])
 
-  const navigate = useNavigate()
+  useEffect(() => {
+    const fetchLoginSessions = async () => {
+      const loginSessions = await sessionService.getLoginSessionForCurrent()
+      setLoginSessions(loginSessions)
+    }
+    fetchLoginSessions()
+  }, [])
 
-  const onSubmit = useCallback(async({ currentPassword, newPassword }) => {
-    const loadingToast = toast.loading('Changing password...')
+  const handleLogoutClick = useCallback(async (loginSessionId) => {
+    const loadingToast = toast.loading('Logging out session')
     try {
-      await userService.changePassword({ currentPassword, newPassword })
-      await dispatch(signOut()).unwrap()
-      navigate(routesConfig.signIn)
-      toast.success('Change password successfully. Please sign in again!')
+      await sessionService.logoutSessionForCurrent({ loginSessionId })
+      const loginSessions = await sessionService.getLoginSessionForCurrent()
+      setLoginSessions(loginSessions)
+      toast.success('Logout session successfully')
     } catch (error) {
-      toast.error(error.messages[0])
+      toast.error(error.messages)
     } finally {
       toast.dismiss(loadingToast)
     }
-  }, [navigate])
+  }, [])
 
   return (
     <>
       <DocumentTitle title='Security' />
       <div className='flex justify-center'>
-        <div className='max-w-[400px] w-full'>
+        <div className='max-w-[800px] w-full'>
           <h2 className='font-medium text-[18px] text-center'>Security Dashboard</h2>
-          <div className="mt-7">
-            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
-              <PasswordFieldOutlined
-                label='Current Password'
-                {...register('currentPassword')}
-                errorMessage={errors.currentPassword?.message}
-              />
-              <PasswordFieldOutlined
-                label='New Password'
-                {...register('newPassword')}
-                errorMessage={errors.newPassword?.message}
-              />
-              <PasswordFieldOutlined
-                label='New Password Confirmation'
-                {...register('newPasswordConfirmation')}
-                errorMessage={errors.newPasswordConfirmation?.message}
-              />
-              <Button type='submit' primary rounded disabled={isSubmitting || !isDirty}>Change</Button>
-            </form>
-          </div>
+          <ul className="mt-7">
+            {loginSessions.map((session) => {
+              const { _id, ip, browser, device, os, updatedAt } = session || {}
+              return (
+                <li
+                  key={_id}
+                  className="py-[20px] border-t flex flex-col md:flex-row md:justify-between md:items-center gap-[12px]"
+                >
+                  <div className="flex flex-col items-start gap-2">
+                    <p className='flex gap-3'>
+                      <span>{device?.name ? device.name : 'Unknown device'}</span>
+                      <span>-</span>
+                      <span>{os.name ? os.name : 'Unknown operating system'}</span>
+                      {browser.name && (
+                        <><span>-</span><span>{browser.name}</span></>
+                      )}
+                    </p>
+                    <p>
+                      {ip}
+                    </p>
+                    <p className='text-black/80 text-[14px]'>
+                      {convertMsToHumanizeTime(updatedAt)}
+                    </p>
+                  </div>
+
+                  <div className='flex flex-col md:flex-row gap-[14px] md:gap-[8px]'>
+                    <Button
+                      outlined
+                      rounded
+                      className='!px-[22px] !py-[8px] !text-[12px]'
+                      onClick={() => handleLogoutClick(_id)}
+                      // disabled={disabled}
+                    >
+                        Logout
+                    </Button>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
         </div>
       </div>
     </>

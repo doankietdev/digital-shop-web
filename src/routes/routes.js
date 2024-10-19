@@ -13,14 +13,15 @@ import {
   ProductDetails,
   ProductsOfCategory,
   Profile,
+  ChangePassword,
   ResetPassword,
   Search,
-  Security,
   SignIn,
   SignUp,
   VerifyAccount,
   VerifyPasswordResetOTP,
-  PageNotFound
+  PageNotFound,
+  Security
 } from '~/pages'
 
 const publicRoutes = [
@@ -56,13 +57,18 @@ const protectedRoutes = [
     layout: UserLayout
   },
   {
-    path: routesConfig.security,
-    component: Security,
+    path: routesConfig.changePassword,
+    component: ChangePassword,
     layout: UserLayout
   },
   {
     path: routesConfig.addresses,
     component: Addresses,
+    layout: UserLayout
+  },
+  {
+    path: routesConfig.security,
+    component: Security,
     layout: UserLayout
   }
 ]

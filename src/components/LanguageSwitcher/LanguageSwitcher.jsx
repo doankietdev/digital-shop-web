@@ -1,16 +1,16 @@
-import { useContext, useEffect, useState } from 'react';
-import LanguageContext from '~/contexts/LanguageContext';
-import { languageMap } from '~/utils/constants';
+import { useContext, useState } from 'react'
+import LanguageContext from '~/contexts/LanguageContext'
+import { languageMap } from '~/utils/constants'
 
 const LanguageSwitcher = () => {
-  const { language, changeLanguage } = useContext(LanguageContext);
-  const [isOpen, setIsOpen] = useState(false);
+  const { language, changeLanguage } = useContext(LanguageContext)
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleLanguageChange = (lang) => {
-    changeLanguage(lang);
-    setIsOpen(false);
-    window.location.reload();
-  };
+    changeLanguage(lang)
+    setIsOpen(false)
+    window.location.reload()
+  }
 
   return (
     <div className='relative inline-block text-left'>
@@ -55,7 +55,7 @@ const LanguageSwitcher = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default LanguageSwitcher;
+export default LanguageSwitcher

@@ -3,7 +3,7 @@ import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
 
-const {   
+const {
   createNewAddressApi,
   getUserAddressesApi,
   getUserAddressApi,

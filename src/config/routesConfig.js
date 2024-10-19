@@ -20,8 +20,9 @@ const routesConfig = {
   orders: '/user/purchase',
   orderDetails: '/user/purchase/orders/:orderId',
   profile: '/user/account/profile',
-  security: '/user/account/security',
+  changePassword: '/user/account/change-password',
   addresses: '/user/account/addresses',
+  security: '/user/account/security',
   notifications: '/user/notifications',
   pageNotFound: '/404',
   noMatchPath: '*'
