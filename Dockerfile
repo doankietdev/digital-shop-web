@@ -1,17 +1,9 @@
-# Use a lightweight Node.js base image
-FROM node:16.20.2
+FROM nginx
 
-# Set the working directory in the container
-WORKDIR /app
+WORKDIR /usr/share/nginx/html
 
-# Copy only the build directory to the container
-COPY build /app
+RUN rm -rf  ./*
 
-# Expose port 3000 for the app
-EXPOSE 3000
+COPY build .
 
-# Install `serve` to serve the static files
-RUN yarn global add serve
-
-# Command to serve the build folder
-CMD ["serve", "-s", "/app"]
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
