@@ -56,10 +56,6 @@ function Checkout() {
     }
   }, [location.search, navigate])
 
-  // useLayoutEffect(() => {
-
-  // }, [location, navigate])
-
   const changeAddressModalRef = useRef()
   const addNewAddressModalRef = useRef()
   const updateAddressModalRef = useRef()

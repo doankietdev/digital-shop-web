@@ -1,6 +1,11 @@
 import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
+import { currencyMap } from '~/utils/constants'
 import UIError from '~/utils/UIError'
+
+const language = localStorage.getItem('language') || 'vi'
+
+const currency = currencyMap[language]
 
 const { cancelOrderApi, orderApi, reviewOrderApi } = apis
 
@@ -16,7 +21,7 @@ const { cancelOrderApi, orderApi, reviewOrderApi } = apis
  */
 const reviewOrder = async (orderProducts) => {
   try {
-    const { metadata } = await axiosClient.post(reviewOrderApi, {
+    const { metadata } = await axiosClient.post(`${reviewOrderApi}?_currency=${currency}`, {
       orderProducts
     })
     return metadata

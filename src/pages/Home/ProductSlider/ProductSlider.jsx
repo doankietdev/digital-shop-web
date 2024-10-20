@@ -10,8 +10,7 @@ import newImage from '~/assets/new.png'
 import { NoProductsAvailable, Product, ProductSkeleton } from '~/components'
 import { routesConfig } from '~/config'
 import { ReactSlickArrow } from '~/customLibraries/components'
-import { getProducts } from '~/services/productService'
-import { PRODUCT_CONDITIONS_TO_CHECK } from '~/utils/constants'
+import { getBigDiscountProducts, getProducts } from '~/services/productService'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
 import { MdArrowBackIosNewIcon, MdArrowForwardIosIcon } from '~/utils/icons'
 
@@ -87,12 +86,8 @@ function ProductSlider() {
 
       let products = []
       if (activedTab === tabs.bigDiscounts.id) {
-        const allProductsResult = await getProducts()
-        products = allProductsResult.products.filter(
-          (product) =>
-            product.oldPrice - product.price >=
-            PRODUCT_CONDITIONS_TO_CHECK.BIG_DISCOUNTS
-        )
+        const bigDiscountProductsResult = await getBigDiscountProducts()
+        products = bigDiscountProductsResult.products
       } else if (activedTab === tabs.bestSeller.id) {
         const bestSellingResult = await getProducts({
           _sort: '-sold',

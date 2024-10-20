@@ -2,7 +2,12 @@ import { StatusCodes } from 'http-status-codes'
 import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
 import UIError from '~/utils/UIError'
+import { currencyMap } from '~/utils/constants'
 import { parsePlaceHolderUrl } from '~/utils/formatter'
+
+const language = localStorage.getItem('language') || 'vi'
+
+const currency = currencyMap[language]
 
 const { getOrderOfCurrentUserApi, getOrdersOfCurrentUserApi, updateShippingAddressOfCurrentUserApi } = apis
 
@@ -23,7 +28,8 @@ const getOrdersOfCurrentUser = async params => {
     const { metadata } = await axiosClient.get(getOrdersOfCurrentUserApi, {
       params: {
         ...params,
-        _sort: '-updatedAt'
+        _sort: '-updatedAt',
+        _currency: currency
       }
     })
     return metadata
@@ -40,7 +46,10 @@ const getOrderOfCurrentUser = async orderId => {
     const { metadata } = await axiosClient.get(
       parsePlaceHolderUrl(getOrderOfCurrentUserApi, {
         orderId
-      })
+      }),
+      {
+        params: { _currency: currency }
+      }
     )
     return metadata.order
   } catch (error) {

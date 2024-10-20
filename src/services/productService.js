@@ -7,10 +7,17 @@ const language = localStorage.getItem('language') || 'vi'
 
 const currency = currencyMap[language]
 
-const { getProductBySlugApi, getProductsApi, searchProductsApi } = apis
+const { getProductBySlugApi, getProductsApi, getBigDiscountProductsApi, searchProductsApi } = apis
 
 const getProducts = async (params = {}) => {
   const { metadata } = await axios.get(`${getProductsApi}?_currency=${currency}`, {
+    params
+  })
+  return metadata
+}
+
+const getBigDiscountProducts = async (params = {}) => {
+  const { metadata } = await axios.get(`${getBigDiscountProductsApi}?_currency=${currency}`, {
     params
   })
   return metadata
@@ -35,4 +42,4 @@ const getProductBySlug = async (slug, params = {}) => {
   return metadata.product
 }
 
-export { getProducts, getProductBySlug, searchProducts }
+export { getProducts, getBigDiscountProducts, getProductBySlug, searchProducts }
