@@ -20,8 +20,12 @@ instance.defaults.withCredentials = true
 
 instance.interceptors.request.use(
   function (config) {
+    const clientId = localStorage.getItem(StorageKeys.CLIENT_ID)
     const userId = store.getState().user?.current?._id
     const accessToken = localStorage.getItem(StorageKeys.ACCESS_TOKEN)
+    if (clientId) {
+      config.headers[RequestHeaderKeys.CLIENT_ID] = clientId
+    }
     if (userId) {
       config.headers[RequestHeaderKeys.USER_ID] = userId
     }
@@ -43,14 +47,14 @@ instance.interceptors.response.use(
   },
   async function (error) {
     if (error.response?.status === StatusCodes.NOT_FOUND) {
-      // globalRouter.navigate(routesConfig.pageNotFound)
-      location.href = routesConfig.pageNotFound
+      globalRouter.navigate(routesConfig.pageNotFound)
     }
 
     if (error.response?.status === StatusCodes.UNAUTHORIZED) {
       // sign out
       dispatch(clearUser())
       dispatch(clearCart())
+      localStorage.removeItem(StorageKeys.CLIENT_ID)
       localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
       localStorage.removeItem(StorageKeys.REFRESH_TOKEN)
       if (!toast.isActive(toastId)) {
@@ -64,7 +68,8 @@ instance.interceptors.response.use(
       if (!refreshTokenPromise) {
         const refreshToken = localStorage.getItem(StorageKeys.REFRESH_TOKEN)
         refreshTokenPromise = authService.refreshToken({ refreshToken })
-          .then(({ accessToken, refreshToken }) => {
+          .then(({ clientId, accessToken, refreshToken }) => {
+            localStorage.setItem(StorageKeys.CLIENT_ID, clientId)
             localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken)
             localStorage.setItem(StorageKeys.REFRESH_TOKEN, refreshToken)
             originalRequest.headers.Authorization = `Bearer ${accessToken}`
@@ -73,6 +78,7 @@ instance.interceptors.response.use(
             // sign out
             dispatch(clearUser())
             dispatch(clearCart())
+            localStorage.removeItem(StorageKeys.CLIENT_ID)
             localStorage.removeItem(StorageKeys.ACCESS_TOKEN)
             localStorage.removeItem(StorageKeys.REFRESH_TOKEN)
             if (!toast.isActive(toastId)) {

@@ -67,6 +67,7 @@ const CATEGORIES = {
 }
 
 const StorageKeys = {
+  CLIENT_ID: 'client_id',
   ACCESS_TOKEN: 'access_token',
   REFRESH_TOKEN: 'refresh_token',
   IS_RESET_PASSWORD_SUCCESS: 'is_reset_password_success',
@@ -74,7 +75,8 @@ const StorageKeys = {
 }
 
 const RequestHeaderKeys = {
-  USER_ID: 'x-user-id'
+  USER_ID: 'x-user-id',
+  CLIENT_ID: 'x-client-id'
 }
 
 const PaymentMethodsEnum = {

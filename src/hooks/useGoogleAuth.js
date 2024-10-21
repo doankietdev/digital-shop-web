@@ -19,9 +19,10 @@ const useGoogleAuth = () => {
       setLoading(true)
       const loadingToast = toast.loading('Signing in...')
       try {
-        const { accessToken, refreshToken } = await dispatch(
+        const { clientId, accessToken, refreshToken } = await dispatch(
           signInWithGoogleActionCreator({ code: codeResponse.code })
         ).unwrap()
+        localStorage.setItem(StorageKeys.CLIENT_ID, clientId)
         localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken)
         localStorage.setItem(StorageKeys.REFRESH_TOKEN, refreshToken)
         await dispatch(getCart()).unwrap()

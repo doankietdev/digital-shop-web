@@ -51,7 +51,8 @@ function SignIn() {
     async (data) => {
       const loadingToast = toast.loading('Signing in...')
       try {
-        const { accessToken, refreshToken } = await dispatch(signIn(data)).unwrap()
+        const { clientId, accessToken, refreshToken } = await dispatch(signIn(data)).unwrap()
+        localStorage.setItem(StorageKeys.CLIENT_ID, clientId)
         localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken)
         localStorage.setItem(StorageKeys.REFRESH_TOKEN, refreshToken)
         await dispatch(getCart()).unwrap()
