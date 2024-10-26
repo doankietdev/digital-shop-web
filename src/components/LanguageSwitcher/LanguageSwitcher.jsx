@@ -6,7 +6,7 @@ const LanguageSwitcher = () => {
   const { language, changeLanguage } = useContext(LanguageContext)
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleLanguageChange = (lang) => {
+  const handleLanguageChange = async(lang) => {
     changeLanguage(lang)
     setIsOpen(false)
     window.location.reload()

@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import apis from '~/apis'
 import axiosClient from '~/config/axiosClient'
+import { currencyMap } from '~/utils/constants'
 import UIError from '~/utils/UIError'
 
 const {
@@ -12,13 +13,17 @@ const {
   updateVariantApi
 } = apis
 
+const language = localStorage.getItem('language') || 'vi'
+
+const currency = currencyMap[language]
+
 const addToCart = async ({ productId, variantId, quantity }) => {
   try {
     const { metadata } = await axiosClient.post(addToCartApi, {
       productId,
       quantity,
       variantId
-    })
+    }, { params: { _currency: currency } })
     return metadata.cart
   } catch (error) {
     if (error.statusCode === StatusCodes.BAD_REQUEST) {
@@ -37,12 +42,11 @@ const addToCart = async ({ productId, variantId, quantity }) => {
  * }]} products
  * @returns
  */
-
 const addProductsToCart = async (products) => {
   try {
     const { metadata } = await axiosClient.post(addProductsToCartApi, {
       products
-    })
+    }, { params: { _currency: currency } })
     return metadata.cart
   } catch (error) {
     if (error.statusCode === StatusCodes.BAD_REQUEST) {
@@ -58,7 +62,7 @@ const updateVariant = async ({ productId, oldVariantId, variantId }) => {
       productId,
       oldVariantId,
       variantId
-    })
+    }, { params: { _currency: currency } })
     return metadata.cart
   } catch (error) {
     if (error.statusCode === StatusCodes.BAD_REQUEST) {
@@ -80,7 +84,7 @@ const updateProductQuantity = async ({
       variantId,
       quantity,
       oldQuantity
-    })
+    }, { params: { _currency: currency } })
     return metadata.cart
   } catch (error) {
     return Promise.reject(new UIError(['Something went wrong']))
@@ -89,13 +93,13 @@ const updateProductQuantity = async ({
 
 const getCart = async () => {
   try {
-    const { metadata } = await axiosClient.get(getCartApi)
+    const { metadata } = await axiosClient.get(
+      getCartApi,
+      { params: { _currency: currency } }
+    )
     return metadata.cart
   } catch (error) {
-    if (error.statusCode === StatusCodes.BAD_REQUEST) {
-      return Promise.reject(new UIError([error.message]))
-    }
-    return Promise.reject(new UIError(['Something went wrong']))
+    return Promise.reject(new UIError([error.message]))
   }
 }
 
@@ -110,7 +114,7 @@ const deleteFromCart = async (products) => {
   try {
     const { metadata } = await axiosClient.post(deleteFromCartApi, {
       products
-    })
+    }, { params: { _currency: currency } })
     return metadata.cart
   } catch (error) {
     if (error.statusCode === StatusCodes.BAD_REQUEST) {
