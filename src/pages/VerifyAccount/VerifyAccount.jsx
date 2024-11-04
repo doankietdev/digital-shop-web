@@ -25,7 +25,6 @@ function VerifyAccount() {
           email: searchParams.get('email'),
           token: searchParams.get('token')
         })
-        toast.success('Account verified successfully. Now you can sign in to buy our products. Have a good day!')
         navigate(`${routesConfig.signIn}?verifiedEmail=${searchParams.get('email')}`, { replace: true })
       } catch (error) {
         toast.error(error.message)
