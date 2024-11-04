@@ -23,11 +23,7 @@ import { dispatch } from '~/redux'
 import { appSelector } from '~/redux/selectors'
 import { getProductBySlug, getProducts } from '~/services/productService'
 import { formatCash } from '~/utils/formatter'
-import {
-  FaCartPlusIcon,
-  MdArrowBackIosNewIcon,
-  MdArrowForwardIosIcon
-} from '~/utils/icons'
+import { FaCartPlusIcon, MdArrowBackIosNewIcon, MdArrowForwardIosIcon } from '~/utils/icons'
 import Variants from './Variants'
 
 const imageSliderSettings = {
@@ -137,11 +133,10 @@ function ProductDetails() {
       if (!product) return
 
       setProductImages(() => {
-        const variantImages = lodash.flattenDeep(product?.variants?.map(variant => variant?.images))
-        return [
-          product.thumb.url,
-          ...variantImages
-        ]
+        const variantImages = lodash.flattenDeep(
+          product?.variants?.map((variant) => variant?.images)
+        )
+        return [product.thumb.url, ...variantImages]
       })
 
       const similarProducts = (
@@ -168,7 +163,7 @@ function ProductDetails() {
     setProductImages(variant.images)
   }, [])
 
-  const handleQuantityFieldChange = useCallback(value => {
+  const handleQuantityFieldChange = useCallback((value) => {
     setQuantity(value.quantity)
   }, [])
 
@@ -193,13 +188,17 @@ function ProductDetails() {
     if (!variant) {
       return setHasError(true)
     }
-    const orderProductsString = encodeURIComponent(JSON.stringify([{
-      productId: product?._id,
-      variantId: variant?._id,
-      oldPrice: product?.oldPrice,
-      price: product?.price,
-      quantity: quantity
-    }]))
+    const orderProductsString = encodeURIComponent(
+      JSON.stringify([
+        {
+          productId: product?._id,
+          variantId: variant?._id,
+          oldPrice: product?.oldPrice,
+          price: product?.price,
+          quantity: quantity
+        }
+      ])
+    )
     navigate(`${routesConfig.checkout}?state=${orderProductsString}`)
   }, [navigate, product?._id, product?.oldPrice, product?.price, quantity, variant])
 
@@ -213,10 +212,7 @@ function ProductDetails() {
           <div className="container flex flex-col gap-7">
             <Card className="p-[16px] md:p-[24px] md:grid md:grid-cols-2 md:gap-11 bg-white">
               <div>
-                <ImageMagnifier
-                  src={productImages[productImageIndex]}
-                  mirrorSize='200px'
-                />
+                <ImageMagnifier src={productImages[productImageIndex]} mirrorSize="200px" />
                 {productImages.length >= 2 && (
                   <div className="mt-6 mx-[-10px]">
                     <Slider {...imageSliderSettings}>
@@ -238,10 +234,7 @@ function ProductDetails() {
                   {product?.title}
                 </h1>
                 <div className="mt-2 flex items-center gap-4">
-                  <Rating
-                    size="14px"
-                    averageRatings={product?.averageRatings}
-                  />
+                  <Rating size="14px" averageRatings={product?.averageRatings} />
                   <span className="text-[14px]">{product?.sold} Sold</span>
                 </div>
                 <div className="mt-5 flex items-center gap-1 flex-wrap">
@@ -252,9 +245,7 @@ function ProductDetails() {
                   ) : (
                     ''
                   )}
-                  <span className="text-xl font-medium">
-                    {formatCash(product?.price)}
-                  </span>
+                  <span className="text-xl font-medium">{formatCash(product?.price)}</span>
                 </div>
                 <div
                   className={clsx('mt-7', {
@@ -262,9 +253,7 @@ function ProductDetails() {
                   })}
                 >
                   <div className="flex items-center gap-6">
-                    <span className="text-sm font-medium text-gray-600">
-                      Variants
-                    </span>
+                    <span className="text-sm font-medium text-gray-600">Variants</span>
                     <Variants
                       variants={product?.variants}
                       defaultVariantId={product?.variants[0]?._id}
@@ -272,26 +261,22 @@ function ProductDetails() {
                     />
                   </div>
                   <div className="mt-7 flex items-center gap-6 w-fit">
-                    <span className="text-sm font-medium text-gray-600">
-                      Quantity
-                    </span>
+                    <span className="text-sm font-medium text-gray-600">Quantity</span>
                     <div className="flex items-center gap-4">
                       <QuantityField
                         max={variant ? variant?.quantity : product?.quantity}
                         onChange={handleQuantityFieldChange}
                       />
                       <span className="text-[12px] md:text-[14px] text-gray-600">
-                        {variant ? variant?.quantity : product?.quantity}{' '}
-                        products available
+                        {variant ? variant?.quantity : product?.quantity} products available
                       </span>
                     </div>
                   </div>
-                  <p className={clsx(
-                    'text-red-500 text-[14px] mt-4',
-                    {
-                      'hidden': !hasError
-                    }
-                  )}>
+                  <p
+                    className={clsx('text-red-500 text-[14px] mt-4', {
+                      hidden: !hasError
+                    })}
+                  >
                     Please select variant
                   </p>
                 </div>
@@ -313,12 +298,13 @@ function ProductDetails() {
             </Card>
             <Card className="p-[16px] md:p-[24px] bg-white flex flex-col gap-5">
               <div>
-                <h2 className="text[16px] md:text-[18px] font-medium uppercase
+                <h2
+                  className="text[16px] md:text-[18px] font-medium uppercase
                   bg-[#f7f7f7] p-[12px] md:p-[14px]"
                 >
                   Specifications
                 </h2>
-                <div className='mt-[8px] px-[12px] md:px-[14px]'>
+                <div className="mt-[8px] px-[12px] md:px-[14px]">
                   <table className="w-full ">
                     <tbody>
                       {product?.specs?.map((spec, index) => (
@@ -336,7 +322,7 @@ function ProductDetails() {
               {product?.description && (
                 <div>
                   <h2 className="text[16px] md:text-[18px] font-medium uppercase bg-[#f7f7f7] p-3 md:p-[14px]">
-                  Description
+                    Description
                   </h2>
                   <p className="mt-[8px]">{product?.description}</p>
                 </div>
@@ -349,12 +335,7 @@ function ProductDetails() {
               <div className="mt-5 -mx-[10px]">
                 <Slider {...similarProductSliderSettings}>
                   {similarProducts.map((product) => (
-                    <Product
-                      key={product._id}
-                      product={product}
-                      showLabel
-                      autoLabel
-                    />
+                    <Product key={product._id} product={product} showLabel autoLabel />
                   ))}
                 </Slider>
               </div>
