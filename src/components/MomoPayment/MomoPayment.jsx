@@ -5,7 +5,7 @@ import paymentService from '~/services/paymentService'
 function MomoPayment({ orderProducts }) {
 
   const handleMomoPayment = async () => {
-    const loadingToast = toast.loading('Redirecting Momo Payment Page')
+    const loadingToast = toast.loading('Redirecting Momo payment page')
     try {
       const { payUrl } = await paymentService.initMomoPayment(orderProducts)
       if (payUrl) {

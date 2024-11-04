@@ -331,8 +331,8 @@ function Cart() {
                         handleItemCheckBoxClick({
                           productId: product?._id,
                           variantId,
-                          oldPrice: product.oldPrice,
-                          price: product.price,
+                          oldPrice: product.baseOldPrice,
+                          price: product.basePrice,
                           quantity,
                           checked: e.target.checked
                         })
@@ -436,8 +436,8 @@ function Cart() {
                       handleItemCheckBoxClick({
                         productId: product?._id,
                         variantId,
-                        oldPrice: product.oldPrice,
-                        price: product.price,
+                        oldPrice: product.baseOldPrice,
+                        price: product.basePrice,
                         quantity,
                         checked: e.target.checked
                       })

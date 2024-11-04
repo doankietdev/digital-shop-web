@@ -193,14 +193,14 @@ function ProductDetails() {
         {
           productId: product?._id,
           variantId: variant?._id,
-          oldPrice: product?.oldPrice,
-          price: product?.price,
+          oldPrice: product?.baseOldPrice,
+          price: product?.basePrice,
           quantity: quantity
         }
       ])
     )
     navigate(`${routesConfig.checkout}?state=${orderProductsString}`)
-  }, [navigate, product?._id, product?.oldPrice, product?.price, quantity, variant])
+  }, [navigate, product?._id, product?.baseOldPrice, product?.basePrice, quantity, variant])
 
   return (
     <>
