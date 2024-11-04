@@ -58,7 +58,14 @@ const convertObjectToArrayValues = (obj) => {
   return Object.keys(obj).map((key) => obj[key])
 }
 
-const convertMsToHumanizeTime = (ms = 0) => moment.duration(ms).humanize()
+const getHumanizedDurationFromNow = (time) => {
+  const pastTime = moment(time)
+  if (!pastTime.isValid()) {
+    throw new Error('Invalid time')
+  }
+  const humanized = pastTime.fromNow()
+  return humanized
+}
 
 export {
   formatCash,
@@ -66,5 +73,5 @@ export {
   parsePlaceHolderUrl,
   removeDiacritics,
   convertObjectToArrayValues,
-  convertMsToHumanizeTime
+  getHumanizedDurationFromNow
 }
