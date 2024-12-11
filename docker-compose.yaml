@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  digital-shop-web:
+    container_name: digital-shop-web
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose: 
+      - 80
+    ports:
+      - 80:80
+    environment:
+      CHOKIDAR_USEPOLLING: true

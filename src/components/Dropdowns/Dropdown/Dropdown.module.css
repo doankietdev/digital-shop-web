@@ -1,0 +1,14 @@
+.dropdownList {
+  animation: dropdownGrowth ease-in-out 0.25s;
+}
+
+@keyframes dropdownGrowth {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

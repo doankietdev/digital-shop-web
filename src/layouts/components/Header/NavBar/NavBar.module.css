@@ -1,0 +1,7 @@
+.expanded {
+  @apply absolute left-0 right-0 z-40;
+}
+
+.shadow {
+  box-shadow: -1px 15px 17px -8px rgba(0, 0, 0, 0.1)
+}

@@ -40,5 +40,6 @@ module.exports = {
     'arrow-spacing': 1,
     'eol-last': ['warn', 'always'],
     'no-extra-boolean-cast': 0
+    // 'max-len': ['warn', { 'code': 120 }]
   }
 }

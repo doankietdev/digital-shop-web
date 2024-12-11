@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+body {
+  @apply text-[14px] md:text-[16px]
+}
+
+/* https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent; /* This makes the text itself transparent, revealing the background */
+}
+
+.container {
+  @apply max-w-[1348px] mx-auto px-2 lg:px-4 xl:px-0;
+}
+
+.underline-run {
+  @apply py-1 transition-all duration-300 ease-in-out relative after:cursor-pointer after:absolute after:bottom-0 after:left-0 after:bg-primary-400 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:ease-in-out after:duration-300;
+}
+
+.icon {
+  @apply text-xl inline-block;
+}
+
+.slick-list {
+  @apply h-full
+}
+.slick-track {
+  @apply flex h-full;
+}
+.slick-slide {
+  @apply animate-fadeIn h-auto;
+}
+.slick-slide > div {
+  @apply h-full;
+}
+.slick-arrow::before {
+  @apply hidden;
+}
+.slick-arrow.slick-prev {
+  @apply left-[10px] lg:left-[-10px];
+}
+.slick-arrow.slick-next {
+  @apply right-[10px] lg:right-[-10px];
+}
+
+/* rc-slider */
+.rc-slider-track {
+  @apply bg-primary-400
+}
+.rc-slider-handle {
+  @apply bg-white border-primary-400 opacity-100
+}
+.rc-slider-handle.rc-slider-handle-dragging {
+  @apply !border-primary-400 !shadow-none
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type='number'].hide-arrows::-webkit-outer-spin-button,
+input[type='number'].hide-arrows::-webkit-inner-spin-button {
+  @apply m-0;
+  -webkit-appearance: none;
+}
+/* Firefox */
+input[type='number'].hide-arrows {
+  -moz-appearance: textfield;
+}
+
+.banner {
+  position: relative;
+}
+.banner::before {
+  content: '';
+  display: none;
+  background-color: rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  animation: scaleTopLeft 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+.banner:hover::before {
+  display: block;
+}
+.banner::after {
+  content: '';
+  display: none;
+  background-color: rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  animation: scaleBottomRight 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+.banner:hover::after {
+  display: block;
+}
+
+.disabled,
+input[disabled] {
+  border-width: 1px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+@keyframes scaleTopLeft {
+  0% {
+    transform: scale(0);
+    transform-origin: 0% 0%;
+    border-bottom-right-radius: 50%;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 0% 0%;
+    border-radius: 4px;
+  }
+}
+@keyframes scaleBottomRight {
+  0% {
+    transform: scale(0);
+    transform-origin: 100% 100%;
+    border-top-left-radius: 50%;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 100% 100%;
+    border-radius: 4px;
+  }
+}

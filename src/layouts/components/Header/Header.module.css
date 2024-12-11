@@ -1,0 +1,4 @@
+.active {
+  @apply !fixed top-0 w-full transition-all duration-1000;
+  box-shadow: -1px 11px 24px -11px rgba(0, 0, 0, 0.3);
+}
