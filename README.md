@@ -1,68 +1,90 @@
-# Welcome to Digital World Shop Web repository
+# Digital World Shop Web
 
-## Available Scripts
+Welcome to the **Digital World Shop Web** repository! This project serves as the frontend for the Digital World Shop platform, providing a seamless and engaging user experience with modern web technologies.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Authentication and Authorization**
+  - Login with system account
+  - Login with **Google**
+  - Sign up
+- **Currency conversion**
+- **Payment Integration**:
+  - **MoMo Wallet**
+  - **PayPal**
+- **Shipping Management**:
+  - Integration with **GHN** service
+- **File Uploading**
+- **Product Management**
+- **Cart Management**
+- **Discount Management**
+- **Order Management**
+- **Address Management**
+- **User Management**
+- **...**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies
 
-### `npm test`
+### Core Framework:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **ReactJS**: Component-based library for building dynamic user interfaces
 
-### `npm run build`
+### Styling:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **TailwindCSS**: Utility-first CSS framework for rapid UI development
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Routing:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **React Router DOM**: Declarative routing for React applications
 
-### `npm run eject`
+### Animations:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Framer Motion**: Animation library for React
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### HTTP Client:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Axios**: Promise-based HTTP client for making API requests
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Deployment Environments
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Staging**: [digital-world-shop-web.vercel.app](https://digital-world-shop-web.vercel.app/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  - **Testing account:**
+    Email: doankietdev.test@gmail.com
+    Password: Test@123
+  - **Testing payment accounts:**
 
-### Code Splitting
+    - **Paypal**:
+      Email: `sb-d0924333115240@personal.example.com`
+      Password: `Z64g<a5T`
+    - **MoMo**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+      - Debit Card
 
-### Analyzing the Bundle Size
+        | No  | Name         | Card Number         | Release Date | OTP | Test Case           |
+        | --- | ------------ | ------------------- | ------------ | --- | ------------------- |
+        | 1   | NGUYEN VAN A | 9704 0000 0000 0018 | 03/07        | OTP | Successful          |
+        | 2   | NGUYEN VAN A | 9704 0000 0000 0026 | 03/07        | OTP | Card Locked         |
+        | 3   | NGUYEN VAN A | 9704 0000 0000 0034 | 03/07        | OTP | Insufficient Funds  |
+        | 4   | NGUYEN VAN A | 9704 0000 0000 0042 | 03/07        | OTP | Card Limit Exceeded |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+      - Credit Card
 
-### Making a Progressive Web App
+        | No  | Name         | Number              | Expiry Date | CVC | OTP    | Test Case       |
+        | --- | ------------ | ------------------- | ----------- | --- | ------ | --------------- |
+        | 1   | NGUYEN VAN A | 5200 0000 0000 1096 | 05/25       | 111 | OTP    | Card Successful |
+        | 2   | NGUYEN VAN A | 5200 0000 0000 1104 | 05/25       | 111 | OTP    | Card failed     |
+        | 3   | NGUYEN VAN A | 4111 1111 1111 1111 | 05/25       | 111 | No OTP | Card Successful |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Contact
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+For any inquiries or support, please contact:
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Email: doankietdev@gmail.com
+- GitHub: [doankietdev](https://github.com/doankietdev)
